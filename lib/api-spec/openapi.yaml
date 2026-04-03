@@ -3,13 +3,17 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: App Discovery Platform API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: apps
+    description: App operations
+  - name: categories
+    description: Category operations
 paths:
   /healthz:
     get:
@@ -24,6 +28,181 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /apps:
+    get:
+      operationId: listApps
+      tags: [apps]
+      summary: List all apps
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: featured
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: platform
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [ios, android, both]
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        "200":
+          description: List of apps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+
+  /apps/featured:
+    get:
+      operationId: getFeaturedApps
+      tags: [apps]
+      summary: Get featured apps
+      responses:
+        "200":
+          description: Featured apps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+
+  /apps/trending:
+    get:
+      operationId: getTrendingApps
+      tags: [apps]
+      summary: Get trending apps
+      responses:
+        "200":
+          description: Trending apps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+
+  /apps/new:
+    get:
+      operationId: getNewApps
+      tags: [apps]
+      summary: Get newly added apps
+      responses:
+        "200":
+          description: New apps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+
+  /apps/{id}:
+    get:
+      operationId: getApp
+      tags: [apps]
+      summary: Get app by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: App details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppDetail"
+        "404":
+          description: App not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [categories]
+      summary: List all categories
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+
+  /categories/{slug}/apps:
+    get:
+      operationId: getAppsByCategory
+      tags: [categories]
+      summary: Get apps by category
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        "200":
+          description: Apps in category
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/App"
+
+  /stats/summary:
+    get:
+      operationId: getStatsSummary
+      tags: [apps]
+      summary: Get platform stats summary
+      responses:
+        "200":
+          description: Platform statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsSummary"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +213,155 @@ components:
       required:
         - status
 
+    App:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        developer:
+          type: string
+        description:
+          type: string
+        shortDescription:
+          type: string
+        iconUrl:
+          type: string
+        screenshotUrls:
+          type: array
+          items:
+            type: string
+        categorySlug:
+          type: string
+        categoryName:
+          type: string
+        rating:
+          type: number
+          format: float
+        reviewCount:
+          type: integer
+        downloadCount:
+          type: integer
+        price:
+          type: number
+          format: float
+        isFree:
+          type: boolean
+        platform:
+          type: string
+          enum: [ios, android, both]
+        featured:
+          type: boolean
+        trending:
+          type: boolean
+        appStoreUrl:
+          type: string
+          nullable: true
+        playStoreUrl:
+          type: string
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - developer
+        - description
+        - shortDescription
+        - iconUrl
+        - screenshotUrls
+        - categorySlug
+        - categoryName
+        - rating
+        - reviewCount
+        - downloadCount
+        - price
+        - isFree
+        - platform
+        - featured
+        - trending
+        - tags
+        - createdAt
+
+    AppDetail:
+      allOf:
+        - $ref: "#/components/schemas/App"
+        - type: object
+          properties:
+            fullDescription:
+              type: string
+            version:
+              type: string
+            size:
+              type: string
+            requirements:
+              type: string
+            website:
+              type: string
+              nullable: true
+            privacyPolicyUrl:
+              type: string
+              nullable: true
+            releaseNotes:
+              type: string
+              nullable: true
+            updatedAt:
+              type: string
+              format: date-time
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        iconName:
+          type: string
+        appCount:
+          type: integer
+        color:
+          type: string
+      required:
+        - id
+        - name
+        - slug
+        - description
+        - iconName
+        - appCount
+        - color
+
+    StatsSummary:
+      type: object
+      properties:
+        totalApps:
+          type: integer
+        totalCategories:
+          type: integer
+        totalDownloads:
+          type: integer
+        featuredCount:
+          type: integer
+      required:
+        - totalApps
+        - totalCategories
+        - totalDownloads
+        - featuredCount
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
