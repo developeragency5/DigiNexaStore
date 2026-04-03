@@ -8,9 +8,10 @@ import {
 import { AppCard } from "@/components/app-card";
 import { CategoryCard } from "@/components/category-card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronRight, Sparkles, TrendingUp, Zap, Star } from "lucide-react";
+import { ArrowRight, Sparkles, TrendingUp, Zap, Star, ShieldCheck, Search, Bell } from "lucide-react";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
 
 export function Home() {
   const { data: featuredApps, isLoading: loadingFeatured } = useGetFeaturedApps();
@@ -18,6 +19,7 @@ export function Home() {
   const { data: newApps, isLoading: loadingNew } = useGetNewApps();
   const { data: categories, isLoading: loadingCategories } = useListCategories();
   const { data: stats } = useGetStatsSummary();
+  const [email, setEmail] = useState("");
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -40,7 +42,7 @@ export function Home() {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Curated for you.</span>
               </h1>
               <p className="text-xl text-muted-foreground leading-relaxed">
-                AppInMe cuts through the noise of millions of apps to find the beautiful, 
+                AppVault cuts through the noise of millions of apps to find the beautiful, 
                 functional, and transformational tools that deserve a place on your device.
               </p>
               <div className="flex flex-wrap gap-4">
@@ -196,6 +198,75 @@ export function Home() {
                   <AppCard key={app.id} app={app} />
                 ))
             }
+          </div>
+        </div>
+      </section>
+
+      {/* Why AppVault */}
+      <section className="py-20 md:py-28 bg-muted/30 border-y">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">Why AppVault?</h2>
+            <p className="text-lg text-muted-foreground">We do the hard work so you get only the best apps on your phone.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <ShieldCheck className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">Human Curated</h3>
+              <p className="text-muted-foreground leading-relaxed">Every app is hand-reviewed by our expert team. No spam, no malware, no junk — only apps that earn their place.</p>
+            </div>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="h-16 w-16 rounded-2xl bg-accent/10 flex items-center justify-center">
+                <Search className="h-8 w-8 text-accent" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">Smart Discovery</h3>
+              <p className="text-muted-foreground leading-relaxed">Find apps you've never heard of but will love instantly. Our discovery engine surfaces hidden gems across every category.</p>
+            </div>
+            <div className="flex flex-col items-center text-center space-y-4">
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+                <Bell className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">Always Fresh</h3>
+              <p className="text-muted-foreground leading-relaxed">New apps added daily. Our catalog stays current so you're always discovering what's trending and what's next.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter / CTA */}
+      <section className="py-20 md:py-28 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 pointer-events-none" />
+        <div className="container mx-auto px-4 md:px-6 relative">
+          <div className="max-w-2xl mx-auto text-center space-y-6">
+            <div className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm font-medium">
+              <Sparkles className="mr-2 h-4 w-4 text-accent" />
+              <span>Weekly app roundups, delivered</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
+              Never miss a great app again
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Get our weekly digest of the best new and trending apps — handpicked and delivered straight to your inbox.
+            </p>
+            <form 
+              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+              onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
+            >
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                data-testid="input-newsletter-email"
+                className="flex-1 flex h-12 w-full rounded-full border border-input bg-background px-5 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              />
+              <Button type="submit" size="lg" className="rounded-full h-12 px-8 font-semibold" data-testid="button-newsletter-subscribe">
+                Subscribe
+              </Button>
+            </form>
+            <p className="text-xs text-muted-foreground">No spam, ever. Unsubscribe anytime.</p>
           </div>
         </div>
       </section>

@@ -164,7 +164,7 @@ export function AppDetail() {
               <h2 className="text-2xl font-bold mb-4">About this app</h2>
               <div className="prose prose-gray dark:prose-invert max-w-none text-foreground/90">
                 {app.fullDescription ? (
-                  <div dangerouslySetSection={{__html: app.fullDescription.replace(/\n/g, '<br/>')}} />
+                  <div dangerouslySetInnerHTML={{__html: app.fullDescription.replace(/\n/g, '<br/>')}} />
                 ) : (
                   <p>{app.description}</p>
                 )}
