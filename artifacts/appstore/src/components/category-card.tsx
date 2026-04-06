@@ -54,15 +54,15 @@ export function CategoryCard({ category }: { category: Category }) {
 
   return (
     <Link href={`/categories/${category.slug}`} className="block group">
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col items-center text-center gap-3">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col items-center justify-between text-center h-[136px]">
         <div
-          className="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+          className="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shrink-0"
           style={{ backgroundColor: `${category.color}18`, color: category.color }}
         >
           <Icon className="h-7 w-7" />
         </div>
-        <div>
-          <h3 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors">{category.name}</h3>
+        <div className="flex flex-col items-center">
+          <h3 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors leading-tight line-clamp-2">{category.name}</h3>
           <p className="text-xs text-gray-400 mt-0.5">{category.appCount.toLocaleString()} apps</p>
         </div>
       </div>
