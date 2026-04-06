@@ -33,15 +33,6 @@ export function Games() {
   const { data: popularGames, isLoading: loadingPopular } = useGetPopularGames({ limit: 8 });
   const { data: allGames, isLoading: loadingAll } = useListApps({ appType: "game", limit: 500 } as any);
 
-  // Build live count map per genre slug from fetched data
-  const genreCounts = allGames
-    ? allGames.reduce<Record<string, number>>((acc, g) => {
-        const slug = (g as any).categorySlug;
-        if (slug) acc[slug] = (acc[slug] || 0) + 1;
-        return acc;
-      }, {})
-    : null;
-
   // Group all games by genre for the "All Games" section
   const grouped = allGames
     ? (() => {
@@ -89,15 +80,11 @@ export function Games() {
           />
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {genres.map(genre => {
-              const count = genreCounts ? (genreCounts[genre.slug] ?? 0) : null;
               return (
                 <Link key={genre.slug} href={`/categories/${genre.slug}`}
                   className={`bg-gradient-to-b ${genre.color} border ${genre.border} rounded-2xl p-4 flex flex-col items-center text-center gap-2 group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer`}>
                   <span className="text-2xl leading-none">{genre.emoji}</span>
                   <span className={`text-xs font-bold ${genre.text} group-hover:scale-105 transition-transform`}>{genre.name}</span>
-                  {count !== null && (
-                    <span className="text-[10px] text-gray-400 font-medium">{count} games</span>
-                  )}
                 </Link>
               );
             })}

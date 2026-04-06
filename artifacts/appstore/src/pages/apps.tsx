@@ -145,14 +145,6 @@ export function Apps() {
   const { data: categories } = useListCategories();
   const appCategories = categories?.filter((c: any) => c.type !== "game");
 
-  const liveCounts = allItemsData
-    ? allItemsData.reduce<Record<string, number>>((acc, app) => {
-        const slug = (app as any).categorySlug;
-        if (slug && !slug.endsWith("-games")) acc[slug] = (acc[slug] || 0) + 1;
-        return acc;
-      }, {})
-    : null;
-
   const clearFilters = () => { setParams({ appType: "app" }); setSearchInput(""); };
 
   const setCollection = (key: string) => {
@@ -345,14 +337,13 @@ export function Apps() {
             {showCategoryPanel && (
               <div className="mt-4 ml-16 flex flex-wrap gap-2">
                 {appCategories?.map(cat => {
-                  const count = liveCounts ? (liveCounts[cat.slug] ?? 0) : cat.appCount;
                   return (
                     <button
                       key={cat.id}
                       onClick={() => { setParams(p => ({ ...p, category: cat.slug, featured: undefined, trending: undefined, isNew: undefined })); setShowCategoryPanel(false); }}
                       className="px-3 py-1.5 rounded-xl text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-primary hover:text-primary transition-colors"
                     >
-                      {cat.name} <span className="text-gray-400 text-xs ml-1">{count}</span>
+                      {cat.name}
                     </button>
                   );
                 })}
@@ -552,7 +543,6 @@ export function Apps() {
                     ← All Collections
                   </button>
                   {appCategories?.map(cat => {
-                    const count = liveCounts ? (liveCounts[cat.slug] ?? 0) : cat.appCount;
                     return (
                       <button
                         key={cat.id}
@@ -560,10 +550,9 @@ export function Apps() {
                           setParams(p => ({ ...p, category: cat.slug, search: undefined, featured: undefined, trending: undefined, isNew: undefined }));
                           setSearchInput("");
                         }}
-                        className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-colors flex items-center justify-between ${params.category === cat.slug ? "bg-primary/10 text-primary font-medium" : "text-gray-600 hover:bg-gray-50"}`}
+                        className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-colors ${params.category === cat.slug ? "bg-primary/10 text-primary font-medium" : "text-gray-600 hover:bg-gray-50"}`}
                       >
-                        <span>{cat.name}</span>
-                        <span className="text-xs text-gray-400">{count}</span>
+                        {cat.name}
                       </button>
                     );
                   })}
