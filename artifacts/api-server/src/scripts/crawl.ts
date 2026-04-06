@@ -1,7 +1,7 @@
 /**
- * AppVault Crawler
+ * Appus Crawler
  * ================
- * Crawls us.appinme.com to import apps and games into the AppVault database.
+ * Crawls us.appinme.com to import apps and games into the Appus database.
  *
  * Usage:
  *   pnpm --filter @workspace/api-server run crawl
@@ -200,7 +200,7 @@ function parseDetailPage(html: string, fallback: { name: string; iconUrl: string
 // ─── Main crawl loop ──────────────────────────────────────────────────────────
 
 async function crawl() {
-  console.log("🔍 AppVault Crawler starting...\n");
+  console.log("🔍 Appus Crawler starting...\n");
 
   // Existing names to skip
   const existing = await db.select({ name: appsTable.name }).from(appsTable);

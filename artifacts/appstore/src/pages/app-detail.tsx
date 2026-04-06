@@ -71,7 +71,7 @@ export function AppDetail() {
   async function handleShare() {
     const url = window.location.href;
     const title = app?.name ?? "Check out this app";
-    const text = `${title} — discover it on AppVault`;
+    const text = `${title} — discover it on Appus`;
     if (navigator.share) {
       try { await navigator.share({ title, text, url }); return; } catch {}
     }

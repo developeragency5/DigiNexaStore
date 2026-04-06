@@ -4,8 +4,8 @@ import pg from "pg";
 
 const { Pool } = pg;
 
-const SITE_URL = "https://appvault.app";
-const BRAND = "AppVault";
+const SITE_URL = "https://appus.net";
+const BRAND = "Appus";
 const TODAY = new Date().toISOString().split("T")[0];
 
 const HIDDEN_STYLE =
@@ -59,28 +59,28 @@ interface PageMeta {
 
 const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
   "/": {
-    title: "AppVault – Discover the Best Apps & Games",
+    title: "Appus – Discover the Best Apps & Games",
     h1: "Discover the Best iOS & Android Apps and Games, Curated by Experts",
     description:
-      "AppVault is your go-to curated app discovery platform. Browse hand-picked iOS and Android apps and games, organized by category — free to explore, no clutter.",
+      "Appus is your go-to curated app discovery platform. Browse hand-picked iOS and Android apps and games, organized by category — free to explore, no clutter.",
     type: "website",
     jsonLd: [
       {
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: "AppVault",
+        name: "Appus",
         url: SITE_URL,
         logo: `${SITE_URL}/favicon.svg`,
         contactPoint: {
           "@type": "ContactPoint",
-          email: "hello@appvault.app",
+          email: "hello@appus.net",
           contactType: "customer support",
         },
       },
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "AppVault",
+        name: "Appus",
         url: SITE_URL,
         potentialAction: {
           "@type": "SearchAction",
@@ -94,96 +94,96 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
     ],
   },
   "/apps": {
-    title: "Browse Apps – Curated iOS & Android | AppVault",
+    title: "Browse Apps – Curated iOS & Android | Appus",
     h1: "All Apps — Hand-Picked iOS & Android Applications",
     description:
-      "Explore hundreds of curated iOS and Android apps across Productivity, Education, Finance, Health & Fitness, and more. Discover your next favourite app on AppVault.",
+      "Explore hundreds of curated iOS and Android apps across Productivity, Education, Finance, Health & Fitness, and more. Discover your next favourite app on Appus.",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "All Apps",
-      description: "Curated iOS and Android apps, hand-picked by the AppVault team.",
+      description: "Curated iOS and Android apps, hand-picked by the Appus team.",
       url: `${SITE_URL}/apps`,
     },
   },
   "/games": {
-    title: "Browse Games – Mobile iOS & Android | AppVault",
+    title: "Browse Games – Mobile iOS & Android | Appus",
     h1: "All Mobile Games — Top-Rated iOS & Android Games",
     description:
-      "Discover the best mobile games for iOS and Android, hand-picked across Puzzle, Action, Arcade, Casual, and more genres. Find your next favourite game on AppVault.",
+      "Discover the best mobile games for iOS and Android, hand-picked across Puzzle, Action, Arcade, Casual, and more genres. Find your next favourite game on Appus.",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "All Games",
-      description: "Top-rated mobile games for iOS and Android, curated by AppVault.",
+      description: "Top-rated mobile games for iOS and Android, curated by Appus.",
       url: `${SITE_URL}/games`,
     },
   },
   "/categories": {
-    title: "App & Game Categories | AppVault",
+    title: "App & Game Categories | Appus",
     h1: "Browse Apps & Games by Category",
     description:
-      "Explore apps and games by category on AppVault. 18+ curated categories from Productivity to Action Games — find exactly what you need without the noise.",
+      "Explore apps and games by category on Appus. 18+ curated categories from Productivity to Action Games — find exactly what you need without the noise.",
   },
   "/about": {
-    title: "About AppVault – App Discovery Platform",
-    h1: "About AppVault: Our Mission to Curate the Best Apps & Games",
+    title: "About Appus – App Discovery Platform",
+    h1: "About Appus: Our Mission to Curate the Best Apps & Games",
     description:
-      "Learn about AppVault — a curated app discovery platform dedicated to hand-picking the best iOS and Android apps and games, so you don't have to search the noise.",
+      "Learn about Appus — a curated app discovery platform dedicated to hand-picking the best iOS and Android apps and games, so you don't have to search the noise.",
   },
   "/blog": {
-    title: "AppVault Blog – App Tips, Reviews & Picks",
-    h1: "The AppVault Blog: Tips, Reviews & Editor's Picks",
+    title: "Appus Blog – App Tips, Reviews & Picks",
+    h1: "The Appus Blog: Tips, Reviews & Editor's Picks",
     description:
-      "Read AppVault's blog for app reviews, expert picks, category roundups, and mobile gaming tips. Fresh recommendations every week.",
+      "Read Appus's blog for app reviews, expert picks, category roundups, and mobile gaming tips. Fresh recommendations every week.",
   },
   "/contact": {
-    title: "Contact AppVault | Get in Touch",
-    h1: "Contact the AppVault Team",
+    title: "Contact Appus | Get in Touch",
+    h1: "Contact the Appus Team",
     description:
-      "Have a question, suggestion, or want to recommend an app? Get in touch with the AppVault team. We read every message.",
+      "Have a question, suggestion, or want to recommend an app? Get in touch with the Appus team. We read every message.",
   },
   "/privacy-policy": {
-    title: "Privacy Policy | AppVault",
-    h1: "AppVault Privacy Policy: How We Handle Your Data",
+    title: "Privacy Policy | Appus",
+    h1: "Appus Privacy Policy: How We Handle Your Data",
     description:
-      "Read AppVault's Privacy Policy. Learn how we collect, use, and protect your data — including CCPA rights, cookie usage, and third-party disclosures.",
+      "Read Appus's Privacy Policy. Learn how we collect, use, and protect your data — including CCPA rights, cookie usage, and third-party disclosures.",
   },
   "/terms-of-service": {
-    title: "Terms of Service | AppVault",
-    h1: "AppVault Terms of Service",
+    title: "Terms of Service | Appus",
+    h1: "Appus Terms of Service",
     description:
-      "Read AppVault's Terms of Service. Understand the rules, limitations, and your rights when using the AppVault app discovery platform.",
+      "Read Appus's Terms of Service. Understand the rules, limitations, and your rights when using the Appus app discovery platform.",
   },
   "/cookie-policy": {
-    title: "Cookie Policy | AppVault",
-    h1: "AppVault Cookie Policy: How We Use Cookies",
+    title: "Cookie Policy | Appus",
+    h1: "Appus Cookie Policy: How We Use Cookies",
     description:
-      "AppVault's Cookie Policy explains what cookies we use, why we use them, and how you can control them — including essential, analytics, and advertising cookies.",
+      "Appus's Cookie Policy explains what cookies we use, why we use them, and how you can control them — including essential, analytics, and advertising cookies.",
   },
   "/ccpa-privacy-rights": {
-    title: "California Privacy Rights (CCPA) | AppVault",
+    title: "California Privacy Rights (CCPA) | Appus",
     h1: "Your California Privacy Rights Under CCPA",
     description:
-      "AppVault's CCPA disclosure for California residents. Learn about your right to know, delete, and opt out of data sharing under the California Consumer Privacy Act.",
+      "Appus's CCPA disclosure for California residents. Learn about your right to know, delete, and opt out of data sharing under the California Consumer Privacy Act.",
   },
   "/advertising-disclosure": {
-    title: "Advertising Disclosure | AppVault",
-    h1: "AppVault Advertising & Interest-Based Advertising Disclosure",
+    title: "Advertising Disclosure | Appus",
+    h1: "Appus Advertising & Interest-Based Advertising Disclosure",
     description:
-      "AppVault uses interest-based advertising. Learn how our advertising partners collect data, how to opt out, and what controls you have over targeted ads.",
+      "Appus uses interest-based advertising. Learn how our advertising partners collect data, how to opt out, and what controls you have over targeted ads.",
   },
   "/disclaimer": {
-    title: "Disclaimer | AppVault",
-    h1: "AppVault Site Disclaimer",
+    title: "Disclaimer | Appus",
+    h1: "Appus Site Disclaimer",
     description:
-      "AppVault is an independent app discovery platform. Read our disclaimer about app information accuracy, third-party links, and affiliate relationships.",
+      "Appus is an independent app discovery platform. Read our disclaimer about app information accuracy, third-party links, and affiliate relationships.",
   },
   "/no-purchase-policy": {
-    title: "No-Purchase Policy | AppVault",
-    h1: "AppVault Does Not Sell Apps — No Purchases on This Site",
+    title: "No-Purchase Policy | Appus",
+    h1: "Appus Does Not Sell Apps — No Purchases on This Site",
     description:
-      "AppVault is a free discovery platform only. We do not sell, distribute, or charge for any app or game. All purchases happen on official third-party stores.",
+      "Appus is a free discovery platform only. We do not sell, distribute, or charge for any app or game. All purchases happen on official third-party stores.",
   },
 };
 
@@ -253,7 +253,7 @@ async function getAppMeta(id: string): Promise<Omit<PageMeta, "canonical"> | nul
   const fullTitle = `${row.name} – ${row.category_name} ${typeLabel}`;
   const title = trunc(`${fullTitle} | ${BRAND}`, 60);
   const h1 = `${row.name}: ${row.short_description}`;
-  const desc = `${row.developer}'s ${row.name} is a top-rated ${row.category_name} ${typeLabel.toLowerCase()} for iOS and Android. Rated ${Number(row.rating).toFixed(1)}/5 by ${Number(row.review_count).toLocaleString()}+ users. Discover it free on AppVault.`;
+  const desc = `${row.developer}'s ${row.name} is a top-rated ${row.category_name} ${typeLabel.toLowerCase()} for iOS and Android. Rated ${Number(row.rating).toFixed(1)}/5 by ${Number(row.review_count).toLocaleString()}+ users. Discover it free on Appus.`;
   return {
     title,
     h1,
@@ -297,7 +297,7 @@ async function getCategoryMeta(slug: string): Promise<Omit<PageMeta, "canonical"
   const label = isGame ? "Games" : "Apps";
   const title = trunc(`Best ${row.name} ${label} | ${BRAND}`, 60);
   const h1 = `Best ${row.name} ${label} for iOS and Android`;
-  const desc = `Browse ${row.app_count}+ curated ${row.name} ${label.toLowerCase()} for iOS and Android on AppVault. Hand-picked by experts — no clutter, no spam, just the best ${row.name} ${label.toLowerCase()}.`;
+  const desc = `Browse ${row.app_count}+ curated ${row.name} ${label.toLowerCase()} for iOS and Android on Appus. Hand-picked by experts — no clutter, no spam, just the best ${row.name} ${label.toLowerCase()}.`;
   return {
     title,
     h1,
@@ -335,9 +335,9 @@ async function resolveMeta(pathname: string): Promise<PageMeta> {
 
   return {
     title: `${BRAND} – Discover the Best Apps & Games`,
-    h1: "Discover the Best Apps & Games on AppVault",
+    h1: "Discover the Best Apps & Games on Appus",
     description:
-      "AppVault is your go-to curated app discovery platform. Browse hand-picked iOS and Android apps and games, free to explore.",
+      "Appus is your go-to curated app discovery platform. Browse hand-picked iOS and Android apps and games, free to explore.",
     canonical,
     type: "website",
   };

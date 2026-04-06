@@ -18,7 +18,7 @@ export function Footer() {
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
             </p>
             <p className="text-xs leading-relaxed text-gray-600 max-w-xs">
-              AppVault is a free discovery platform. We do not sell apps or process payments.
+              Appus is a free discovery platform. We do not sell apps or process payments.
               All purchases occur on official third-party app stores.
             </p>
           </div>
@@ -98,9 +98,9 @@ export function Footer() {
 
         <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <p className="text-sm">© {new Date().getFullYear()} AppVault. All rights reserved.</p>
+            <p className="text-sm">© {new Date().getFullYear()} Appus. All rights reserved.</p>
             <p className="text-xs text-gray-600 mt-1">
-              AppVault is an independent app discovery platform. Not affiliated with Apple Inc. or Google LLC.
+              Appus is an independent app discovery platform. Not affiliated with Apple Inc. or Google LLC.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs">
