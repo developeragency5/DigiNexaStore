@@ -39,7 +39,7 @@ export function Home() {
 
   const { data: featuredApps, isLoading: loadingFeatured } = useGetFeaturedApps();
   const { data: trendingApps, isLoading: loadingTrending } = useGetTrendingApps();
-  const { data: newApps, isLoading: loadingNew } = useGetNewApps();
+  const { data: newApps, isLoading: loadingNew } = useGetNewApps({ appType: "app" as any, limit: 8 });
   const { data: popularGames, isLoading: loadingGames } = useGetPopularGames();
   const { data: categories, isLoading: loadingCategories } = useListCategories();
   const { data: stats } = useGetStatsSummary();
@@ -176,7 +176,7 @@ export function Home() {
             <AppGridSkeleton count={8} />
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {newApps?.filter(a => (a as any).appType !== "game").slice(0, 8).map(app => (
+              {newApps?.map(app => (
                 <AppCard key={app.id} app={app} />
               ))}
             </div>
