@@ -203,24 +203,97 @@ export function Home() {
           )}
         </section>
 
-        {/* Download Banner */}
-        <section className="rounded-3xl bg-gradient-to-r from-primary to-primary/80 px-8 py-12 text-white flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex items-center gap-5">
-            <div className="h-16 w-16 bg-white/20 rounded-2xl flex items-center justify-center shrink-0">
-              <Smartphone className="h-8 w-8 text-white" />
+        {/* Features Banner */}
+        <section className="rounded-3xl bg-gray-50 border border-gray-100 overflow-hidden">
+          <div className="flex flex-col lg:flex-row items-center gap-0">
+
+            {/* Left — text + features */}
+            <div className="flex-1 px-8 py-12 lg:px-12">
+              <h2 className="text-3xl font-extrabold text-gray-900 mb-3">AppVault Features</h2>
+              <p className="text-gray-500 text-sm leading-relaxed mb-7 max-w-md">
+                AppVault is your go-to curated app directory. Discover hand-picked iOS &amp; Android apps and games, organised by category — no clutter, no guesswork.
+              </p>
+              <Link
+                href="/apps"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-colors text-sm mb-10"
+              >
+                Explore Apps <ArrowRight className="h-4 w-4" />
+              </Link>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { icon: BadgeCheck, label: "Expert Curated Content",    desc: "Every app is hand-picked by our team" },
+                  { icon: ShieldCheck, label: "Safe & Trusted Picks",     desc: "No malware, no spam — only quality apps" },
+                  { icon: Sparkles,    label: "18+ App Categories",       desc: "From Productivity to Action Games" },
+                  { icon: Search,      label: "Free to Discover",         desc: "Browse and search at no cost, always" },
+                ].map(({ icon: Icon, label, desc }) => (
+                  <div key={label} className="flex items-start gap-3 bg-white rounded-2xl px-4 py-3.5 border border-gray-100 shadow-sm">
+                    <div className="h-8 w-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                      <Icon className="h-4 w-4 text-primary" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900 leading-tight">{label}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold">Explore Thousands of Apps</h3>
-              <p className="text-white/80 mt-1">Find your next favorite app or game, curated just for you.</p>
+
+            {/* Right — phone mockup */}
+            <div className="hidden lg:flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10 self-stretch px-16 min-w-[340px]">
+              {/* Phone frame */}
+              <div className="relative w-[200px] h-[400px] bg-gray-900 rounded-[32px] shadow-2xl border-4 border-gray-800 overflow-hidden">
+                {/* Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-5 bg-gray-900 rounded-b-xl z-10" />
+                {/* Screen */}
+                <div className="absolute inset-0 bg-white pt-6 flex flex-col overflow-hidden">
+                  {/* Mini header */}
+                  <div className="flex items-center gap-1.5 px-3 py-2 bg-primary">
+                    <div className="h-4 w-4 bg-white/30 rounded-md flex items-center justify-center">
+                      <Smartphone className="h-2.5 w-2.5 text-white" />
+                    </div>
+                    <span className="text-white text-[9px] font-bold tracking-wide">AppVault</span>
+                  </div>
+                  {/* Content */}
+                  <div className="flex-1 px-2.5 py-2 space-y-2 overflow-hidden bg-gray-50">
+                    <p className="text-[8px] font-bold text-gray-500 uppercase tracking-widest">Featured</p>
+                    {[
+                      { color: "bg-red-400",    name: "Todoist",   cat: "Productivity", rating: "4.7" },
+                      { color: "bg-blue-500",   name: "Discord",   cat: "Social",       rating: "4.8" },
+                      { color: "bg-violet-500", name: "Genshin",   cat: "Action Games", rating: "4.5" },
+                      { color: "bg-amber-400",  name: "Duolingo",  cat: "Education",    rating: "4.9" },
+                    ].map(app => (
+                      <div key={app.name} className="flex items-center gap-2 bg-white rounded-lg px-2 py-1.5 shadow-sm border border-gray-100">
+                        <div className={`h-7 w-7 ${app.color} rounded-lg shrink-0`} />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[8px] font-bold text-gray-900 truncate">{app.name}</p>
+                          <p className="text-[7px] text-gray-400">{app.cat}</p>
+                        </div>
+                        <div className="flex items-center gap-0.5 shrink-0">
+                          <Star className="h-2 w-2 fill-amber-400 text-amber-400" />
+                          <span className="text-[7px] text-gray-500">{app.rating}</span>
+                        </div>
+                      </div>
+                    ))}
+                    <p className="text-[8px] font-bold text-gray-500 uppercase tracking-widest pt-1">Top Games</p>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {[
+                        { color: "bg-indigo-500", name: "PUBG" },
+                        { color: "bg-green-500",  name: "Clash" },
+                        { color: "bg-pink-500",   name: "Candy" },
+                      ].map(g => (
+                        <div key={g.name} className="flex flex-col items-center gap-1">
+                          <div className={`h-10 w-10 ${g.color} rounded-xl`} />
+                          <p className="text-[7px] text-gray-600 font-medium text-center">{g.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex gap-3 shrink-0">
-            <Link href="/apps" className="px-6 py-3 bg-white text-primary font-semibold rounded-xl hover:bg-white/90 transition-colors text-sm">
-              Browse Apps
-            </Link>
-            <Link href="/games" className="px-6 py-3 bg-white/20 text-white font-semibold rounded-xl hover:bg-white/30 transition-colors text-sm border border-white/30 flex items-center gap-2">
-              <Gamepad2 className="h-4 w-4" /> Games
-            </Link>
+
           </div>
         </section>
 
