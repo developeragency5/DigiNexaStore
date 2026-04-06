@@ -1,0 +1,88 @@
+**Update ONLY the frontend UI / visual design of the homepage and internal pages for AppVault.**
+
+🚨 **STRICT RULES — DO NOT TOUCH ANY BACKEND OR FUNCTIONAL LOGIC**
+
+* Do NOT modify any backend code
+* Do NOT touch any API routes
+* Do NOT change any server-side functions
+* Do NOT modify database schema
+* Do NOT change data models
+* Do NOT change existing props, state, hooks, or functions
+* Do NOT modify routes, slugs, or navigation logic
+* Do NOT touch search logic
+* Do NOT change any fetch / axios / API calls
+* Do NOT modify any existing business logic
+* Do NOT rename components connected to backend
+* Do NOT remove any existing frontend functionality
+* Do NOT change event handlers
+* Do NOT change app detail page logic
+* Do NOT modify dynamic routes
+* Do NOT touch authentication / sessions if present
+
+✅ **ONLY IMPROVE FRONTEND UI / STYLING**
+Focus only on:
+
+* layout improvements
+* section spacing
+* typography
+* shadows
+* rounded corners
+* premium card design
+* hover animations
+* button styling
+* hero section styling
+* feature banner
+* trending strip
+* footer visual redesign
+* section background contrast
+* mobile responsiveness
+* minimalist premium App Store inspired design
+
+### UI Improvements Required
+
+1. Improve hero section
+
+* better spacing
+* premium large typography
+* clean centered layout
+* refined search bar styling
+
+2. Add premium minimalist banner below hero
+   Example:
+   ✨ Editor’s Picks of the Week
+   Discover the most downloaded apps & games
+   [ Explore Now → ]
+
+Use:
+
+* soft pastel gradient
+* rounded 24px corners
+* soft shadow
+* floating app icons on right
+
+3. Improve app cards
+
+* stronger shadow
+* better padding
+* cleaner rating row
+* premium Get button
+* subtle lift hover effect
+
+4. Improve section hierarchy
+
+* Featured Apps
+* Trending Apps
+* Latest Apps
+* Popular Games
+  with better vertical spacing and alternating soft backgrounds
+
+5. Improve footer
+
+* dark navy gradient
+* better spacing
+* premium typography
+
+⚠️ MOST IMPORTANT
+Preserve ALL existing backend functionality, API integrations, routes, and data rendering exactly as they currently work.
+
+Only update CSS / Tailwind classes / wrappers / containers / visual structure.
