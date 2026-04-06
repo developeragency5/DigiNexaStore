@@ -64,11 +64,30 @@ export function Home() {
     <div className="bg-gray-50 min-h-screen">
 
       {/* ── Search Engine Hero ── */}
-      <section className="bg-white border-b border-gray-100">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-12 text-center">
+      <section
+        className="relative border-b border-gray-100 overflow-hidden"
+        style={{
+          background: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(22,163,74,0.10) 0%, rgba(255,255,255,0) 70%), #ffffff",
+        }}
+      >
+        {/* Subtle dot grid */}
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 w-full h-full opacity-[0.03]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.5" fill="#16A34A"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dots)"/>
+        </svg>
+
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-12 text-center">
 
           {/* Logo / Brand */}
-          <div className="flex items-center justify-center gap-3 mb-8">
+          <div className="flex items-center justify-center gap-3 mb-3">
             <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
               <rect width="52" height="52" rx="13" fill="#16A34A"/>
               {/* Bowl — full circle, stroke only */}
@@ -82,6 +101,11 @@ export function Home() {
               app<span className="text-primary">us</span>
             </span>
           </div>
+
+          {/* Tagline */}
+          <p className="text-sm text-gray-400 font-medium tracking-wide mb-8">
+            Discover &amp; compare the best apps and games
+          </p>
 
           {/* Main Search Bar */}
           <SearchAutocomplete
