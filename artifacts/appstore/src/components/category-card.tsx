@@ -63,7 +63,6 @@ export function CategoryCard({ category }: { category: Category }) {
         </div>
         <div className="flex flex-col items-center">
           <h3 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors leading-tight line-clamp-2">{category.name}</h3>
-          <p className="text-xs text-gray-400 mt-0.5">{category.appCount.toLocaleString()} apps</p>
         </div>
       </div>
     </Link>
