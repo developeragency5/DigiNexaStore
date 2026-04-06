@@ -1,6 +1,6 @@
 import { App } from "@workspace/api-client-react";
 import { Link, useLocation } from "wouter";
-import { Star } from "lucide-react";
+import { Star, Smartphone } from "lucide-react";
 
 interface AppCardProps {
   app: App;
@@ -120,6 +120,9 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
     );
   }
 
+  const hasAndroid = !!(app as any).playStoreUrl;
+  const hasIos = !!(app as any).appStoreUrl;
+
   return (
     <Link href={`/apps/${app.id}`} className="block group">
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-4 flex items-center gap-4">
@@ -131,10 +134,25 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
         />
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-1">{app.name}</h3>
-          <p className="text-sm text-gray-500 line-clamp-1">{app.developer}</p>
+          <p className="text-xs text-gray-500 line-clamp-1">{app.developer}</p>
           <div className="flex items-center gap-1.5 mt-1.5">
             <StarRating rating={app.rating} size="md" />
             <span className="text-xs font-medium text-gray-600">{app.rating.toFixed(1)}</span>
+          </div>
+          {/* Platform badges */}
+          <div className="flex items-center gap-1 mt-1.5">
+            {hasAndroid && (
+              <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-100">
+                <svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341c-.397 0-.72-.323-.72-.72s.323-.72.72-.72.72.323.72.72-.323.72-.72.72m-11.046 0c-.397 0-.72-.323-.72-.72s.323-.72.72-.72.72.323.72.72-.323.72-.72.72M17.74 9.33l1.705-2.953a.357.357 0 00-.13-.487.357.357 0 00-.487.13L17.1 8.997a10.95 10.95 0 00-10.199 0L5.172 6.02a.357.357 0 00-.487-.13.357.357 0 00-.13.487L6.26 9.33C3.6 10.824 1.817 13.58 1.5 16.773h21c-.317-3.193-2.1-5.949-4.76-7.443"/></svg>
+                Android
+              </span>
+            )}
+            {hasIos && (
+              <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 bg-sky-50 text-sky-700 rounded-md border border-sky-100">
+                <Smartphone className="h-2.5 w-2.5" />
+                iPhone
+              </span>
+            )}
           </div>
         </div>
         <div className="flex-shrink-0 text-right space-y-1.5">

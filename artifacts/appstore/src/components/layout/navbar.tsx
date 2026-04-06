@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import {
-  Smartphone, Search, X, Menu, ChevronDown, ArrowRight,
+  Smartphone, Search, Menu, ChevronDown, ArrowRight,
   Gamepad2, Grid3x3, Star, TrendingUp, Zap,
   Music, Camera, Briefcase, GraduationCap, HeartPulse,
   Tv, MessageCircle, DollarSign, Map, Utensils
 } from "lucide-react";
+import { SearchAutocomplete } from "@/components/search-autocomplete";
 
 const appCategoryLinks = [
   { name: "Productivity", slug: "productivity", icon: Briefcase, color: "text-blue-600", bg: "bg-blue-50" },
@@ -43,9 +44,6 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -59,25 +57,12 @@ export function Navbar() {
     setOpenDropdown(null);
   }, [location]);
 
-  useEffect(() => {
-    if (searchOpen) setTimeout(() => searchInputRef.current?.focus(), 50);
-  }, [searchOpen]);
-
   const open = (key: string) => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current);
     setOpenDropdown(key);
   };
   const close = () => {
     dropdownTimeout.current = setTimeout(() => setOpenDropdown(null), 120);
-  };
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/apps?search=${encodeURIComponent(searchQuery.trim())}`);
-      setSearchOpen(false);
-      setSearchQuery("");
-    }
   };
 
   return (
@@ -240,29 +225,19 @@ export function Navbar() {
               </div>
             </nav>
 
-            {/* Desktop Search */}
-            <div className="hidden md:flex items-center ml-auto">
-              {searchOpen ? (
-                <form onSubmit={handleSearch} className="flex items-center gap-2">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                    <input ref={searchInputRef} type="search" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                      placeholder="Search apps, games..." className="pl-9 pr-4 py-2 w-64 text-sm bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/25 focus:border-primary/50 transition-all" />
-                  </div>
-                  <button type="button" onClick={() => { setSearchOpen(false); setSearchQuery(""); }} className="p-1.5 text-gray-400 hover:text-gray-700 transition-colors"><X className="h-4 w-4" /></button>
-                </form>
-              ) : (
-                <button onClick={() => setSearchOpen(true)} className="flex items-center gap-2 pl-3 pr-5 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full text-sm text-gray-500 transition-colors">
-                  <Search className="h-4 w-4" /> Search apps, games...
-                </button>
-              )}
+            {/* Desktop Search — always visible */}
+            <div className="hidden md:block ml-auto w-64 lg:w-80">
+              <SearchAutocomplete
+                size="sm"
+                placeholder="Search apps, games..."
+              />
             </div>
 
             {/* Mobile Controls */}
             <div className="flex md:hidden items-center gap-1 ml-auto">
               <button className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors" onClick={() => navigate("/apps")}><Search className="h-5 w-5" /></button>
               <button className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors" onClick={() => setMobileOpen(!mobileOpen)}>
-                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                {mobileOpen ? <span className="text-lg leading-none">✕</span> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
@@ -272,13 +247,13 @@ export function Navbar() {
         {mobileOpen && (
           <div className="md:hidden border-t border-gray-100 bg-white">
             <div className="max-w-7xl mx-auto px-4 py-4 space-y-0.5">
-              <form onSubmit={(e) => { e.preventDefault(); if (searchQuery.trim()) { navigate(`/apps?search=${encodeURIComponent(searchQuery.trim())}`); setMobileOpen(false); setSearchQuery(""); } }} className="mb-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <input type="search" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search apps, games..."
-                    className="w-full pl-9 pr-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20" />
-                </div>
-              </form>
+              <div className="mb-4">
+                <SearchAutocomplete
+                  size="md"
+                  placeholder="Search apps, games..."
+                  onSearch={(q) => { navigate(`/apps?search=${encodeURIComponent(q)}`); setMobileOpen(false); }}
+                />
+              </div>
 
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 pt-2 pb-1">Apps</p>
               {[
