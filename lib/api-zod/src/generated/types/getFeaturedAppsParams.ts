@@ -5,8 +5,8 @@
  * AppVault - App Discovery Platform API
  * OpenAPI spec version: 0.1.0
  */
+import type { GetFeaturedAppsAppType } from "./getFeaturedAppsAppType";
 
-export type GetAppsByCategoryParams = {
-  limit?: number;
-  offset?: number;
+export type GetFeaturedAppsParams = {
+  appType?: GetFeaturedAppsAppType;
 };

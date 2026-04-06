@@ -5,7 +5,8 @@
  * AppVault - App Discovery Platform API
  * OpenAPI spec version: 0.1.0
  */
+import type { ListCategoriesType } from "./listCategoriesType";
 
-export interface ErrorResponse {
-  error: string;
-}
+export type ListCategoriesParams = {
+  type?: ListCategoriesType;
+};

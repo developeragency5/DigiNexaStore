@@ -1,57 +1,71 @@
 import { Category } from "@workspace/api-client-react";
 import { Link } from "wouter";
-import { Card, CardContent } from "@/components/ui/card";
-import { 
-  Gamepad2, Music, Camera, Briefcase, 
-  GraduationCap, HeartPulse, ShoppingBag, 
-  Compass, MessageCircle, Map, Zap, Layers 
+import {
+  Gamepad2, Music, Camera, Briefcase,
+  GraduationCap, HeartPulse, ShoppingBag,
+  Compass, MessageCircle, Map, Zap, Layers,
+  DollarSign, Utensils, BookOpen, Play, Heart,
+  Users, UtensilsCrossed, Trophy, Car, Star,
+  Swords, Puzzle
 } from "lucide-react";
 
-interface CategoryCardProps {
-  category: Category;
-}
-
 const iconMap: Record<string, React.ElementType> = {
-  "gamepad": Gamepad2,
-  "music": Music,
-  "camera": Camera,
+  "Briefcase": Briefcase,
   "briefcase": Briefcase,
-  "graduation-cap": GraduationCap,
+  "BookOpen": BookOpen,
+  "book-open": BookOpen,
+  "DollarSign": DollarSign,
+  "dollar-sign": DollarSign,
+  "UtensilsCrossed": UtensilsCrossed,
+  "utensils": Utensils,
+  "Heart": Heart,
   "heart-pulse": HeartPulse,
-  "shopping-bag": ShoppingBag,
-  "compass": Compass,
+  "Music": Music,
+  "music": Music,
+  "Camera": Camera,
+  "camera": Camera,
+  "Users": Users,
   "message-circle": MessageCircle,
+  "Map": Map,
   "map": Map,
-  "zap": Zap
+  "Play": Play,
+  "compass": Compass,
+  "Gamepad2": Gamepad2,
+  "gamepad": Gamepad2,
+  "joystick": Gamepad2,
+  "Star": Star,
+  "star": Star,
+  "Puzzle": Puzzle,
+  "puzzle": Puzzle,
+  "Swords": Swords,
+  "sword": Swords,
+  "chess": Swords,
+  "Car": Car,
+  "car": Car,
+  "Trophy": Trophy,
+  "trophy": Trophy,
+  "graduation-cap": GraduationCap,
+  "shopping-bag": ShoppingBag,
+  "zap": Zap,
 };
 
-export function CategoryCard({ category }: CategoryCardProps) {
+export function CategoryCard({ category }: { category: Category }) {
   const Icon = iconMap[category.iconName] || Layers;
 
   return (
     <Link href={`/categories/${category.slug}`} className="block group">
-      <Card className="overflow-hidden border-border/50 hover:shadow-md transition-all duration-300">
-        <CardContent className="p-6 flex flex-col items-center justify-center text-center gap-4 relative overflow-hidden">
-          <div 
-            className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500"
-            style={{ backgroundColor: category.color }}
-          />
-          <div 
-            className="w-14 h-14 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 relative z-10"
-            style={{ backgroundColor: `${category.color}15`, color: category.color }}
-          >
-            <Icon className="h-7 w-7" />
-          </div>
-          <div className="relative z-10">
-            <h3 className="font-bold text-foreground group-hover:text-primary transition-colors">
-              {category.name}
-            </h3>
-            <p className="text-sm text-muted-foreground mt-1">
-              {category.appCount.toLocaleString()} apps
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-5 flex flex-col items-center text-center gap-3">
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+          style={{ backgroundColor: `${category.color}18`, color: category.color }}
+        >
+          <Icon className="h-7 w-7" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors">{category.name}</h3>
+          <p className="text-xs text-gray-400 mt-0.5">{category.appCount.toLocaleString()} apps</p>
+        </div>
+      </div>
     </Link>
   );
 }

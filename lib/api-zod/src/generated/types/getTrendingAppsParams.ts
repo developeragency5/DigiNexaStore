@@ -5,8 +5,9 @@
  * AppVault - App Discovery Platform API
  * OpenAPI spec version: 0.1.0
  */
+import type { GetTrendingAppsAppType } from "./getTrendingAppsAppType";
 
-export type GetAppsByCategoryParams = {
+export type GetTrendingAppsParams = {
+  appType?: GetTrendingAppsAppType;
   limit?: number;
-  offset?: number;
 };

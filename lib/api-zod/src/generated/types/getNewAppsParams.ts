@@ -5,7 +5,9 @@
  * AppVault - App Discovery Platform API
  * OpenAPI spec version: 0.1.0
  */
+import type { GetNewAppsAppType } from "./getNewAppsAppType";
 
-export interface ErrorResponse {
-  error: string;
-}
+export type GetNewAppsParams = {
+  appType?: GetNewAppsAppType;
+  limit?: number;
+};

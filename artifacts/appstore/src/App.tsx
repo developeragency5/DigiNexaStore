@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 
 import { Home } from "@/pages/home";
 import { Apps } from "@/pages/apps";
+import { Games } from "@/pages/games";
 import { AppDetail } from "@/pages/app-detail";
 import { Categories } from "@/pages/categories";
 import { CategoryDetail } from "@/pages/category-detail";
@@ -27,6 +28,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/apps" component={Apps} />
         <Route path="/apps/:id" component={AppDetail} />
+        <Route path="/games" component={Games} />
         <Route path="/categories" component={Categories} />
         <Route path="/categories/:slug" component={CategoryDetail} />
         <Route component={NotFound} />

@@ -46,6 +46,7 @@ router.get("/", async (req, res) => {
     iconName: c.iconName,
     appCount: c.appCount,
     color: c.color,
+    type: (c as any).type ?? "app",
   })));
 });
 

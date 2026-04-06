@@ -3,78 +3,92 @@ import { Smartphone, Twitter, Github, Instagram, Linkedin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t bg-muted/30">
-      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-          <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2">
-              <Smartphone className="h-6 w-6 text-primary" />
-              <span className="font-bold text-xl tracking-tight text-foreground">
-                AppVault
-              </span>
+    <footer className="bg-gray-900 text-gray-400">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 pb-10 border-b border-gray-800">
+          <div className="col-span-2 space-y-4">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
+                <Smartphone className="h-4 w-4 text-white" />
+              </div>
+              <span className="font-bold text-lg text-white">App<span className="text-primary">Vault</span></span>
             </Link>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              The internet's most curated app directory. We handpick only the best apps for iOS and Android so you don't have to search.
+            <p className="text-sm leading-relaxed max-w-xs">
+              The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
             </p>
-            <div className="flex items-center gap-3 pt-2">
-              <a href="#" className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors">
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a href="#" className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors">
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a href="#" className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors">
-                <Linkedin className="h-4 w-4" />
-              </a>
-              <a href="#" className="h-9 w-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors">
-                <Github className="h-4 w-4" />
-              </a>
+            <div className="flex items-center gap-2.5 pt-1">
+              {[
+                { Icon: Twitter, label: "Twitter" },
+                { Icon: Instagram, label: "Instagram" },
+                { Icon: Linkedin, label: "LinkedIn" },
+                { Icon: Github, label: "GitHub" },
+              ].map(({ Icon, label }) => (
+                <a key={label} href="#" aria-label={label}
+                  className="h-9 w-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:text-white hover:border-gray-500 transition-colors">
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
             </div>
           </div>
-          
+
           <div>
-            <h3 className="font-semibold mb-4 text-foreground">Explore</h3>
+            <h4 className="text-sm font-semibold text-white mb-4">Explore</h4>
             <ul className="space-y-3">
-              <li><Link href="/apps" className="text-sm text-muted-foreground hover:text-primary transition-colors">All Apps</Link></li>
-              <li><Link href="/categories" className="text-sm text-muted-foreground hover:text-primary transition-colors">Categories</Link></li>
-              <li><Link href="/apps?featured=true" className="text-sm text-muted-foreground hover:text-primary transition-colors">Featured</Link></li>
-              <li><Link href="/apps?trending=true" className="text-sm text-muted-foreground hover:text-primary transition-colors">Trending</Link></li>
-              <li><Link href="/apps" className="text-sm text-muted-foreground hover:text-primary transition-colors">New Releases</Link></li>
+              {[
+                { label: "All Apps", href: "/apps" },
+                { label: "All Games", href: "/games" },
+                { label: "Featured Apps", href: "/apps?featured=true" },
+                { label: "Trending", href: "/apps?trending=true" },
+                { label: "New Releases", href: "/apps" },
+              ].map(link => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
-          
+
           <div>
-            <h3 className="font-semibold mb-4 text-foreground">For Developers</h3>
+            <h4 className="text-sm font-semibold text-white mb-4">Categories</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Submit Your App</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Advertising</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">API Access</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Developer Blog</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Press Kit</a></li>
+              {[
+                { label: "Productivity", href: "/categories/productivity" },
+                { label: "Health & Fitness", href: "/categories/health-fitness" },
+                { label: "Education", href: "/categories/education" },
+                { label: "Finance", href: "/categories/finance" },
+                { label: "Social", href: "/categories/social" },
+              ].map(link => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                </li>
+              ))}
             </ul>
           </div>
-          
+
           <div>
-            <h3 className="font-semibold mb-4 text-foreground">Company</h3>
+            <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a></li>
+              {[
+                { label: "About Us", href: "#" },
+                { label: "Blog", href: "#" },
+                { label: "Careers", href: "#" },
+                { label: "Submit an App", href: "#" },
+                { label: "Contact", href: "#" },
+              ].map(link => (
+                <li key={link.label}>
+                  <a href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
-        
-        <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} AppVault. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6 text-xs text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-            <a href="#" className="hover:text-foreground transition-colors">Cookies</a>
-            <a href="#" className="hover:text-foreground transition-colors">Sitemap</a>
+
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm">© {new Date().getFullYear()} AppVault. All rights reserved.</p>
+          <div className="flex items-center gap-6 text-xs">
+            {["Privacy Policy", "Terms of Service", "Cookie Policy", "Sitemap"].map(item => (
+              <a key={item} href="#" className="hover:text-white transition-colors">{item}</a>
+            ))}
           </div>
         </div>
       </div>

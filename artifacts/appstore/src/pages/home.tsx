@@ -1,275 +1,251 @@
-import { 
-  useGetFeaturedApps, 
-  useGetTrendingApps, 
-  useGetNewApps, 
-  useListCategories,
-  useGetStatsSummary 
-} from "@workspace/api-client-react";
+import { useState } from "react";
+import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories, useGetStatsSummary } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { CategoryCard } from "@/components/category-card";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles, TrendingUp, Zap, Star, ShieldCheck, Search, Bell } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useState } from "react";
+import { ArrowRight, Search, TrendingUp, Gamepad2, Smartphone, Download, Star } from "lucide-react";
+
+function SectionHeader({ title, subtitle, viewAllHref }: { title: string; subtitle?: string; viewAllHref?: string }) {
+  return (
+    <div className="flex items-end justify-between mb-6">
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+        {subtitle && <p className="text-gray-500 text-sm mt-0.5">{subtitle}</p>}
+      </div>
+      {viewAllHref && (
+        <Link href={viewAllHref} className="flex items-center gap-1 text-sm font-medium text-primary hover:underline shrink-0 ml-4">
+          See all <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function AppGridSkeleton({ count = 4 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {Array.from({ length: count }).map((_, i) => (
+        <Skeleton key={i} className="h-[88px] rounded-2xl" />
+      ))}
+    </div>
+  );
+}
 
 export function Home() {
+  const [navigate] = useLocation();
+  const [email, setEmail] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { data: featuredApps, isLoading: loadingFeatured } = useGetFeaturedApps();
   const { data: trendingApps, isLoading: loadingTrending } = useGetTrendingApps();
   const { data: newApps, isLoading: loadingNew } = useGetNewApps();
+  const { data: popularGames, isLoading: loadingGames } = useGetPopularGames();
   const { data: categories, isLoading: loadingCategories } = useListCategories();
   const { data: stats } = useGetStatsSummary();
-  const [email, setEmail] = useState("");
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      window.location.href = `/apps?search=${encodeURIComponent(searchQuery.trim())}`;
+    }
+  };
+
+  const appCategories = categories?.filter(c => (c as any).type !== "game").slice(0, 9);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background pt-16 pb-24 md:pt-24 md:pb-32">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
-        <div className="absolute right-0 top-0 -translate-y-12 translate-x-1/3 opacity-30">
-          <div className="h-96 w-96 rounded-full bg-accent/20 blur-3xl"></div>
+      <section className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
+              <Star className="h-3.5 w-3.5" /> Curated App Directory
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight mb-5">
+              Discover the Best<br />
+              <span className="text-primary">Apps & Games</span>
+            </h1>
+            <p className="text-lg text-gray-500 max-w-xl mx-auto mb-8">
+              Hand-picked apps and games for iOS and Android. No junk, no spam — only the best of the best.
+            </p>
+            <form onSubmit={handleSearch} className="flex items-center max-w-lg mx-auto bg-white rounded-2xl border-2 border-gray-200 focus-within:border-primary/50 shadow-sm transition-all overflow-hidden">
+              <Search className="h-5 w-5 text-gray-400 ml-4 shrink-0" />
+              <input
+                type="search"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                placeholder="Search for apps, games, developers..."
+                className="flex-1 py-3.5 px-3 text-sm outline-none bg-transparent text-gray-900 placeholder:text-gray-400"
+              />
+              <button type="submit" className="m-1.5 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors shrink-0">
+                Search
+              </button>
+            </form>
+          </div>
+
+          {/* Stats Bar */}
+          {stats && (
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{((stats.totalApps || 0) + (stats.totalGames || 0)).toLocaleString()}+</p>
+                <p className="text-xs text-gray-500 mt-0.5">Apps & Games</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalCategories.toLocaleString()}</p>
+                <p className="text-xs text-gray-500 mt-0.5">Categories</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalDownloads ? (stats.totalDownloads / 1000000000).toFixed(1) + "B+" : "5B+"}</p>
+                <p className="text-xs text-gray-500 mt-0.5">Total Downloads</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">100%</p>
+                <p className="text-xs text-gray-500 mt-0.5">Hand-Curated</p>
+              </div>
+            </div>
+          )}
         </div>
-        
-        <div className="container relative mx-auto px-4 md:px-6">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            <div className="max-w-2xl space-y-8">
-              <div className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm font-medium">
-                <Sparkles className="mr-2 h-4 w-4 text-accent" />
-                <span className="text-foreground">Discover what's next</span>
+
+        {/* Featured Apps Horizontal Scroll */}
+        {(loadingFeatured || (featuredApps && featuredApps.length > 0)) && (
+          <div className="border-t border-gray-100 py-8 bg-gradient-to-b from-gray-50 to-gray-50/0">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
+                  <Star className="h-4 w-4 text-amber-400 fill-amber-400" /> Featured Apps
+                </h2>
+                <Link href="/apps?featured=true" className="text-sm text-primary font-medium hover:underline flex items-center gap-1">
+                  See all <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
-              <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1]">
-                The absolute best apps. <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Curated for you.</span>
-              </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                AppVault cuts through the noise of millions of apps to find the beautiful, 
-                functional, and transformational tools that deserve a place on your device.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button size="lg" className="rounded-full px-8 h-12 text-base font-semibold" asChild>
-                  <Link href="/apps">Browse Catalog</Link>
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8 h-12 text-base font-semibold" asChild>
-                  <Link href="/categories">View Categories</Link>
-                </Button>
-              </div>
-              
-              {stats && (
-                <div className="pt-8 flex items-center gap-8 text-sm text-muted-foreground font-medium">
-                  <div>
-                    <span className="block text-2xl font-bold text-foreground">{stats.totalApps.toLocaleString()}</span>
-                    Curated Apps
-                  </div>
-                  <div>
-                    <span className="block text-2xl font-bold text-foreground">{stats.totalCategories.toLocaleString()}</span>
-                    Categories
-                  </div>
-                  <div>
-                    <span className="block text-2xl font-bold text-foreground">{stats.totalDownloads.toLocaleString()}+</span>
-                    Downloads
-                  </div>
+              {loadingFeatured ? (
+                <div className="flex gap-4 overflow-x-auto pb-2">
+                  {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="w-[200px] h-[180px] rounded-2xl flex-shrink-0" />)}
+                </div>
+              ) : (
+                <div className="flex gap-4 overflow-x-auto pb-3 -mx-1 px-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+                  {featuredApps?.map(app => (
+                    <AppCard key={app.id} app={app} variant="hero" />
+                  ))}
                 </div>
               )}
             </div>
-            
-            <div className="lg:ml-auto w-full max-w-lg">
-              <div className="bg-card rounded-3xl p-6 shadow-2xl border border-border/50 relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-br from-primary/30 to-accent/30 rounded-3xl blur opacity-50 -z-10"></div>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-bold flex items-center gap-2">
-                    <Sparkles className="h-5 w-5 text-accent" />
-                    App of the Day
-                  </h3>
-                </div>
-                {loadingFeatured ? (
-                  <Skeleton className="h-[300px] w-full rounded-2xl" />
-                ) : featuredApps?.[0] ? (
-                  <AppCard app={featuredApps[0]} variant="featured" />
-                ) : null}
-              </div>
-            </div>
           </div>
-        </div>
+        )}
       </section>
 
-      {/* Featured Apps Row */}
-      <section className="py-16 md:py-24 bg-muted/30">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between mb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+        {/* Trending Apps */}
+        <section>
+          <SectionHeader
+            title="Trending Apps"
+            subtitle="The most downloaded apps this week"
+            viewAllHref="/apps?trending=true"
+          />
+          {loadingTrending ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {trendingApps?.filter(a => (a as any).appType !== "game").slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Categories Grid */}
+        <section>
+          <SectionHeader title="Browse by Category" viewAllHref="/categories" />
+          {loadingCategories ? (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-9 gap-3">
+              {Array.from({ length: 9 }).map((_, i) => <Skeleton key={i} className="h-[100px] rounded-2xl" />)}
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-9 gap-3">
+              {appCategories?.map(cat => <CategoryCard key={cat.id} category={cat} />)}
+            </div>
+          )}
+        </section>
+
+        {/* Latest Apps */}
+        <section>
+          <SectionHeader
+            title="Latest Apps"
+            subtitle="Fresh additions to our catalog"
+            viewAllHref="/apps"
+          />
+          {loadingNew ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {newApps?.filter(a => (a as any).appType !== "game").slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Popular Games */}
+        <section>
+          <SectionHeader
+            title="Popular Games"
+            subtitle="Top-rated games for iOS & Android"
+            viewAllHref="/games"
+          />
+          {loadingGames ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {popularGames?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* Download Banner */}
+        <section className="rounded-3xl bg-gradient-to-r from-primary to-primary/80 px-8 py-12 text-white flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex items-center gap-5">
+            <div className="h-16 w-16 bg-white/20 rounded-2xl flex items-center justify-center shrink-0">
+              <Smartphone className="h-8 w-8 text-white" />
+            </div>
             <div>
-              <h2 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                <Star className="h-8 w-8 text-primary" />
-                Featured Collections
-              </h2>
-              <p className="text-muted-foreground mt-2 text-lg">Handpicked essentials for your daily routine.</p>
+              <h3 className="text-2xl font-bold">Explore Thousands of Apps</h3>
+              <p className="text-white/80 mt-1">Find your next favorite app or game, curated just for you.</p>
             </div>
-            <Button variant="ghost" className="hidden sm:flex" asChild>
-              <Link href="/apps?featured=true">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {loadingFeatured 
-              ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[120px] rounded-xl" />)
-              : featuredApps?.slice(1, 9).map(app => (
-                  <AppCard key={app.id} app={app} variant="compact" />
-                ))
-            }
+          <div className="flex gap-3 shrink-0">
+            <Link href="/apps" className="px-6 py-3 bg-white text-primary font-semibold rounded-xl hover:bg-white/90 transition-colors text-sm">
+              Browse Apps
+            </Link>
+            <Link href="/games" className="px-6 py-3 bg-white/20 text-white font-semibold rounded-xl hover:bg-white/30 transition-colors text-sm border border-white/30 flex items-center gap-2">
+              <Gamepad2 className="h-4 w-4" /> Games
+            </Link>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Trending Section */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                <TrendingUp className="h-8 w-8 text-accent" />
-                Trending Now
-              </h2>
-              <p className="text-muted-foreground mt-2 text-lg">The apps everyone is talking about this week.</p>
-            </div>
-            <Button variant="ghost" className="hidden sm:flex" asChild>
-              <Link href="/apps?trending=true">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-            {loadingTrending
-              ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-[280px] rounded-xl" />)
-              : trendingApps?.slice(0, 4).map(app => (
-                  <AppCard key={app.id} app={app} />
-                ))
-            }
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Grid */}
-      <section className="py-16 md:py-24 bg-muted/30 border-y">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight text-foreground">
-                Browse by Category
-              </h2>
-              <p className="text-muted-foreground mt-2 text-lg">Find exactly what you need, perfectly categorized.</p>
-            </div>
-            <Button variant="ghost" className="hidden sm:flex" asChild>
-              <Link href="/categories">
-                All categories <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-            {loadingCategories
-              ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-[140px] rounded-xl" />)
-              : categories?.slice(0, 6).map(category => (
-                  <CategoryCard key={category.id} category={category} />
-                ))
-            }
-          </div>
-        </div>
-      </section>
-
-      {/* New Releases */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="text-3xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                <Zap className="h-8 w-8 text-primary" />
-                Fresh Drops
-              </h2>
-              <p className="text-muted-foreground mt-2 text-lg">The newest additions to our catalog.</p>
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {loadingNew
-              ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-[280px] rounded-xl" />)
-              : newApps?.slice(0, 3).map(app => (
-                  <AppCard key={app.id} app={app} />
-                ))
-            }
-          </div>
-        </div>
-      </section>
-
-      {/* Why AppVault */}
-      <section className="py-20 md:py-28 bg-muted/30 border-y">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">Why AppVault?</h2>
-            <p className="text-lg text-muted-foreground">We do the hard work so you get only the best apps on your phone.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <ShieldCheck className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold text-foreground">Human Curated</h3>
-              <p className="text-muted-foreground leading-relaxed">Every app is hand-reviewed by our expert team. No spam, no malware, no junk — only apps that earn their place.</p>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="h-16 w-16 rounded-2xl bg-accent/10 flex items-center justify-center">
-                <Search className="h-8 w-8 text-accent" />
-              </div>
-              <h3 className="text-xl font-bold text-foreground">Smart Discovery</h3>
-              <p className="text-muted-foreground leading-relaxed">Find apps you've never heard of but will love instantly. Our discovery engine surfaces hidden gems across every category.</p>
-            </div>
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-                <Bell className="h-8 w-8 text-primary" />
-              </div>
-              <h3 className="text-xl font-bold text-foreground">Always Fresh</h3>
-              <p className="text-muted-foreground leading-relaxed">New apps added daily. Our catalog stays current so you're always discovering what's trending and what's next.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter / CTA */}
-      <section className="py-20 md:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 pointer-events-none" />
-        <div className="container mx-auto px-4 md:px-6 relative">
-          <div className="max-w-2xl mx-auto text-center space-y-6">
-            <div className="inline-flex items-center rounded-full border bg-background px-3 py-1 text-sm font-medium">
-              <Sparkles className="mr-2 h-4 w-4 text-accent" />
-              <span>Weekly app roundups, delivered</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-              Never miss a great app again
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Get our weekly digest of the best new and trending apps — handpicked and delivered straight to your inbox.
-            </p>
-            <form 
-              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-              onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
-            >
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                data-testid="input-newsletter-email"
-                className="flex-1 flex h-12 w-full rounded-full border border-input bg-background px-5 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              />
-              <Button type="submit" size="lg" className="rounded-full h-12 px-8 font-semibold" data-testid="button-newsletter-subscribe">
-                Subscribe
-              </Button>
-            </form>
-            <p className="text-xs text-muted-foreground">No spam, ever. Unsubscribe anytime.</p>
-          </div>
-        </div>
-      </section>
+        {/* Newsletter */}
+        <section className="text-center py-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Stay in the Loop</h2>
+          <p className="text-gray-500 mb-6 max-w-md mx-auto text-sm">Get weekly roundups of the best new apps and games delivered straight to your inbox.</p>
+          <form
+            onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
+            className="flex gap-3 max-w-sm mx-auto"
+          >
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white"
+            />
+            <button type="submit" className="px-5 py-3 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
+              Subscribe
+            </button>
+          </form>
+        </section>
+      </div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ export const appsTable = pgTable("apps", {
   screenshotUrls: text("screenshot_urls").array().notNull().default([]),
   categorySlug: text("category_slug").notNull(),
   categoryName: text("category_name").notNull(),
+  appType: text("app_type").notNull().default("app"),
   rating: real("rating").notNull().default(0),
   reviewCount: integer("review_count").notNull().default(0),
   downloadCount: integer("download_count").notNull().default(0),

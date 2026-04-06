@@ -6,10 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type AppPlatform = (typeof AppPlatform)[keyof typeof AppPlatform];
+export type CategoryType = (typeof CategoryType)[keyof typeof CategoryType];
 
-export const AppPlatform = {
-  ios: "ios",
-  android: "android",
-  both: "both",
+export const CategoryType = {
+  app: "app",
+  game: "game",
+  all: "all",
 } as const;

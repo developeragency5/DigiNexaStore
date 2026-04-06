@@ -10,6 +10,7 @@ export const categoriesTable = pgTable("categories", {
   iconName: text("icon_name").notNull(),
   color: text("color").notNull(),
   appCount: integer("app_count").notNull().default(0),
+  type: text("type").notNull().default("app"),
 });
 
 export const insertCategorySchema = createInsertSchema(categoriesTable).omit({ id: true });
