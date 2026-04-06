@@ -73,7 +73,9 @@ export function AppDetail() {
 
   function playStoreUrl(storedUrl?: string | null): string | null {
     if (!storedUrl || storedUrl.length < 20) return null;
-    if (storedUrl.includes("play.google.com/") || storedUrl.includes("appinme.com/")) return storedUrl;
+    if (storedUrl.includes("play.google.com/store/apps/details")) return storedUrl;
+    if (storedUrl.includes("play.google.com/store/search")) return storedUrl;
+    if (storedUrl.includes("appinme.com/")) return storedUrl;
     return null;
   }
 
