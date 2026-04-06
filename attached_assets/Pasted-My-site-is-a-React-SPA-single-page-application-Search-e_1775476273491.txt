@@ -1,0 +1,17 @@
+My site is a React SPA (single-page application). Search engine crawlers like Semrush that don't execute JavaScript can't see my page content. I need you to fix the following SEO issues by injecting content server-side into the HTML before it reaches the browser:
+1. Server-side meta tag injection:
+Create a middleware that intercepts every HTML response and injects page-specific <title>, <meta name="description">, <link rel="canonical">, Open Graph tags (og:title, og:description, og:url, og:type), and Twitter Card tags into the raw HTML before serving it. Each page must have a unique title and description — no duplicates across the site.
+2. Unique product/item meta descriptions:
+For pages that share the same template description (e.g., all products in the same category), generate unique meta descriptions by including the specific item name and price in each one. Never just truncate a shared description field — always build a description that includes unique identifiers.
+3. H1 heading injection:
+Inject a visually hidden <h1> tag into every page's HTML so crawlers can find it. The H1 must be different from the title tag. Use style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden" to hide it visually without affecting the UI.
+4. Crawlable navigation links:
+Inject a hidden <nav> element containing links to all important pages (products, categories, blog posts, static pages) so crawlers can discover the full site structure without executing JavaScript. Cache this navigation and refresh it periodically.
+5. Structured data (JSON-LD):
+Inject schema.org structured data into the HTML <head> for: Organization, WebSite (with SearchAction), Product pages (with Offer), BlogPosting pages, and BreadcrumbList where appropriate.
+6. Dynamic sitemap.xml:
+Create a /sitemap.xml endpoint that dynamically generates a sitemap from the database, including all products, categories, blog posts, and static pages with proper <lastmod> dates.
+7. Title length limits:
+Keep all title tags under 60 characters. If a title would be too long, truncate the page name and append a short brand suffix like " | Brand Name". For H1 tags, always use the full untruncated name.
+Important production note:
+In production, read the built index.html file into memory and modify it directly before sending with res.end(). Do not rely on res.sendFile() or express.static() for HTML responses, as those bypass any middleware modifications. In development, patch res.end() to intercept Vite's HTML output.
