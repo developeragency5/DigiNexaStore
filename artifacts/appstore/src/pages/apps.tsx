@@ -51,10 +51,9 @@ export function Apps() {
 
   const isCollectionModeEarly = !params.category && !params.search;
 
-  // Fetch ALL items (apps + games, no appType filter) only for the "All Apps" grouped view
+  // Fetch ALL items (apps + games, no appType filter) — used for "All Apps" grouped view + live category counts
   const { data: allItemsData, isLoading: loadingAllItems } = useListApps(
-    { limit: 500 } as any,
-    { query: { enabled: activeCollection === "all" && isCollectionModeEarly } } as any
+    { limit: 500 } as any
   );
 
   const { data: listAppsData, isLoading: loadingList } = useListApps({ ...params, limit: 500 } as any);
@@ -69,6 +68,15 @@ export function Apps() {
 
   const { data: categories } = useListCategories();
   const appCategories = categories?.filter((c: any) => c.type !== "game");
+
+  // Live count map from fetched data (apps only, by categorySlug)
+  const liveCounts = allItemsData
+    ? allItemsData.reduce<Record<string, number>>((acc, app) => {
+        const slug = (app as any).categorySlug;
+        if (slug && !slug.endsWith("-games")) acc[slug] = (acc[slug] || 0) + 1;
+        return acc;
+      }, {})
+    : null;
 
   const clearFilters = () => { setParams({ appType: "app" }); setSearchInput(""); };
 
@@ -166,15 +174,18 @@ export function Apps() {
             {/* Inline category panel */}
             {showCategoryPanel && (
               <div className="mt-4 ml-16 flex flex-wrap gap-2">
-                {appCategories?.map(cat => (
-                  <button
-                    key={cat.id}
-                    onClick={() => { setParams(p => ({ ...p, category: cat.slug, featured: undefined, trending: undefined })); setShowCategoryPanel(false); }}
-                    className="px-3 py-1.5 rounded-xl text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-primary hover:text-primary transition-colors"
-                  >
-                    {cat.name} <span className="text-gray-400 text-xs ml-1">{cat.appCount}</span>
-                  </button>
-                ))}
+                {appCategories?.map(cat => {
+                  const count = liveCounts ? (liveCounts[cat.slug] ?? 0) : cat.appCount;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => { setParams(p => ({ ...p, category: cat.slug, featured: undefined, trending: undefined, isNew: undefined })); setShowCategoryPanel(false); }}
+                      className="px-3 py-1.5 rounded-xl text-sm font-medium bg-white border border-gray-200 text-gray-700 hover:border-primary hover:text-primary transition-colors"
+                    >
+                      {cat.name} <span className="text-gray-400 text-xs ml-1">{count}</span>
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
