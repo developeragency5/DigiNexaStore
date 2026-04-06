@@ -215,6 +215,12 @@ export function AppDetail() {
                       className="bg-gray-900 text-white hover:bg-gray-800"
                     />
                   )}
+                  {!playStoreUrl(app.playStoreUrl) && !appStoreUrl(app.appStoreUrl) && (
+                    <span className="self-center inline-flex items-center gap-2 text-sm font-semibold text-gray-400 bg-gray-100 px-4 py-2.5 rounded-2xl border border-gray-200">
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                      Coming Soon
+                    </span>
+                  )}
                   {app.isFree && (
                     <span className="self-center inline-flex items-center gap-1.5 text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-2xl">
                       <CheckCircle2 className="h-4 w-4" /> Free to Download
