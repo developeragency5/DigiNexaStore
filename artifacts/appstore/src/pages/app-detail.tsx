@@ -5,8 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AppCard } from "@/components/app-card";
 import {
   Star, Download, Share2, ChevronLeft, Globe, Shield,
-  Smartphone, ChevronRight, ChevronLeft as ChevronLeftIcon,
-  CheckCircle2, Zap, Users, Award
+  Smartphone, ChevronRight, CheckCircle2, Zap, Award, Link2
 } from "lucide-react";
 
 function StarRating({ rating }: { rating: number }) {
@@ -47,8 +46,8 @@ function DownloadButton({ href, icon, topLabel, bottomLabel, className }: {
 export function AppDetail() {
   const { id } = useParams();
   const appId = id ? parseInt(id, 10) : 0;
-  const [screenshotIndex, setScreenshotIndex] = useState(0);
   const [screenshotModal, setScreenshotModal] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const { data: app, isLoading } = useGetApp(appId, {
     query: { enabled: !!appId, queryKey: getGetAppQueryKey(appId) }
@@ -60,6 +59,28 @@ export function AppDetail() {
   );
 
   const similarApps = relatedApps?.filter(a => a.id !== app?.id).slice(0, 8) || [];
+
+  async function handleShare() {
+    const url = window.location.href;
+    const title = app?.name ?? "Check out this app";
+    const text = `${title} — discover it on AppVault`;
+    if (navigator.share) {
+      try { await navigator.share({ title, text, url }); return; } catch {}
+    }
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  }
+
+  function playStoreUrl(name: string, storedUrl?: string | null) {
+    if (storedUrl && storedUrl.includes("play.google.com/store/apps")) return storedUrl;
+    return `https://play.google.com/store/search?q=${encodeURIComponent(name)}&c=apps`;
+  }
+
+  function appStoreUrl(name: string, storedUrl?: string | null) {
+    if (storedUrl && storedUrl.includes("apps.apple.com") && storedUrl.length > 30) return storedUrl;
+    return `https://apps.apple.com/search?term=${encodeURIComponent(name)}`;
+  }
 
   if (isLoading) {
     return (
@@ -148,9 +169,20 @@ export function AppDetail() {
                     <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 leading-tight">{app.name}</h1>
                     <p className="text-base text-gray-500 mt-0.5 font-medium">{app.developer}</p>
                   </div>
-                  <button className="shrink-0 p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-500">
-                    <Share2 className="h-4 w-4" />
-                  </button>
+                  <div className="relative">
+                    <button
+                      onClick={handleShare}
+                      className="shrink-0 p-2.5 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors text-gray-500"
+                      title="Share this app"
+                    >
+                      {copied ? <Link2 className="h-4 w-4 text-primary" /> : <Share2 className="h-4 w-4" />}
+                    </button>
+                    {copied && (
+                      <span className="absolute -bottom-8 right-0 whitespace-nowrap text-xs font-semibold bg-gray-900 text-white px-2.5 py-1 rounded-full shadow-lg">
+                        Link copied!
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Stats row */}
@@ -174,14 +206,14 @@ export function AppDetail() {
                 {/* Download buttons */}
                 <div className="flex flex-wrap gap-3">
                   <DownloadButton
-                    href={app.playStoreUrl || undefined}
+                    href={playStoreUrl(app.name, app.playStoreUrl)}
                     icon={<svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.33.19.7.24 1.07.14l12.12-6.98-2.76-2.77-10.43 9.61zm16.7-10.28L16.96 12l2.92-1.48-10.52-6.06L4.25.24C3.88.14 3.51.19 3.18.38L13.62 10.8l6.26-7.37z"/></svg>}
                     topLabel="Get it on"
                     bottomLabel="Google Play"
                     className="bg-gray-900 text-white hover:bg-gray-800"
                   />
                   <DownloadButton
-                    href={app.appStoreUrl || undefined}
+                    href={appStoreUrl(app.name, app.appStoreUrl)}
                     icon={<svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>}
                     topLabel="Download on the"
                     bottomLabel="App Store"
