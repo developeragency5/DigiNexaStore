@@ -1,5 +1,5 @@
 import { App } from "@workspace/api-client-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Star } from "lucide-react";
 
 interface AppCardProps {
@@ -26,6 +26,18 @@ function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md
   );
 }
 
+function GetButton({ app, className }: { app: App; className: string }) {
+  const [, navigate] = useLocation();
+  return (
+    <button
+      onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate(`/apps/${app.id}`); }}
+      className={className}
+    >
+      {app.isFree ? "Get" : `$${app.price}`}
+    </button>
+  );
+}
+
 export function AppCard({ app, variant = "default" }: AppCardProps) {
   if (variant === "hero") {
     return (
@@ -45,12 +57,10 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
               <span className="font-medium text-gray-700">{app.rating.toFixed(1)}</span>
             </div>
           </div>
-          <button
-            onClick={(e) => { e.preventDefault(); window.open(app.appStoreUrl || app.playStoreUrl || "#", "_blank"); }}
+          <GetButton
+            app={app}
             className="w-full py-1.5 bg-primary/10 hover:bg-primary text-primary hover:text-white text-xs font-semibold rounded-full transition-all duration-200"
-          >
-            {app.isFree ? "Get" : `$${app.price}`}
-          </button>
+          />
         </div>
       </Link>
     );
@@ -70,12 +80,10 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
           <p className="text-xs text-gray-500 line-clamp-1">{app.categoryName}</p>
           <StarRating rating={app.rating} />
         </div>
-        <button
-          onClick={(e) => e.stopPropagation()}
+        <GetButton
+          app={app}
           className="flex-shrink-0 px-4 py-1.5 bg-gray-100 hover:bg-primary hover:text-white text-gray-700 text-xs font-semibold rounded-full transition-all duration-200"
-        >
-          {app.isFree ? "Free" : `$${app.price}`}
-        </button>
+        />
       </Link>
     );
   }
@@ -102,9 +110,10 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
               <StarRating rating={app.rating} />
               <span className="text-xs font-medium text-gray-600">{app.rating.toFixed(1)}</span>
             </div>
-            <button className="mt-3 w-full py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
-              {app.isFree ? "Get Free" : `Buy $${app.price}`}
-            </button>
+            <GetButton
+              app={app}
+              className="mt-3 w-full py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors"
+            />
           </div>
         </div>
       </Link>
@@ -129,12 +138,10 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
           </div>
         </div>
         <div className="flex-shrink-0 text-right space-y-1.5">
-          <button
-            onClick={(e) => e.stopPropagation()}
+          <GetButton
+            app={app}
             className="block px-5 py-1.5 bg-gray-100 hover:bg-primary hover:text-white text-gray-700 text-sm font-semibold rounded-full transition-all duration-200"
-          >
-            {app.isFree ? "Get" : `$${app.price}`}
-          </button>
+          />
           <p className="text-[10px] text-gray-400">{app.categoryName}</p>
         </div>
       </div>
