@@ -13,6 +13,9 @@ import { CategoryDetail } from "@/pages/category-detail";
 import { About } from "@/pages/about";
 import { Blog } from "@/pages/blog";
 import { Contact } from "@/pages/contact";
+import { PrivacyPolicy } from "@/pages/privacy-policy";
+import { TermsOfService } from "@/pages/terms-of-service";
+import { CookiePolicy } from "@/pages/cookie-policy";
 import { MainLayout } from "@/components/layout/main-layout";
 
 const queryClient = new QueryClient({
@@ -37,6 +40,9 @@ function Router() {
         <Route path="/about" component={About} />
         <Route path="/blog" component={Blog} />
         <Route path="/contact" component={Contact} />
+        <Route path="/privacy-policy" component={PrivacyPolicy} />
+        <Route path="/terms-of-service" component={TermsOfService} />
+        <Route path="/cookie-policy" component={CookiePolicy} />
         <Route component={NotFound} />
       </Switch>
     </MainLayout>

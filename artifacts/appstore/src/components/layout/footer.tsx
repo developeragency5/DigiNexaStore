@@ -71,9 +71,9 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm">© {new Date().getFullYear()} AppVault. All rights reserved.</p>
           <div className="flex items-center gap-6 text-xs">
-            {["Privacy Policy", "Terms of Service", "Cookie Policy", "Sitemap"].map(item => (
-              <a key={item} href="#" className="hover:text-white transition-colors">{item}</a>
-            ))}
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/cookie-policy" className="hover:text-white transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>
