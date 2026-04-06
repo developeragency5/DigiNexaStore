@@ -169,12 +169,68 @@ export function Apps() {
           </div>
         </div>
 
-        {/* Full-width grid */}
+        {/* Full-width content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          {!isLoading && apps && (
-            <p className="text-sm text-gray-400 mb-5">{apps.length} {isGames ? "games" : "apps"} found</p>
+          {activeCollection === "all" && !isLoading && apps ? (
+            /* Category-grouped view */
+            (() => {
+              const grouped: Record<string, { name: string; slug: string; items: typeof apps }> = {};
+              apps.forEach(app => {
+                const slug = (app as any).categorySlug || "other";
+                const name = (app as any).categoryName || "Other";
+                if (!grouped[slug]) grouped[slug] = { name, slug, items: [] };
+                grouped[slug].items.push(app);
+              });
+              const sections = Object.values(grouped).sort((a, b) => a.name.localeCompare(b.name));
+              return (
+                <div className="space-y-12">
+                  <p className="text-sm text-gray-400">{apps.length} apps across {sections.length} categories</p>
+                  {sections.map(section => (
+                    <div key={section.slug}>
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h2 className="text-lg font-bold text-gray-900">{section.name}</h2>
+                          <p className="text-xs text-gray-400 mt-0.5">{section.items.length} apps</p>
+                        </div>
+                        <button
+                          onClick={() => setParams(p => ({ ...p, category: section.slug, featured: undefined, trending: undefined, isNew: undefined }))}
+                          className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
+                        >
+                          See all →
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {section.items.map(app => <AppCard key={app.id} app={app} />)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()
+          ) : (
+            /* Flat grid for Featured / Trending / Latest / Games */
+            <>
+              {!isLoading && apps && (
+                <p className="text-sm text-gray-400 mb-5">{apps.length} {isGames ? "games" : "apps"} found</p>
+              )}
+              {isLoading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-[88px] rounded-2xl" />)}
+                </div>
+              ) : apps?.length === 0 ? (
+                <div className="text-center py-24 bg-white rounded-2xl border border-gray-100">
+                  <Search className="h-10 w-10 text-gray-200 mx-auto mb-4" />
+                  <h3 className="text-base font-bold text-gray-900">No results found</h3>
+                  <p className="text-gray-400 text-sm mt-1.5 max-w-xs mx-auto">Try a different filter.</p>
+                  <button onClick={clearFilters} className="mt-5 px-5 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">Clear Filters</button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {apps?.map(app => <AppCard key={app.id} app={app} />)}
+                </div>
+              )}
+            </>
           )}
-          <AppGrid cols={4} />
         </div>
       </div>
     );
