@@ -89,9 +89,9 @@ export function Home() {
           {/* Platform Feature Badges */}
           <div className="flex flex-wrap justify-center gap-3 mt-2">
             {[
-              { icon: Download,   label: "227 Curated Apps",    color: "text-primary",    bg: "bg-primary/8"  },
-              { icon: Gamepad2,   label: "260 Mobile Games",    color: "text-violet-600", bg: "bg-violet-50"  },
-              { icon: Sparkles,   label: "18 Categories",       color: "text-blue-600",   bg: "bg-blue-50"    },
+              { icon: Download,   label: "Curated Apps",         color: "text-primary",    bg: "bg-primary/8"  },
+              { icon: Gamepad2,   label: "Mobile Games",        color: "text-violet-600", bg: "bg-violet-50"  },
+              { icon: Sparkles,   label: "Browse by Category",  color: "text-blue-600",   bg: "bg-blue-50"    },
               { icon: Smartphone, label: "iOS & Android",       color: "text-amber-600",  bg: "bg-amber-50"   },
               { icon: Star,       label: "Free to Explore",     color: "text-rose-500",   bg: "bg-rose-50"    },
             ].map(({ icon: Icon, label, color, bg }) => (
