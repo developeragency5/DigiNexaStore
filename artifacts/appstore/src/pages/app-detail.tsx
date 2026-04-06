@@ -72,7 +72,7 @@ export function AppDetail() {
   }
 
   function playStoreUrl(storedUrl?: string | null): string | null {
-    if (storedUrl && storedUrl.includes("play.google.com/store/apps/details?id=")) return storedUrl;
+    if (storedUrl && storedUrl.includes("play.google.com/") && storedUrl.length > 30) return storedUrl;
     return null;
   }
 
