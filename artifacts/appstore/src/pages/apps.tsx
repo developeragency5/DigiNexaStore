@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { useListApps, useListCategories, ListAppsParams } from "@workspace/api-client-react";
+import { useListApps, useListCategories, useGetNewApps, ListAppsParams } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -16,6 +16,7 @@ function parseParams(search: string) {
     platform: (sp.get("platform") as any) || undefined,
     featured: sp.get("featured") === "true" ? true : undefined,
     trending: sp.get("trending") === "true" ? true : undefined,
+    isNew: sp.get("new") === "true" ? true : undefined,
     appType: sp.get("appType") || "app",
   };
 }
@@ -37,7 +38,14 @@ export function Apps() {
   const [searchInput, setSearchInput] = useState(params.search || "");
   const [showCategoryPanel, setShowCategoryPanel] = useState(false);
 
-  const { data: apps, isLoading } = useListApps({ ...params, limit: 500 } as any);
+  const { data: listAppsData, isLoading: loadingList } = useListApps({ ...params, limit: 500 } as any);
+  const { data: newAppsData, isLoading: loadingNew } = useGetNewApps(
+    { appType: "app", limit: 500 } as any,
+    { enabled: !!(params as any).isNew }
+  );
+  const apps = (params as any).isNew ? newAppsData : listAppsData;
+  const isLoading = (params as any).isNew ? loadingNew : loadingList;
+
   const { data: categories } = useListCategories();
   const appCategories = categories?.filter((c: any) => c.type !== "game");
 
@@ -46,6 +54,7 @@ export function Apps() {
   const activeCollection =
     params.featured ? "featured" :
     params.trending ? "trending" :
+    (params as any).isNew ? "new" :
     "all";
 
   const setCollection = (key: string) => {
@@ -53,6 +62,7 @@ export function Apps() {
       ...p,
       featured: key === "featured" ? true : undefined,
       trending: key === "trending" ? true : undefined,
+      isNew: key === "new" ? true : undefined,
       category: undefined,
       search: undefined,
     }));
