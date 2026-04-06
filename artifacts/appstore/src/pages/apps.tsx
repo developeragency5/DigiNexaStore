@@ -402,16 +402,22 @@ export function Apps() {
                   >
                     ← All Collections
                   </button>
-                  {appCategories?.map(cat => (
-                    <button
-                      key={cat.id}
-                      onClick={() => setParams(p => ({ ...p, category: cat.slug }))}
-                      className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-colors flex items-center justify-between ${params.category === cat.slug ? "bg-primary/10 text-primary font-medium" : "text-gray-600 hover:bg-gray-50"}`}
-                    >
-                      <span>{cat.name}</span>
-                      <span className="text-xs text-gray-400">{cat.appCount}</span>
-                    </button>
-                  ))}
+                  {appCategories?.map(cat => {
+                    const count = liveCounts ? (liveCounts[cat.slug] ?? 0) : cat.appCount;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => {
+                          setParams(p => ({ ...p, category: cat.slug, search: undefined, featured: undefined, trending: undefined, isNew: undefined }));
+                          setSearchInput("");
+                        }}
+                        className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-colors flex items-center justify-between ${params.category === cat.slug ? "bg-primary/10 text-primary font-medium" : "text-gray-600 hover:bg-gray-50"}`}
+                      >
+                        <span>{cat.name}</span>
+                        <span className="text-xs text-gray-400">{count}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
