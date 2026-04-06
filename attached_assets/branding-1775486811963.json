@@ -1,0 +1,142 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "SFProDisplay",
+      "role": "body"
+    }
+  ],
+  "colors": {
+    "primary": "#3E8BDB",
+    "secondary": "#1558D6",
+    "accent": "#00A173",
+    "background": "#FFFFFF",
+    "textPrimary": "#5E6366",
+    "link": "#00A173"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "SFProDisplay",
+      "heading": "SFProDisplay"
+    },
+    "fontStacks": {
+      "heading": [
+        "SFProDisplay",
+        "sans-serif"
+      ],
+      "body": [
+        "SFProDisplay",
+        "sans-serif"
+      ],
+      "paragraph": [
+        "SFProDisplay",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "14px",
+      "h2": "14px",
+      "body": "12px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "8px"
+  },
+  "components": {
+    "input": {
+      "background": "#F7F8F8",
+      "textColor": "#5E6366",
+      "borderColor": "#E3E3E3",
+      "borderRadius": "9999px",
+      "borderRadiusCorners": {
+        "topLeft": "9999px",
+        "topRight": "9999px",
+        "bottomRight": "9999px",
+        "bottomLeft": "9999px"
+      },
+      "shadow": "none"
+    },
+    "buttonPrimary": {
+      "background": "#FFFFFF",
+      "textColor": "#000000",
+      "borderRadius": "8px",
+      "borderRadiusCorners": {
+        "topLeft": "8px",
+        "topRight": "8px",
+        "bottomRight": "8px",
+        "bottomLeft": "8px"
+      },
+      "shadow": "none"
+    },
+    "buttonSecondary": {
+      "background": "transparent",
+      "textColor": "#72777C",
+      "borderColor": "#E3E3E3",
+      "borderRadius": "12px",
+      "borderRadiusCorners": {
+        "topLeft": "12px",
+        "topRight": "12px",
+        "bottomRight": "12px",
+        "bottomLeft": "12px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "logo": "https://us.appinme.com/public/static/images/logo.svg",
+    "favicon": "https://us.appinme.com/public/static/images/favicon.svg",
+    "ogImage": null,
+    "logoHref": "https://us.appinme.com/",
+    "logoAlt": "Appinme logo"
+  },
+  "__llm_logo_reasoning": {
+    "selectedIndex": 0,
+    "reasoning": "Selected #0 because it is visible, located in the header, matches the brand name 'Appinme', and links to the homepage.",
+    "confidence": 0.95,
+    "source": "llm"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 0,
+      "text": "Get",
+      "reasoning": "Button #1 ('Get') is likely the primary CTA due to its action-oriented text and placement, despite its white background. It stands out more than the category buttons."
+    },
+    "secondary": {
+      "index": 1,
+      "text": "Communication",
+      "reasoning": "Button #2 ('Communication') is selected as secondary due to its transparent background and less prominent role compared to the primary CTA."
+    },
+    "confidence": 0.85
+  },
+  "personality": {
+    "tone": "modern",
+    "energy": "medium",
+    "targetAudience": "tech-savvy users looking for apps"
+  },
+  "designSystem": {
+    "framework": "tailwind",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.85,
+    "colors": 0.9,
+    "overall": 0.875
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": 0,
+        "selectedLogoReasoning": "Selected #0 because it is visible, located in the header, matches the brand name 'Appinme', and links to the homepage.",
+        "confidence": 0.95
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}
