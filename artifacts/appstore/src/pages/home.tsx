@@ -36,6 +36,8 @@ export function Home() {
   const [navigate] = useLocation();
   const [email, setEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [subError, setSubError] = useState("");
 
   const { data: featuredApps, isLoading: loadingFeatured } = useGetFeaturedApps();
   const { data: trendingApps, isLoading: loadingTrending } = useGetTrendingApps();
@@ -226,21 +228,70 @@ export function Home() {
         <section className="text-center py-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Stay in the Loop</h2>
           <p className="text-gray-500 mb-6 max-w-md mx-auto text-sm">Get weekly roundups of the best new apps and games delivered straight to your inbox.</p>
-          <form
-            onSubmit={(e) => { e.preventDefault(); setEmail(""); }}
-            className="flex gap-3 max-w-sm mx-auto"
-          >
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 bg-white"
-            />
-            <button type="submit" className="px-5 py-3 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors">
-              Subscribe
-            </button>
-          </form>
+
+          {subStatus === "success" ? (
+            <div className="max-w-sm mx-auto flex flex-col items-center gap-2 py-4 px-6 bg-primary/5 border border-primary/20 rounded-2xl">
+              <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+                <svg className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                </svg>
+              </div>
+              <p className="text-sm font-semibold text-gray-900">You're subscribed!</p>
+              <p className="text-xs text-gray-500">Thanks for signing up. Expect your first roundup soon.</p>
+              <button
+                onClick={() => { setSubStatus("idle"); setEmail(""); }}
+                className="mt-1 text-xs text-primary font-semibold hover:underline"
+              >
+                Subscribe another email
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubError("");
+                const trimmed = email.trim();
+                const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed);
+                if (!trimmed) { setSubError("Please enter your email address."); return; }
+                if (!valid)   { setSubError("Please enter a valid email address."); return; }
+                setSubStatus("loading");
+                setTimeout(() => {
+                  setSubStatus("success");
+                  setEmail("");
+                }, 800);
+              }}
+              className="flex flex-col items-center gap-2 max-w-sm mx-auto"
+            >
+              <div className="flex gap-3 w-full">
+                <input
+                  type="text"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setSubError(""); }}
+                  placeholder="Enter your email"
+                  disabled={subStatus === "loading"}
+                  className={`flex-1 px-4 py-3 border rounded-xl text-sm focus:outline-none focus:ring-2 bg-white transition-colors ${
+                    subError ? "border-red-300 focus:ring-red-200" : "border-gray-200 focus:ring-primary/20"
+                  } disabled:opacity-60`}
+                />
+                <button
+                  type="submit"
+                  disabled={subStatus === "loading"}
+                  className="px-5 py-3 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-70 flex items-center gap-2 shrink-0"
+                >
+                  {subStatus === "loading" ? (
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8h4z" />
+                    </svg>
+                  ) : null}
+                  {subStatus === "loading" ? "Subscribing…" : "Subscribe"}
+                </button>
+              </div>
+              {subError && (
+                <p className="text-xs text-red-500 self-start">{subError}</p>
+              )}
+            </form>
+          )}
         </section>
       </div>
     </div>
