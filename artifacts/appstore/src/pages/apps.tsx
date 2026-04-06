@@ -192,36 +192,88 @@ export function Apps() {
                 if (!grouped[slug]) grouped[slug] = { name, slug, items: [] };
                 grouped[slug].items.push(app);
               });
-              const sections = Object.values(grouped).sort((a, b) => a.name.localeCompare(b.name));
+              const allSections = Object.values(grouped).sort((a, b) => a.name.localeCompare(b.name));
+              const appSections  = allSections.filter(s => !s.slug.endsWith("-games"));
+              const gameSections = allSections.filter(s =>  s.slug.endsWith("-games"));
+              const totalGames   = gameSections.reduce((n, s) => n + s.items.length, 0);
+
+              const SeeAllBtn = ({ slug, isGame }: { slug: string; isGame: boolean }) => (
+                <button
+                  onClick={() => setParams(p => ({
+                    ...p,
+                    category: slug,
+                    appType: isGame ? "game" : "app",
+                    featured: undefined, trending: undefined, isNew: undefined,
+                  }))}
+                  className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors shrink-0"
+                >
+                  See all →
+                </button>
+              );
+
               return (
                 <div className="space-y-12">
-                  <p className="text-sm text-gray-400">{apps.length} apps & games across {sections.length} categories</p>
-                  {sections.map(section => (
+                  <p className="text-sm text-gray-400">
+                    {apps.length} apps & games — {apps.length - totalGames} apps across {appSections.length} categories · {totalGames} games across {gameSections.length} genres
+                  </p>
+
+                  {/* App category sections */}
+                  {appSections.map(section => (
                     <div key={section.slug}>
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h2 className="text-lg font-bold text-gray-900">{section.name}</h2>
                           <p className="text-xs text-gray-400 mt-0.5">{section.items.length} apps</p>
                         </div>
-                        <button
-                          onClick={() => setParams(p => ({
-                            ...p,
-                            category: section.slug,
-                            appType: section.slug.endsWith("-games") ? "game" : "app",
-                            featured: undefined,
-                            trending: undefined,
-                            isNew: undefined,
-                          }))}
-                          className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
-                        >
-                          See all →
-                        </button>
+                        <SeeAllBtn slug={section.slug} isGame={false} />
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {section.items.map(app => <AppCard key={app.id} app={app} />)}
                       </div>
                     </div>
                   ))}
+
+                  {/* Games parent section with genre subsections */}
+                  {gameSections.length > 0 && (
+                    <div>
+                      {/* Games header */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div>
+                          <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
+                            <Gamepad2 className="h-5 w-5 text-violet-600" /> Games
+                          </h2>
+                          <p className="text-xs text-gray-400 mt-0.5">{totalGames} games across {gameSections.length} genres</p>
+                        </div>
+                        <button
+                          onClick={() => setCollection("games")}
+                          className="text-sm font-semibold text-violet-600 hover:text-violet-500 transition-colors"
+                        >
+                          Browse all games →
+                        </button>
+                      </div>
+
+                      {/* Genre subsections */}
+                      <div className="space-y-10 pl-4 border-l-2 border-violet-100">
+                        {gameSections.map(section => {
+                          const genreName = section.name.replace(/ Games$/i, "");
+                          return (
+                            <div key={section.slug}>
+                              <div className="flex items-center justify-between mb-3">
+                                <div>
+                                  <h3 className="text-base font-bold text-gray-800">{genreName}</h3>
+                                  <p className="text-xs text-gray-400 mt-0.5">{section.items.length} games</p>
+                                </div>
+                                <SeeAllBtn slug={section.slug} isGame={true} />
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                {section.items.map(app => <AppCard key={app.id} app={app} />)}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })()
