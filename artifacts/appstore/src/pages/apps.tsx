@@ -41,25 +41,36 @@ export function Apps() {
 
   const isGames = (params as any).appType === "game";
 
-  const { data: listAppsData, isLoading: loadingList } = useListApps({ ...params, limit: 500 } as any);
-  const { data: newAppsData, isLoading: loadingNew } = useGetNewApps(
-    { appType: "app", limit: 500 } as any,
-    { enabled: !!(params as any).isNew }
-  );
-  const apps = (params as any).isNew ? newAppsData : listAppsData;
-  const isLoading = (params as any).isNew ? loadingNew : loadingList;
-
-  const { data: categories } = useListCategories();
-  const appCategories = categories?.filter((c: any) => c.type !== "game");
-
-  const clearFilters = () => { setParams({ appType: "app" }); setSearchInput(""); };
-
+  // Compute early so they can drive hook `enabled` flags
   const activeCollection =
     isGames ? "games" :
     params.featured ? "featured" :
     params.trending ? "trending" :
     (params as any).isNew ? "new" :
     "all";
+
+  const isCollectionModeEarly = !params.category && !params.search;
+
+  // Fetch ALL items (apps + games, no appType filter) only for the "All Apps" grouped view
+  const { data: allItemsData, isLoading: loadingAllItems } = useListApps(
+    { limit: 500 } as any,
+    { query: { enabled: activeCollection === "all" && isCollectionModeEarly } } as any
+  );
+
+  const { data: listAppsData, isLoading: loadingList } = useListApps({ ...params, limit: 500 } as any);
+  const { data: newAppsData, isLoading: loadingNew } = useGetNewApps(
+    { appType: "app", limit: 500 } as any,
+    { enabled: !!(params as any).isNew }
+  );
+
+  const isAllAppsMode = activeCollection === "all" && isCollectionModeEarly;
+  const apps = isAllAppsMode ? allItemsData : (params as any).isNew ? newAppsData : listAppsData;
+  const isLoading = isAllAppsMode ? loadingAllItems : (params as any).isNew ? loadingNew : loadingList;
+
+  const { data: categories } = useListCategories();
+  const appCategories = categories?.filter((c: any) => c.type !== "game");
+
+  const clearFilters = () => { setParams({ appType: "app" }); setSearchInput(""); };
 
   const setCollection = (key: string) => {
     setParams(p => ({
@@ -77,7 +88,7 @@ export function Apps() {
   const activeCol = collections.find(c => c.key === activeCollection) ?? collections[0];
 
   // Collection mode: no category/search active → games-style full-width layout
-  const isCollectionMode = !params.category && !params.search;
+  const isCollectionMode = isCollectionModeEarly;
 
   const pageTitle =
     params.search ? `Results for "${params.search}"` :
@@ -184,7 +195,7 @@ export function Apps() {
               const sections = Object.values(grouped).sort((a, b) => a.name.localeCompare(b.name));
               return (
                 <div className="space-y-12">
-                  <p className="text-sm text-gray-400">{apps.length} apps across {sections.length} categories</p>
+                  <p className="text-sm text-gray-400">{apps.length} apps & games across {sections.length} categories</p>
                   {sections.map(section => (
                     <div key={section.slug}>
                       <div className="flex items-center justify-between mb-4">
@@ -193,7 +204,14 @@ export function Apps() {
                           <p className="text-xs text-gray-400 mt-0.5">{section.items.length} apps</p>
                         </div>
                         <button
-                          onClick={() => setParams(p => ({ ...p, category: section.slug, featured: undefined, trending: undefined, isNew: undefined }))}
+                          onClick={() => setParams(p => ({
+                            ...p,
+                            category: section.slug,
+                            appType: section.slug.endsWith("-games") ? "game" : "app",
+                            featured: undefined,
+                            trending: undefined,
+                            isNew: undefined,
+                          }))}
                           className="text-sm font-semibold text-primary hover:text-primary/80 transition-colors"
                         >
                           See all →
