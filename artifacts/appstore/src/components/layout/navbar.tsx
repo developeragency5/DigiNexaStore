@@ -77,9 +77,15 @@ export function Navbar() {
               onClick={() => navigate("/")}
               className="flex items-center gap-2 shrink-0 group cursor-pointer"
             >
-              <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Smartphone className="h-4 w-4 text-white" />
-              </div>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="group-hover:scale-105 transition-transform shrink-0">
+                <rect width="32" height="32" rx="8" fill="#16A34A"/>
+                {/* Bowl — full circle, stroke only */}
+                <circle cx="13.5" cy="16.5" r="6.5" stroke="white" strokeWidth="2.6" fill="none"/>
+                {/* Stem — vertical, right edge of bowl */}
+                <line x1="20" y1="10" x2="20" y2="24" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
+                {/* Ear — horizontal tick connecting stem top to bowl */}
+                <line x1="14" y1="10" x2="20" y2="10" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
+              </svg>
               <span className="font-bold text-xl tracking-tight text-gray-900 group-hover:text-primary transition-colors">app<span className="text-primary">us</span></span>
             </button>
 

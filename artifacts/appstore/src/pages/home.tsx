@@ -69,9 +69,15 @@ export function Home() {
 
           {/* Logo / Brand */}
           <div className="flex items-center justify-center gap-3 mb-8">
-            <div className="h-12 w-12 bg-primary rounded-2xl flex items-center justify-center shadow-md shadow-primary/25">
-              <Smartphone className="h-6 w-6 text-white" />
-            </div>
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+              <rect width="52" height="52" rx="13" fill="#16A34A"/>
+              {/* Bowl — full circle, stroke only */}
+              <circle cx="22" cy="27" r="10.5" stroke="white" strokeWidth="4.2" fill="none"/>
+              {/* Stem — vertical, right edge of bowl */}
+              <line x1="32.5" y1="16.5" x2="32.5" y2="39" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
+              {/* Ear — horizontal tick connecting stem top to bowl */}
+              <line x1="22.5" y1="16.5" x2="32.5" y2="16.5" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
+            </svg>
             <span className="text-4xl font-extrabold tracking-tight text-gray-900">
               app<span className="text-primary">us</span>
             </span>
