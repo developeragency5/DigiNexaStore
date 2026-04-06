@@ -28,18 +28,17 @@ function DownloadButton({ href, icon, topLabel, bottomLabel, className }: {
   href?: string; icon: React.ReactNode; topLabel: string; bottomLabel: string; className: string;
 }) {
   return (
-    <a
-      href={href || "#"}
-      target={href ? "_blank" : undefined}
-      rel="noreferrer"
-      className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-sm ${className}`}
+    <button
+      type="button"
+      onClick={() => { if (href) window.open(href, "_blank", "noopener,noreferrer"); }}
+      className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer ${className}`}
     >
       {icon}
       <div className="text-left leading-none">
         <div className="text-[10px] uppercase tracking-widest opacity-75 mb-0.5">{topLabel}</div>
         <div className="text-base font-bold">{bottomLabel}</div>
       </div>
-    </a>
+    </button>
   );
 }
 
