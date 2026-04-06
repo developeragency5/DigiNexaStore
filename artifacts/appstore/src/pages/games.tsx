@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useGetPopularGames, useListApps } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,7 +30,6 @@ function SectionHeader({ icon, title, subtitle }: { icon: React.ReactNode; title
 }
 
 export function Games() {
-  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const { data: popularGames, isLoading: loadingPopular } = useGetPopularGames({ limit: 8 });
   const { data: allGames, isLoading: loadingAll } = useListApps({ appType: "game", limit: 20 } as any);
 
@@ -54,22 +52,6 @@ export function Games() {
             The best action, puzzle, strategy, and casual games for iOS and Android — curated and ranked.
           </p>
 
-          {/* Genre quick-filter chips */}
-          <div className="flex flex-wrap gap-2 mt-6 ml-16">
-            <button
-              onClick={() => setSelectedGenre(null)}
-              className={`px-3.5 py-1.5 rounded-full text-sm font-semibold border transition-all ${!selectedGenre ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"}`}
-            >
-              All Genres
-            </button>
-            {genres.map(g => (
-              <Link key={g.slug} href={`/categories/${g.slug}`}>
-                <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold border transition-all bg-white text-gray-600 border-gray-200 hover:border-gray-300 cursor-pointer`}>
-                  {g.emoji} {g.name}
-                </span>
-              </Link>
-            ))}
-          </div>
         </div>
       </div>
 
