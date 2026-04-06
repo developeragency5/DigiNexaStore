@@ -397,7 +397,7 @@ export function Apps() {
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Category</p>
                 <div className="space-y-0.5 max-h-80 overflow-y-auto pr-1">
                   <button
-                    onClick={() => setParams(p => ({ ...p, category: undefined }))}
+                    onClick={() => { setParams({ appType: "app" }); setSearchInput(""); }}
                     className="w-full text-left px-3 py-2 rounded-xl text-sm transition-colors font-medium text-gray-600 hover:bg-gray-50"
                   >
                     ← All Collections
