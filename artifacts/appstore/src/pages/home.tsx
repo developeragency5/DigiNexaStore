@@ -202,30 +202,6 @@ export function Home() {
           )}
         </section>
 
-        {/* ── Browse All ── */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            { href: "/apps", icon: Smartphone, label: "All Apps", sub: "205 curated apps", color: "text-primary", bg: "bg-primary", light: "bg-primary/5 border-primary/15" },
-            { href: "/games", icon: Gamepad2, label: "All Games", sub: "95 mobile games", color: "text-violet-600", bg: "bg-violet-600", light: "bg-violet-50 border-violet-100" },
-            { href: "/apps?new=true", icon: Zap, label: "Latest Additions", sub: "Newest apps & games", color: "text-blue-600", bg: "bg-blue-600", light: "bg-blue-50 border-blue-100" },
-          ].map(item => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`flex items-center gap-4 p-5 rounded-2xl border ${item.light} hover:opacity-80 transition-opacity group`}
-            >
-              <div className={`h-11 w-11 ${item.bg} rounded-xl flex items-center justify-center shrink-0`}>
-                <item.icon className="h-5 w-5 text-white" />
-              </div>
-              <div className="min-w-0">
-                <p className={`font-bold text-base ${item.color}`}>{item.label}</p>
-                <p className="text-sm text-gray-500">{item.sub}</p>
-              </div>
-              <ArrowRight className="h-4 w-4 text-gray-400 group-hover:text-gray-600 ml-auto shrink-0 transition-colors" />
-            </Link>
-          ))}
-        </section>
-
       </div>
     </div>
   );
