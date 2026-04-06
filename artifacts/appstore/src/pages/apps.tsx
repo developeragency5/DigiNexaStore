@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, useSearch } from "wouter";
 import { useListApps, useListCategories, useGetNewApps, ListAppsParams } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 function parseParams(search: string) {
-  const sp = new URLSearchParams(search);
+  const sp = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
   return {
     category: sp.get("category") || undefined,
     search: sp.get("search") || undefined,
@@ -31,10 +31,11 @@ const collections = [
 
 export function Apps() {
   const [location] = useLocation();
+  const search = useSearch();
   const [params, setParams] = useState<ListAppsParams & { appType?: string; trending?: boolean }>(
-    () => parseParams(typeof window !== "undefined" ? window.location.search : "")
+    () => parseParams(search || (typeof window !== "undefined" ? window.location.search : ""))
   );
-  useEffect(() => { setParams(parseParams(window.location.search)); }, [location]);
+  useEffect(() => { setParams(parseParams(search)); }, [search]);
 
   const [searchInput, setSearchInput] = useState(params.search || "");
   const [showCategoryPanel, setShowCategoryPanel] = useState(false);
