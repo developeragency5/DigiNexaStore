@@ -1,4 +1,4 @@
-import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories, useGetStatsSummary } from "@workspace/api-client-react";
+import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { CategoryCard } from "@/components/category-card";
 import { SearchAutocomplete } from "@/components/search-autocomplete";
@@ -57,7 +57,6 @@ export function Home() {
   const { data: newApps, isLoading: loadingNew } = useGetNewApps({ appType: "app" as any, limit: 8 });
   const { data: popularGames, isLoading: loadingGames } = useGetPopularGames();
   const { data: categories, isLoading: loadingCategories } = useListCategories();
-  const { data: stats } = useGetStatsSummary();
 
   const appCategories = categories?.filter(c => (c as any).type !== "game").slice(0, 9);
 
@@ -77,10 +76,6 @@ export function Home() {
               App<span className="text-primary">Vault</span>
             </span>
           </div>
-
-          <p className="text-gray-500 text-base mb-8">
-            Search {stats ? `${(stats as any).total ?? 300}` : "300"}+ hand-picked apps and games for iOS &amp; Android
-          </p>
 
           {/* Main Search Bar */}
           <SearchAutocomplete
@@ -107,21 +102,6 @@ export function Home() {
             ))}
           </div>
 
-          {/* Quick Stats */}
-          <div className="mt-8 flex items-center justify-center gap-6 text-sm text-gray-400 divide-x divide-gray-200">
-            <span className="flex items-center gap-1.5 pr-6">
-              <Smartphone className="h-3.5 w-3.5 text-primary" />
-              {(stats as any)?.appCount ?? 205} Apps
-            </span>
-            <span className="flex items-center gap-1.5 px-6">
-              <Gamepad2 className="h-3.5 w-3.5 text-violet-500" />
-              {(stats as any)?.gameCount ?? 95} Games
-            </span>
-            <span className="flex items-center gap-1.5 pl-6">
-              <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
-              Free to browse
-            </span>
-          </div>
         </div>
       </section>
 
