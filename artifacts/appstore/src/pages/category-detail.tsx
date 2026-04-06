@@ -24,6 +24,9 @@ export function CategoryDetail() {
   const { data: categories } = useListCategories();
   const category = categories?.find(c => c.slug === categorySlug);
   const Icon = category ? (iconMap[category.iconName] || Layers) : Layers;
+  const isGameGenre = categorySlug.endsWith("-games");
+  const backHref = isGameGenre ? "/games" : "/categories";
+  const backLabel = isGameGenre ? "Mobile Gaming Hub" : "All Categories";
 
   const { data: apps, isLoading } = useGetAppsByCategory(categorySlug, undefined, {
     query: {
@@ -37,8 +40,8 @@ export function CategoryDetail() {
       {/* Category Header */}
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <Link href="/categories" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors">
-            <ChevronLeft className="h-4 w-4" /> All Categories
+          <Link href={backHref} className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900 mb-6 transition-colors">
+            <ChevronLeft className="h-4 w-4" /> {backLabel}
           </Link>
           <div className="flex items-start gap-5">
             {category ? (
