@@ -61,40 +61,24 @@ export function Home() {
   const appCategories = categories?.filter(c => (c as any).type !== "game").slice(0, 9);
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-white min-h-screen">
 
       {/* ── Search Engine Hero ── */}
-      <section
-        className="relative border-b border-gray-100 overflow-hidden"
-        style={{
-          background: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(22,163,74,0.10) 0%, rgba(255,255,255,0) 70%), #ffffff",
-        }}
-      >
-        {/* Subtle dot grid */}
-        <svg
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 w-full h-full opacity-[0.03]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern id="dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.5" fill="#16A34A"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#dots)"/>
-        </svg>
+      <section className="relative border-b border-green-100 overflow-hidden bg-gradient-to-b from-green-50 via-green-50/60 to-white">
 
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-12 text-center">
+        {/* Decorative blurred blobs */}
+        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-green-200 opacity-25 blur-[80px]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full bg-emerald-200 opacity-20 blur-[80px]" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full bg-green-100 opacity-30 blur-[60px]" />
+
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-14 text-center">
 
           {/* Logo / Brand */}
           <div className="flex items-center justify-center gap-3 mb-3">
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
               <rect width="52" height="52" rx="13" fill="#16A34A"/>
-              {/* Bowl — full circle, stroke only */}
               <circle cx="22" cy="27" r="10.5" stroke="white" strokeWidth="4.2" fill="none"/>
-              {/* Stem — vertical, right edge of bowl */}
               <line x1="32.5" y1="16.5" x2="32.5" y2="39" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
-              {/* Ear — horizontal tick connecting stem top to bowl */}
               <line x1="22.5" y1="16.5" x2="32.5" y2="16.5" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
             </svg>
             <span className="text-4xl font-extrabold tracking-tight text-gray-900">
@@ -103,7 +87,7 @@ export function Home() {
           </div>
 
           {/* Tagline */}
-          <p className="text-sm text-gray-400 font-medium tracking-wide mb-8">
+          <p className="text-sm text-gray-500 font-medium tracking-wide mb-8">
             Discover &amp; compare the best apps and games
           </p>
 

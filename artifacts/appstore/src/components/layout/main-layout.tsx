@@ -25,7 +25,7 @@ export function MainLayout({ children }: MainLayoutProps) {
         </div>
       )}
 
-      <main className="flex-1 pt-[60px]">
+      <main className="flex-1">
         {children}
       </main>
       <Footer />
