@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "wouter";
+import { useLocation } from "wouter";
 import { useListApps, useListCategories, useGetNewApps, ListAppsParams } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -22,11 +22,11 @@ function parseParams(search: string) {
 }
 
 const collections = [
-  { key: "all",      label: "All Apps", icon: Grid3x3,    sub: "Browse every app",       color: "text-primary",    bg: "bg-primary/10",  chipColor: "from-primary/5 to-primary/10",   border: "border-primary/20",  href: undefined },
-  { key: "featured", label: "Featured", icon: Star,        sub: "Editor's top picks",     color: "text-amber-500",  bg: "bg-amber-50",    chipColor: "from-amber-50 to-amber-100/60",  border: "border-amber-100",   href: undefined },
-  { key: "trending", label: "Trending", icon: TrendingUp,  sub: "Most popular right now", color: "text-orange-500", bg: "bg-orange-50",   chipColor: "from-orange-50 to-orange-100/60",border: "border-orange-100",  href: undefined },
-  { key: "new",      label: "Latest",   icon: Zap,         sub: "Fresh additions",        color: "text-blue-500",   bg: "bg-blue-50",     chipColor: "from-blue-50 to-blue-100/60",    border: "border-blue-100",    href: undefined },
-  { key: "games",    label: "Games",    icon: Gamepad2,    sub: "Browse all games",       color: "text-violet-600", bg: "bg-violet-50",   chipColor: "from-violet-50 to-violet-100/60",border: "border-violet-100",  href: "/games"  },
+  { key: "all",      label: "All Apps", icon: Grid3x3,   sub: "Browse every app",       color: "text-primary",    bg: "bg-primary/10",  chipColor: "from-primary/5 to-primary/10",    border: "border-primary/20"  },
+  { key: "featured", label: "Featured", icon: Star,       sub: "Editor's top picks",     color: "text-amber-500",  bg: "bg-amber-50",    chipColor: "from-amber-50 to-amber-100/60",   border: "border-amber-100"   },
+  { key: "trending", label: "Trending", icon: TrendingUp, sub: "Most popular right now", color: "text-orange-500", bg: "bg-orange-50",   chipColor: "from-orange-50 to-orange-100/60", border: "border-orange-100"  },
+  { key: "new",      label: "Latest",   icon: Zap,        sub: "Fresh additions",        color: "text-blue-500",   bg: "bg-blue-50",     chipColor: "from-blue-50 to-blue-100/60",     border: "border-blue-100"    },
+  { key: "games",    label: "Games",    icon: Gamepad2,   sub: "Browse all games",       color: "text-violet-600", bg: "bg-violet-50",   chipColor: "from-violet-50 to-violet-100/60", border: "border-violet-100"  },
 ];
 
 export function Apps() {
@@ -38,6 +38,8 @@ export function Apps() {
 
   const [searchInput, setSearchInput] = useState(params.search || "");
   const [showCategoryPanel, setShowCategoryPanel] = useState(false);
+
+  const isGames = (params as any).appType === "game";
 
   const { data: listAppsData, isLoading: loadingList } = useListApps({ ...params, limit: 500 } as any);
   const { data: newAppsData, isLoading: loadingNew } = useGetNewApps(
@@ -53,6 +55,7 @@ export function Apps() {
   const clearFilters = () => { setParams({ appType: "app" }); setSearchInput(""); };
 
   const activeCollection =
+    isGames ? "games" :
     params.featured ? "featured" :
     params.trending ? "trending" :
     (params as any).isNew ? "new" :
@@ -61,6 +64,7 @@ export function Apps() {
   const setCollection = (key: string) => {
     setParams(p => ({
       ...p,
+      appType: key === "games" ? "game" : "app",
       featured: key === "featured" ? true : undefined,
       trending: key === "trending" ? true : undefined,
       isNew: key === "new" ? true : undefined,
@@ -130,12 +134,7 @@ export function Apps() {
                     ? `bg-gradient-to-b ${col.chipColor} ${col.border} ${col.color}`
                     : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
                 }`;
-                return col.href ? (
-                  <Link key={col.key} href={col.href} className={chipClass}>
-                    <col.icon className={`h-3.5 w-3.5 text-gray-400`} />
-                    {col.label}
-                  </Link>
-                ) : (
+                return (
                   <button key={col.key} onClick={() => setCollection(col.key)} className={chipClass}>
                     <col.icon className={`h-3.5 w-3.5 ${active ? col.color : "text-gray-400"}`} />
                     {col.label}
@@ -173,7 +172,7 @@ export function Apps() {
         {/* Full-width grid */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {!isLoading && apps && (
-            <p className="text-sm text-gray-400 mb-5">{apps.length} apps found</p>
+            <p className="text-sm text-gray-400 mb-5">{apps.length} {isGames ? "games" : "apps"} found</p>
           )}
           <AppGrid cols={4} />
         </div>
