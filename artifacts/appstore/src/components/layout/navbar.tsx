@@ -231,14 +231,6 @@ export function Navbar() {
               </div>
             </nav>
 
-            {/* Desktop Search — always visible */}
-            <div className="hidden md:block ml-auto w-64 lg:w-80">
-              <SearchAutocomplete
-                size="sm"
-                placeholder="Search apps, games..."
-              />
-            </div>
-
             {/* Mobile Controls */}
             <div className="flex md:hidden items-center gap-1 ml-auto">
               <button className="p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors" onClick={() => navigate("/apps")}><Search className="h-5 w-5" /></button>
@@ -253,14 +245,6 @@ export function Navbar() {
         {mobileOpen && (
           <div className="md:hidden border-t border-gray-100 bg-white">
             <div className="max-w-7xl mx-auto px-4 py-4 space-y-0.5">
-              <div className="mb-4">
-                <SearchAutocomplete
-                  size="md"
-                  placeholder="Search apps, games..."
-                  onSearch={(q) => { navigate(`/apps?search=${encodeURIComponent(q)}`); setMobileOpen(false); }}
-                />
-              </div>
-
               <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 pt-2 pb-1">Apps</p>
               {[
                 { href: "/apps", label: "All Apps" },
