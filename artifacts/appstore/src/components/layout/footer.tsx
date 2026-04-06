@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Smartphone, Twitter, Github, Instagram, Linkedin } from "lucide-react";
+import { Smartphone } from "lucide-react";
 
 export function Footer() {
   return (
@@ -16,19 +16,6 @@ export function Footer() {
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
             </p>
-            <div className="flex items-center gap-2.5 pt-1">
-              {[
-                { Icon: Twitter, label: "Twitter" },
-                { Icon: Instagram, label: "Instagram" },
-                { Icon: Linkedin, label: "LinkedIn" },
-                { Icon: Github, label: "GitHub" },
-              ].map(({ Icon, label }) => (
-                <a key={label} href="#" aria-label={label}
-                  className="h-9 w-9 rounded-full border border-gray-700 flex items-center justify-center text-gray-500 hover:text-white hover:border-gray-500 transition-colors">
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
           </div>
 
           <div>

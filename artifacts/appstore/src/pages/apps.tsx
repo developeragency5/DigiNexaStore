@@ -1,26 +1,32 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import { useListApps, useListCategories, ListAppsParams } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, SlidersHorizontal, X, ChevronDown } from "lucide-react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 
-const sortOptions = [
-  { label: "Most Downloaded", value: "downloads" },
-  { label: "Highest Rated", value: "rating" },
-  { label: "Newest First", value: "newest" },
-];
+function parseParams(search: string) {
+  const sp = new URLSearchParams(search);
+  return {
+    category: sp.get("category") || undefined,
+    search: sp.get("search") || undefined,
+    platform: (sp.get("platform") as any) || undefined,
+    featured: sp.get("featured") === "true" ? true : undefined,
+    trending: sp.get("trending") === "true" ? true : undefined,
+    appType: sp.get("appType") || "app",
+  };
+}
 
 export function Apps() {
-  const searchParams = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
+  const [location] = useLocation();
 
-  const [params, setParams] = useState<ListAppsParams & { appType?: string; trending?: boolean }>({
-    category: searchParams.get("category") || undefined,
-    search: searchParams.get("search") || undefined,
-    platform: (searchParams.get("platform") as any) || undefined,
-    featured: searchParams.get("featured") === "true" ? true : undefined,
-    trending: searchParams.get("trending") === "true" ? true : undefined,
-    appType: searchParams.get("appType") || "app",
-  });
+  const [params, setParams] = useState<ListAppsParams & { appType?: string; trending?: boolean }>(
+    () => parseParams(typeof window !== "undefined" ? window.location.search : "")
+  );
+
+  useEffect(() => {
+    setParams(parseParams(window.location.search));
+  }, [location]);
 
   const [searchInput, setSearchInput] = useState(params.search || "");
   const [sidebarOpen, setSidebarOpen] = useState(false);

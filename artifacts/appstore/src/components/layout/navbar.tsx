@@ -4,17 +4,17 @@ import {
   Smartphone, Search, X, Menu, ChevronDown,
   Gamepad2, Grid3x3, Star, TrendingUp, Zap,
   Music, Camera, Briefcase, GraduationCap, HeartPulse,
-  ShoppingBag, MessageCircle, DollarSign, Map, Utensils
+  Tv, MessageCircle, DollarSign, Map, Utensils
 } from "lucide-react";
 
 const appCategoryLinks = [
   { name: "Productivity", slug: "productivity", icon: Briefcase },
   { name: "Health & Fitness", slug: "health-fitness", icon: HeartPulse },
   { name: "Education", slug: "education", icon: GraduationCap },
-  { name: "Photography", slug: "photography", icon: Camera },
+  { name: "Entertainment", slug: "entertainment", icon: Tv },
   { name: "Music", slug: "music", icon: Music },
   { name: "Finance", slug: "finance", icon: DollarSign },
-  { name: "Shopping", slug: "shopping", icon: ShoppingBag },
+  { name: "Photography", slug: "photography", icon: Camera },
   { name: "Social", slug: "social", icon: MessageCircle },
   { name: "Travel", slug: "travel", icon: Map },
   { name: "Food & Drink", slug: "food-drink", icon: Utensils },
