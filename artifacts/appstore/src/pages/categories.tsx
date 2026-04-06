@@ -25,7 +25,7 @@ export function Categories() {
             </div>
           </div>
           <p className="text-gray-500 mt-3 ml-16 max-w-lg">
-            {categories?.length || "18"} categories spanning apps and games — find the perfect fit for every part of your day.
+            Browse categories spanning apps and games — find the perfect fit for every part of your day.
           </p>
         </div>
       </div>
@@ -40,7 +40,6 @@ export function Categories() {
             </div>
             <div>
               <h2 className="text-lg font-bold text-gray-900 leading-tight">App Categories</h2>
-              <p className="text-sm text-gray-400 leading-tight">{appCategories?.length || 10} categories</p>
             </div>
           </div>
           {isLoading ? (
@@ -63,7 +62,6 @@ export function Categories() {
               </div>
               <div>
                 <h2 className="text-lg font-bold text-gray-900 leading-tight">Game Genres</h2>
-                <p className="text-sm text-gray-400 leading-tight">{gameCategories?.length || 8} genres</p>
               </div>
             </div>
             {isLoading ? (

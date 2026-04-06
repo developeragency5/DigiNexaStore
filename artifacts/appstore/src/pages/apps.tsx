@@ -279,11 +279,6 @@ export function Apps() {
             </div>
           ) : (
             <>
-              {/* Result count */}
-              <p className="text-xs text-gray-400 mb-1 pt-2">
-                About {apps.length} result{apps.length !== 1 ? "s" : ""} for{" "}
-                <span className="font-medium text-gray-600">"{query}"</span>
-              </p>
 
               {/* Result list */}
               <div>
@@ -398,16 +393,12 @@ export function Apps() {
 
               return (
                 <div className="space-y-12">
-                  <p className="text-sm text-gray-400">
-                    {apps.length} apps & games — {apps.length - totalGames} apps across {appSections.length} categories · {totalGames} games across {gameSections.length} genres
-                  </p>
 
                   {appSections.map(section => (
                     <div key={section.slug}>
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h2 className="text-lg font-bold text-gray-900">{section.name}</h2>
-                          <p className="text-xs text-gray-400 mt-0.5">{section.items.length} apps</p>
                         </div>
                         <SeeAllBtn slug={section.slug} isGame={false} />
                       </div>
@@ -424,7 +415,6 @@ export function Apps() {
                           <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
                             <Gamepad2 className="h-5 w-5 text-violet-600" /> Games
                           </h2>
-                          <p className="text-xs text-gray-400 mt-0.5">{totalGames} games across {gameSections.length} genres</p>
                         </div>
                         <button onClick={() => setCollection("games")} className="text-sm font-semibold text-violet-600 hover:text-violet-500 transition-colors">
                           Browse all games →
@@ -439,7 +429,6 @@ export function Apps() {
                               <div className="flex items-center justify-between mb-3">
                                 <div>
                                   <h3 className="text-base font-bold text-gray-800">{genreName}</h3>
-                                  <p className="text-xs text-gray-400 mt-0.5">{section.items.length} games</p>
                                 </div>
                                 <SeeAllBtn slug={section.slug} isGame={true} />
                               </div>
@@ -481,9 +470,6 @@ export function Apps() {
               const label = isGames ? "games" : "apps";
               return (
                 <div className="space-y-12">
-                  <p className="text-sm text-gray-400">
-                    {apps.length} {label} across {sections.length} {isGames ? "genres" : "categories"}
-                  </p>
                   {sections.map(section => {
                     const displayName = isGames
                       ? section.name.replace(/ Games$/i, "")
@@ -493,7 +479,6 @@ export function Apps() {
                         <div className="flex items-center justify-between mb-4">
                           <div>
                             <h2 className="text-lg font-bold text-gray-900">{displayName}</h2>
-                            <p className="text-xs text-gray-400 mt-0.5">{section.items.length} {label}</p>
                           </div>
                           <button
                             onClick={() => setParams(p => ({
@@ -532,7 +517,6 @@ export function Apps() {
           <div className="flex items-start justify-between gap-4 mb-5">
             <div>
               <h1 className="text-2xl font-extrabold text-gray-900">{pageTitle}</h1>
-              {!isLoading && <p className="text-gray-400 text-sm mt-0.5">{apps?.length || 0} apps found</p>}
             </div>
             <button onClick={clearFilters} className="shrink-0 flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-500 transition-colors mt-1">
               <X className="h-3.5 w-3.5" /> Clear filters

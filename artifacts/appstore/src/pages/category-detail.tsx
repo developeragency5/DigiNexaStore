@@ -54,7 +54,6 @@ export function CategoryDetail() {
                 <>
                   <h1 className="text-3xl font-extrabold text-gray-900">{category.name}</h1>
                   <p className="text-gray-500 mt-1">{category.description}</p>
-                  <p className="text-sm font-medium text-primary mt-2">{apps?.length || category.appCount} apps</p>
                 </>
               ) : (
                 <div className="space-y-2">

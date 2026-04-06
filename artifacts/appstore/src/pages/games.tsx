@@ -74,7 +74,6 @@ export function Games() {
           </div>
           <p className="text-gray-500 max-w-lg ml-16">
             The best action, puzzle, strategy, and casual games for iOS and Android — curated and ranked.
-            {allGames && <span className="ml-1 font-semibold text-gray-700">{allGames.length} games across {grouped.length} genres.</span>}
           </p>
         </div>
       </div>
@@ -128,7 +127,7 @@ export function Games() {
           <SectionHeader
             icon={<Star className="h-4.5 w-4.5 text-primary" />}
             title="All Games"
-            subtitle={allGames ? `${allGames.length} games in our catalog` : "Every game in our catalog"}
+            subtitle="Every game in our catalog"
           />
           {loadingAll ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -141,7 +140,6 @@ export function Games() {
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <h3 className="text-base font-bold text-gray-800">{section.name}</h3>
-                      <p className="text-xs text-gray-400 mt-0.5">{section.items.length} games</p>
                     </div>
                     <Link
                       href={`/categories/${section.slug}`}
