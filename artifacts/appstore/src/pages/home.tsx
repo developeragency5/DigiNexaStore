@@ -62,7 +62,7 @@ export function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
           <div className="text-center max-w-3xl mx-auto mb-10">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
-              <Star className="h-3.5 w-3.5" /> Curated App Directory
+              <Smartphone className="h-3.5 w-3.5" /> AppVault — App & Game Discovery
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight mb-5">
               Discover the Best<br />
@@ -89,11 +89,11 @@ export function Home() {
           {/* Platform Feature Badges */}
           <div className="flex flex-wrap justify-center gap-3 mt-2">
             {[
-              { icon: BadgeCheck, label: "Expert-Curated Only", color: "text-primary", bg: "bg-primary/8" },
-              { icon: Sparkles, label: "iOS & Android Apps", color: "text-violet-600", bg: "bg-violet-50" },
-              { icon: ShieldCheck, label: "Safe & Ad-Free", color: "text-blue-600", bg: "bg-blue-50" },
-              { icon: RefreshCcw, label: "Updated Daily", color: "text-amber-600", bg: "bg-amber-50" },
-              { icon: Star, label: "Top-Rated Picks Only", color: "text-rose-500", bg: "bg-rose-50" },
+              { icon: Download,   label: "227 Curated Apps",    color: "text-primary",    bg: "bg-primary/8"  },
+              { icon: Gamepad2,   label: "260 Mobile Games",    color: "text-violet-600", bg: "bg-violet-50"  },
+              { icon: Sparkles,   label: "18 Categories",       color: "text-blue-600",   bg: "bg-blue-50"    },
+              { icon: Smartphone, label: "iOS & Android",       color: "text-amber-600",  bg: "bg-amber-50"   },
+              { icon: Star,       label: "Free to Explore",     color: "text-rose-500",   bg: "bg-rose-50"    },
             ].map(({ icon: Icon, label, color, bg }) => (
               <span
                 key={label}
