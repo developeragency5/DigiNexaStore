@@ -206,16 +206,17 @@ export function AppDetail() {
                   </div>
                 </div>
 
-                {/* Download buttons — always show both stores */}
+                {/* Download buttons — only show badge when a real direct URL exists */}
                 <div className="flex flex-wrap gap-3 mt-1">
-                  <StoreBadge
-                    href={playStoreUrl(app.playStoreUrl) ?? `https://play.google.com/store/search?q=${encodeURIComponent(app.name)}&c=apps`}
-                    store="play"
-                  />
-                  <StoreBadge
-                    href={appStoreUrl(app.appStoreUrl) ?? `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`}
-                    store="apple"
-                  />
+                  {playStoreUrl(app.playStoreUrl) && (
+                    <StoreBadge href={playStoreUrl(app.playStoreUrl)!} store="play" />
+                  )}
+                  {appStoreUrl(app.appStoreUrl) && (
+                    <StoreBadge href={appStoreUrl(app.appStoreUrl)!} store="apple" />
+                  )}
+                  {!playStoreUrl(app.playStoreUrl) && !appStoreUrl(app.appStoreUrl) && (
+                    <p className="text-sm text-gray-400 italic">Store links coming soon</p>
+                  )}
                 </div>
               </div>
             </div>
