@@ -13,7 +13,7 @@ function parseParams(search: string) {
   return {
     category: sp.get("category") || undefined,
     search: sp.get("search") || undefined,
-    platform: (sp.get("platform") as any) || undefined,
+
     featured: sp.get("featured") === "true" ? true : undefined,
     trending: sp.get("trending") === "true" ? true : undefined,
     isNew: sp.get("new") === "true" ? true : undefined,
@@ -372,22 +372,6 @@ export function Apps() {
             <button onClick={clearFilters} className="shrink-0 flex items-center gap-1.5 text-sm text-gray-500 hover:text-red-500 transition-colors mt-1">
               <X className="h-3.5 w-3.5" /> Clear filters
             </button>
-          </div>
-
-          {/* Platform chips */}
-          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-xl w-fit">
-            {[{ label: "All", value: "" }, { label: "iOS", value: "ios" }, { label: "Android", value: "android" }].map(opt => {
-              const active = (params.platform || "") === opt.value;
-              return (
-                <button
-                  key={opt.value}
-                  onClick={() => setParams(p => ({ ...p, platform: opt.value || undefined }))}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${active ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}
-                >
-                  {opt.label}
-                </button>
-              );
-            })}
           </div>
         </div>
       </div>
