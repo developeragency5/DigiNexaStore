@@ -4,7 +4,7 @@ import { useGetApp, useListApps, getGetAppQueryKey } from "@workspace/api-client
 import { Skeleton } from "@/components/ui/skeleton";
 import { AppCard } from "@/components/app-card";
 import {
-  Star, Download, Share2, ChevronLeft, Globe, Shield,
+  Star, Download, Share2, Globe, Shield,
   Smartphone, ChevronRight, CheckCircle2, Zap, Award, Link2
 } from "lucide-react";
 
@@ -137,14 +137,6 @@ export function AppDetail() {
       )}
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-        {/* Back */}
-        <Link
-          href={app.appType === "game" ? "/games" : "/apps"}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors mb-6"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back to {app.appType === "game" ? "Games" : "Apps"}
-        </Link>
 
         {/* ── Hero Card ── */}
         <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-5">
