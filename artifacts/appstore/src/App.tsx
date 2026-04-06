@@ -10,6 +10,9 @@ import { Games } from "@/pages/games";
 import { AppDetail } from "@/pages/app-detail";
 import { Categories } from "@/pages/categories";
 import { CategoryDetail } from "@/pages/category-detail";
+import { About } from "@/pages/about";
+import { Blog } from "@/pages/blog";
+import { Contact } from "@/pages/contact";
 import { MainLayout } from "@/components/layout/main-layout";
 
 const queryClient = new QueryClient({
@@ -31,6 +34,9 @@ function Router() {
         <Route path="/games" component={Games} />
         <Route path="/categories" component={Categories} />
         <Route path="/categories/:slug" component={CategoryDetail} />
+        <Route path="/about" component={About} />
+        <Route path="/blog" component={Blog} />
+        <Route path="/contact" component={Contact} />
         <Route component={NotFound} />
       </Switch>
     </MainLayout>
