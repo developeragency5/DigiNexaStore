@@ -206,20 +206,16 @@ export function AppDetail() {
                   </div>
                 </div>
 
-                {/* Download buttons */}
+                {/* Download buttons — always show both stores */}
                 <div className="flex flex-wrap gap-3 mt-1">
-                  {playStoreUrl(app.playStoreUrl) && (
-                    <StoreBadge href={playStoreUrl(app.playStoreUrl)!} store="play" />
-                  )}
-                  {appStoreUrl(app.appStoreUrl) && (
-                    <StoreBadge href={appStoreUrl(app.appStoreUrl)!} store="apple" />
-                  )}
-                  {!playStoreUrl(app.playStoreUrl) && !appStoreUrl(app.appStoreUrl) && (
-                    <span className="self-center inline-flex items-center gap-2 text-sm font-semibold text-gray-400 bg-gray-100 px-4 py-2.5 rounded-2xl border border-gray-200">
-                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                      Coming Soon
-                    </span>
-                  )}
+                  <StoreBadge
+                    href={playStoreUrl(app.playStoreUrl) ?? `https://play.google.com/store/search?q=${encodeURIComponent(app.name)}&c=apps`}
+                    store="play"
+                  />
+                  <StoreBadge
+                    href={appStoreUrl(app.appStoreUrl) ?? `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`}
+                    store="apple"
+                  />
                 </div>
               </div>
             </div>
