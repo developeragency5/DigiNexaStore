@@ -4,7 +4,7 @@ import { AppCard } from "@/components/app-card";
 import { CategoryCard } from "@/components/category-card";
 import { Link, useLocation } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowRight, Search, TrendingUp, Gamepad2, Smartphone, Download, Star } from "lucide-react";
+import { ArrowRight, Search, TrendingUp, Gamepad2, Smartphone, Download, Star, ShieldCheck, RefreshCcw, Sparkles, BadgeCheck } from "lucide-react";
 
 function SectionHeader({ title, subtitle, viewAllHref }: { title: string; subtitle?: string; viewAllHref?: string }) {
   return (
@@ -84,27 +84,24 @@ export function Home() {
             </form>
           </div>
 
-          {/* Stats Bar */}
-          {stats && (
-            <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
-              <div>
-                <p className="text-2xl font-bold text-gray-900">{((stats.totalApps || 0) + (stats.totalGames || 0)).toLocaleString()}+</p>
-                <p className="text-xs text-gray-500 mt-0.5">Apps & Games</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalCategories.toLocaleString()}</p>
-                <p className="text-xs text-gray-500 mt-0.5">Categories</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">{stats.totalDownloads ? (stats.totalDownloads / 1000000000).toFixed(1) + "B+" : "5B+"}</p>
-                <p className="text-xs text-gray-500 mt-0.5">Total Downloads</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">100%</p>
-                <p className="text-xs text-gray-500 mt-0.5">Hand-Curated</p>
-              </div>
-            </div>
-          )}
+          {/* Platform Feature Badges */}
+          <div className="flex flex-wrap justify-center gap-3 mt-2">
+            {[
+              { icon: BadgeCheck, label: "Expert-Curated Only", color: "text-primary", bg: "bg-primary/8" },
+              { icon: Sparkles, label: "iOS & Android Apps", color: "text-violet-600", bg: "bg-violet-50" },
+              { icon: ShieldCheck, label: "Safe & Ad-Free", color: "text-blue-600", bg: "bg-blue-50" },
+              { icon: RefreshCcw, label: "Updated Daily", color: "text-amber-600", bg: "bg-amber-50" },
+              { icon: Star, label: "Top-Rated Picks Only", color: "text-rose-500", bg: "bg-rose-50" },
+            ].map(({ icon: Icon, label, color, bg }) => (
+              <span
+                key={label}
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold ${bg} ${color} border border-current/10`}
+              >
+                <Icon className="h-3.5 w-3.5" />
+                {label}
+              </span>
+            ))}
+          </div>
         </div>
 
         {/* Featured Apps Horizontal Scroll */}
