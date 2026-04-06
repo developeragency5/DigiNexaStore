@@ -125,9 +125,19 @@ router.get("/", async (req, res) => {
   const conditions: any[] = [];
   if (category) conditions.push(eq(appsTable.categorySlug, category));
   if (search) {
-    conditions.push(
-      sql`(${ilike(appsTable.name, `%${search}%`)} OR ${ilike(appsTable.description, `%${search}%`)} OR ${ilike(appsTable.developer, `%${search}%`)})`
+    const words = search.trim().split(/\s+/).filter(Boolean);
+    const wordConditions = words.map(word =>
+      sql`(
+        ${ilike(appsTable.name, `%${word}%`)} OR
+        ${ilike(appsTable.developer, `%${word}%`)} OR
+        ${ilike(appsTable.description, `%${word}%`)} OR
+        ${ilike((appsTable as any).shortDescription, `%${word}%`)} OR
+        ${ilike((appsTable as any).fullDescription, `%${word}%`)} OR
+        ${ilike(appsTable.categoryName, `%${word}%`)}
+      )`
     );
+    // All words must match (AND logic across words, OR across fields per word)
+    conditions.push(sql`(${sql.join(wordConditions, sql` AND `)})`);
   }
   if (featured !== undefined) conditions.push(eq(appsTable.featured, featured));
   if (trending !== undefined) conditions.push(eq(appsTable.trending, trending));
