@@ -73,7 +73,7 @@ export function Home() {
               <Smartphone className="h-6 w-6 text-white" />
             </div>
             <span className="text-4xl font-extrabold tracking-tight text-gray-900">
-              App<span className="text-primary">us</span>
+              app<span className="text-primary">us</span>
             </span>
           </div>
 

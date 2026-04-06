@@ -12,7 +12,7 @@ const cookieTypes = [
     name: "Analytics Cookies",
     badge: "Optional",
     badgeColor: "bg-blue-100 text-blue-600",
-    desc: "These cookies help us understand how visitors interact with Appus by collecting aggregated, anonymous statistics. We use this data to improve site performance and content. Individual users cannot be identified from this data.",
+    desc: "These cookies help us understand how visitors interact with appus by collecting aggregated, anonymous statistics. We use this data to improve site performance and content. Individual users cannot be identified from this data.",
     examples: ["Page view counts", "Navigation paths", "Session duration", "Device/browser type", "Entry/exit pages"],
   },
   {
@@ -26,7 +26,7 @@ const cookieTypes = [
     name: "Advertising & Tracking Technologies",
     badge: "Optional",
     badgeColor: "bg-orange-100 text-orange-700",
-    desc: "Appus uses advertising technology to serve interest-based advertisements and to measure the performance of advertising campaigns. These technologies may set cookies or use pixel tags on your device. This data may be shared with our digital advertising network partners to serve you relevant ads on Appus and other sites across the internet. See our Advertising Disclosure for full details.",
+    desc: "appus uses advertising technology to serve interest-based advertisements and to measure the performance of advertising campaigns. These technologies may set cookies or use pixel tags on your device. This data may be shared with our digital advertising network partners to serve you relevant ads on appus and other sites across the internet. See our Advertising Disclosure for full details.",
     examples: ["Conversion tracking pixels", "Interest-based ad targeting", "Ad frequency capping", "Campaign attribution"],
   },
 ];
@@ -39,12 +39,12 @@ const sections = [
 Cookies can be:
 • "Session" cookies — deleted when you close your browser
 • "Persistent" cookies — stored on your device for a set period or until you delete them
-• "First-party" cookies — set by Appus directly
+• "First-party" cookies — set by appus directly
 • "Third-party" cookies — set by our partners (analytics or advertising services)`,
   },
   {
     title: "How We Use Cookies",
-    body: `Appus uses cookies and similar technologies to:
+    body: `appus uses cookies and similar technologies to:
 • Keep the website functioning correctly (essential)
 • Remember your preferences between visits (preference)
 • Understand how you use our site so we can improve it (analytics)
@@ -58,7 +58,7 @@ The advertising and tracking technologies we use may involve sharing data with o
 
 Analytics — We may use privacy-friendly analytics tools to measure site performance. These services collect aggregated, anonymous data only.
 
-Digital Advertising Networks — Our advertising partners may set cookies or tracking pixels on your device to enable interest-based advertising, conversion tracking, and campaign measurement. These partners may collect data about your visits to Appus and other websites to build audience profiles for advertising purposes.
+Digital Advertising Networks — Our advertising partners may set cookies or tracking pixels on your device to enable interest-based advertising, conversion tracking, and campaign measurement. These partners may collect data about your visits to appus and other websites to build audience profiles for advertising purposes.
 
 You can opt out of interest-based advertising via:
 • optout.aboutads.info (DAA)
@@ -76,7 +76,7 @@ Browser Cookie Controls
 • Edge: Settings → Cookies and site permissions
 
 Global Privacy Control (GPC)
-If your browser sends a GPC signal, Appus will treat it as a request to opt out of sharing for interest-based advertising.
+If your browser sends a GPC signal, appus will treat it as a request to opt out of sharing for interest-based advertising.
 
 Note: Disabling essential cookies will impair site functionality. Disabling advertising cookies means you will still see ads, but they will not be tailored to your interests.`,
   },
@@ -86,7 +86,7 @@ Note: Disabling essential cookies will impair site functionality. Disabling adve
 
 For optional analytics, preference, and advertising cookies, we ask for your consent where required by law (for example, for users in the European Union under GDPR or the UK under UK GDPR).
 
-By continuing to use Appus without adjusting your cookie settings, you consent to our use of optional cookies. You may withdraw this consent at any time using the browser controls or opt-out tools described above.`,
+By continuing to use appus without adjusting your cookie settings, you consent to our use of optional cookies. You may withdraw this consent at any time using the browser controls or opt-out tools described above.`,
   },
   {
     title: "Retention Periods",
@@ -106,7 +106,7 @@ By continuing to use Appus without adjusting your cookie settings, you consent t
 
 Email: hello@appus.net
 Subject: "Cookie Policy Inquiry"
-Appus, Inc.
+appus, Inc.
 
 Last Updated: April 6, 2025`,
   },
@@ -123,7 +123,7 @@ export function CookiePolicy() {
           <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Cookie Policy</h1>
           <p className="text-gray-500">Last updated: April 6, 2025</p>
           <p className="text-gray-600 mt-4 leading-relaxed">
-            This Cookie Policy explains how Appus uses cookies and similar tracking technologies when you visit our website.
+            This Cookie Policy explains how appus uses cookies and similar tracking technologies when you visit our website.
             It covers what they are, why we use them, and how you can control them — including advertising technologies.
           </p>
           <div className="mt-4 flex flex-wrap gap-3 text-xs">

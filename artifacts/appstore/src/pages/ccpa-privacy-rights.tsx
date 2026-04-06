@@ -10,12 +10,12 @@ Any terms defined in the CCPA/CPRA have the same meaning when used in this Notic
   },
   {
     title: "2. Categories of Personal Information We Collect",
-    body: `In the past 12 months, Appus has collected the following categories of personal information from California consumers:
+    body: `In the past 12 months, appus has collected the following categories of personal information from California consumers:
 
 • Identifiers — such as IP addresses, browser fingerprints, and email addresses (if voluntarily provided via our newsletter).
-• Internet or other electronic network activity — including browsing history on Appus, search queries, pages viewed, and interaction data.
+• Internet or other electronic network activity — including browsing history on appus, search queries, pages viewed, and interaction data.
 • Inferences — derived from the above to understand your app preferences, device type, and general interests.
-• Commercial information — we do not collect purchase history because Appus does not process any purchases; all transactions occur on third-party app stores.
+• Commercial information — we do not collect purchase history because appus does not process any purchases; all transactions occur on third-party app stores.
 • Geolocation data — approximate location inferred from IP address (country/region level only; we do not collect precise GPS data).
 
 We do NOT collect Social Security numbers, financial account information, health information, biometric data, or the contents of private communications.`,
@@ -24,13 +24,13 @@ We do NOT collect Social Security numbers, financial account information, health
     title: "3. Sources of Personal Information",
     body: `We collect personal information from:
 • You directly — when you submit your email address to our newsletter, or when you contact us.
-• Automatically — through cookies, pixel tags, and server logs when you visit Appus.
+• Automatically — through cookies, pixel tags, and server logs when you visit appus.
 • Advertising networks — our digital advertising partners may set cookies or similar technologies on your device to serve interest-based advertisements. See our Advertising Disclosure for details.`,
   },
   {
     title: "4. Purposes for Collecting Personal Information",
     body: `We collect personal information for the following business purposes:
-• Operating and improving the Appus platform
+• Operating and improving the appus platform
 • Sending requested newsletters and updates
 • Measuring site performance and analytics
 • Detecting and preventing fraud or abuse
@@ -39,11 +39,11 @@ We do NOT collect Social Security numbers, financial account information, health
   },
   {
     title: "5. Sharing of Personal Information",
-    body: `In the past 12 months, Appus has shared the following categories of personal information with third parties for business purposes:
+    body: `In the past 12 months, appus has shared the following categories of personal information with third parties for business purposes:
 
 • Identifiers and internet activity — shared with analytics and advertising technology providers to deliver and measure advertising.
 
-Appus does NOT "sell" personal information for monetary compensation. However, under the CCPA's broad definition of "sale" and "sharing," our use of advertising cookies and pixels to serve targeted advertising MAY constitute sharing of personal information with third parties for cross-context behavioural advertising purposes.
+appus does NOT "sell" personal information for monetary compensation. However, under the CCPA's broad definition of "sale" and "sharing," our use of advertising cookies and pixels to serve targeted advertising MAY constitute sharing of personal information with third parties for cross-context behavioural advertising purposes.
 
 You have the right to opt out of this sharing. See Section 7 below.`,
   },
@@ -74,7 +74,7 @@ We will not discriminate against you for exercising your CCPA/CPRA rights. We wi
     body: `To opt out of the sharing of your personal information for interest-based advertising:
 
 Browser-Level Opt-Out
-Most modern browsers support the Global Privacy Control (GPC) signal. Enabling GPC in your browser instructs Appus and our advertising partners to stop sharing your data for targeted advertising automatically.
+Most modern browsers support the Global Privacy Control (GPC) signal. Enabling GPC in your browser instructs appus and our advertising partners to stop sharing your data for targeted advertising automatically.
 
 Industry Opt-Out Tools
 • Digital Advertising Alliance: optout.aboutads.info
@@ -94,7 +94,7 @@ Subject line: "California Privacy Rights Request"
 
 Please include your full name, the email address associated with your account (if any), and a description of the right you wish to exercise. We will acknowledge your request within 10 business days and respond within 45 calendar days. If we need more time, we will notify you of the reason and extension period (up to 90 days total).
 
-We will verify your identity before processing your request. Because Appus does not require user accounts, identity verification may be limited to email confirmation.`,
+We will verify your identity before processing your request. Because appus does not require user accounts, identity verification may be limited to email confirmation.`,
   },
   {
     title: "9. Authorised Agent",
@@ -106,7 +106,7 @@ We will verify your identity before processing your request. Because Appus does 
 
 Email: hello@appus.net
 Subject: "CCPA Inquiry"
-Appus, Inc.
+appus, Inc.
 
 Last Updated: April 6, 2025`,
   },
