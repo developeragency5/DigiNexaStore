@@ -72,13 +72,13 @@ export function AppDetail() {
   }
 
   function playStoreUrl(name: string, storedUrl?: string | null) {
-    if (storedUrl && storedUrl.includes("play.google.com/store/apps")) return storedUrl;
+    if (storedUrl && storedUrl.includes("play.google.com/store/apps/")) return storedUrl;
     return `https://play.google.com/store/search?q=${encodeURIComponent(name)}&c=apps`;
   }
 
   function appStoreUrl(name: string, storedUrl?: string | null) {
-    if (storedUrl && storedUrl.includes("apps.apple.com") && storedUrl.length > 30) return storedUrl;
-    return `https://apps.apple.com/search?term=${encodeURIComponent(name)}`;
+    if (storedUrl && storedUrl.includes("apps.apple.com/") && storedUrl.length > 35) return storedUrl;
+    return `https://apps.apple.com/us/search?term=${encodeURIComponent(name)}`;
   }
 
   if (isLoading) {
