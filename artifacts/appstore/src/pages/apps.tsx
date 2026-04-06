@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useListApps, useListCategories, useGetNewApps, ListAppsParams } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Search, Star, TrendingUp, Zap, Grid3x3, X,
-  SlidersHorizontal, Smartphone
+  SlidersHorizontal, Gamepad2
 } from "lucide-react";
 
 function parseParams(search: string) {
@@ -22,10 +22,11 @@ function parseParams(search: string) {
 }
 
 const collections = [
-  { key: "all",      label: "All Apps",    icon: Grid3x3,   sub: "Browse every app",       color: "text-primary",     bg: "bg-primary/10",  chipColor: "from-primary/5 to-primary/10", border: "border-primary/20"  },
-  { key: "featured", label: "Featured",    icon: Star,      sub: "Editor's top picks",      color: "text-amber-500",   bg: "bg-amber-50",    chipColor: "from-amber-50 to-amber-100/60", border: "border-amber-100" },
-  { key: "trending", label: "Trending",    icon: TrendingUp, sub: "Most popular right now",  color: "text-orange-500",  bg: "bg-orange-50",   chipColor: "from-orange-50 to-orange-100/60", border: "border-orange-100" },
-  { key: "new",      label: "New Releases", icon: Zap,       sub: "Fresh additions",         color: "text-blue-500",    bg: "bg-blue-50",     chipColor: "from-blue-50 to-blue-100/60", border: "border-blue-100"  },
+  { key: "all",      label: "All Apps", icon: Grid3x3,    sub: "Browse every app",       color: "text-primary",    bg: "bg-primary/10",  chipColor: "from-primary/5 to-primary/10",   border: "border-primary/20",  href: undefined },
+  { key: "featured", label: "Featured", icon: Star,        sub: "Editor's top picks",     color: "text-amber-500",  bg: "bg-amber-50",    chipColor: "from-amber-50 to-amber-100/60",  border: "border-amber-100",   href: undefined },
+  { key: "trending", label: "Trending", icon: TrendingUp,  sub: "Most popular right now", color: "text-orange-500", bg: "bg-orange-50",   chipColor: "from-orange-50 to-orange-100/60",border: "border-orange-100",  href: undefined },
+  { key: "new",      label: "Latest",   icon: Zap,         sub: "Fresh additions",        color: "text-blue-500",   bg: "bg-blue-50",     chipColor: "from-blue-50 to-blue-100/60",    border: "border-blue-100",    href: undefined },
+  { key: "games",    label: "Games",    icon: Gamepad2,    sub: "Browse all games",       color: "text-violet-600", bg: "bg-violet-50",   chipColor: "from-violet-50 to-violet-100/60",border: "border-violet-100",  href: "/games"  },
 ];
 
 export function Apps() {
@@ -124,16 +125,18 @@ export function Apps() {
             <div className="flex flex-wrap gap-2 mt-6 ml-16">
               {collections.map(col => {
                 const active = col.key === activeCollection;
-                return (
-                  <button
-                    key={col.key}
-                    onClick={() => setCollection(col.key)}
-                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
-                      active
-                        ? `bg-gradient-to-b ${col.chipColor} ${col.border} ${col.color}`
-                        : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
+                const chipClass = `inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold border transition-all ${
+                  active
+                    ? `bg-gradient-to-b ${col.chipColor} ${col.border} ${col.color}`
+                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                }`;
+                return col.href ? (
+                  <Link key={col.key} href={col.href} className={chipClass}>
+                    <col.icon className={`h-3.5 w-3.5 text-gray-400`} />
+                    {col.label}
+                  </Link>
+                ) : (
+                  <button key={col.key} onClick={() => setCollection(col.key)} className={chipClass}>
                     <col.icon className={`h-3.5 w-3.5 ${active ? col.color : "text-gray-400"}`} />
                     {col.label}
                   </button>
