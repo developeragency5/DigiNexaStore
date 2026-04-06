@@ -32,7 +32,7 @@ export function Footer() {
                 { label: "All Games", href: "/games" },
                 { label: "Featured Apps", href: "/apps?featured=true" },
                 { label: "Trending", href: "/apps?trending=true" },
-                { label: "Categories", href: "/categories" },
+                { label: "Latest", href: "/apps?new=true" },
               ].map(link => (
                 <li key={link.label}>
                   <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
