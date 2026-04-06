@@ -37,7 +37,7 @@ export function Apps() {
   const [searchInput, setSearchInput] = useState(params.search || "");
   const [showCategoryPanel, setShowCategoryPanel] = useState(false);
 
-  const { data: apps, isLoading } = useListApps(params as any);
+  const { data: apps, isLoading } = useListApps({ ...params, limit: 500 } as any);
   const { data: categories } = useListCategories();
   const appCategories = categories?.filter((c: any) => c.type !== "game");
 
