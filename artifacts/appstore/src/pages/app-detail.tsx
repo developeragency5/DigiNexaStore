@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AppCard } from "@/components/app-card";
 import {
   Star, Download, Share2, Globe, Shield,
-  Smartphone, ChevronRight, CheckCircle2, Zap, Award, Link2
+  Smartphone, ChevronRight, Zap, Award, Link2
 } from "lucide-react";
 
 function StarRating({ rating }: { rating: number }) {
@@ -24,21 +24,30 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function DownloadButton({ href, icon, topLabel, bottomLabel, className }: {
-  href?: string; icon: React.ReactNode; topLabel: string; bottomLabel: string; className: string;
-}) {
+function StoreBadge({ href, store }: { href: string; store: "play" | "apple" }) {
+  const isPlay = store === "play";
   return (
-    <button
-      type="button"
-      onClick={() => { if (href) window.open(href, "_blank", "noopener,noreferrer"); }}
-      className={`inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-medium transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-sm cursor-pointer ${className}`}
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 active:scale-[0.98] transition-all duration-150 shadow-md hover:shadow-lg min-w-[160px]"
     >
-      {icon}
-      <div className="text-left leading-none">
-        <div className="text-[10px] uppercase tracking-widest opacity-75 mb-0.5">{topLabel}</div>
-        <div className="text-base font-bold">{bottomLabel}</div>
+      {isPlay ? (
+        <svg className="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3.18 23.76a1.48 1.48 0 001.08.14l.06-.03L16.6 16.7l-2.77-2.77zM20.06 10.37a2 2 0 000-2.74l-2.3-1.33L14.9 9.17l2.85 2.85zM3.07.36a1.5 1.5 0 00-.07.46v22.36c0 .16.03.32.07.46l.12.11 12.5-12.5v-.29L3.18.25z"/>
+          <path d="M16.6 13.83l-2.77-2.77-9.75 9.75a1.5 1.5 0 001.97.14l.06-.04 10.5-7.08z"/>
+        </svg>
+      ) : (
+        <svg className="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+      )}
+      <div className="text-left leading-tight">
+        <div className="text-[10px] font-normal opacity-80 tracking-wide">{isPlay ? "GET IT ON" : "Download on the"}</div>
+        <div className="text-[17px] font-bold tracking-tight leading-none mt-0.5">{isPlay ? "Google Play" : "App Store"}</div>
       </div>
-    </button>
+    </a>
   );
 }
 
@@ -198,34 +207,17 @@ export function AppDetail() {
                 </div>
 
                 {/* Download buttons */}
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 mt-1">
                   {playStoreUrl(app.playStoreUrl) && (
-                    <DownloadButton
-                      href={playStoreUrl(app.playStoreUrl)!}
-                      icon={<svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.33.19.7.24 1.07.14l12.12-6.98-2.76-2.77-10.43 9.61zm16.7-10.28L16.96 12l2.92-1.48-10.52-6.06L4.25.24C3.88.14 3.51.19 3.18.38L13.62 10.8l6.26-7.37z"/></svg>}
-                      topLabel="Get it on"
-                      bottomLabel="Google Play"
-                      className="bg-gray-900 text-white hover:bg-gray-800"
-                    />
+                    <StoreBadge href={playStoreUrl(app.playStoreUrl)!} store="play" />
                   )}
                   {appStoreUrl(app.appStoreUrl) && (
-                    <DownloadButton
-                      href={appStoreUrl(app.appStoreUrl)!}
-                      icon={<svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>}
-                      topLabel="Download on the"
-                      bottomLabel="App Store"
-                      className="bg-gray-900 text-white hover:bg-gray-800"
-                    />
+                    <StoreBadge href={appStoreUrl(app.appStoreUrl)!} store="apple" />
                   )}
                   {!playStoreUrl(app.playStoreUrl) && !appStoreUrl(app.appStoreUrl) && (
                     <span className="self-center inline-flex items-center gap-2 text-sm font-semibold text-gray-400 bg-gray-100 px-4 py-2.5 rounded-2xl border border-gray-200">
                       <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
                       Coming Soon
-                    </span>
-                  )}
-                  {app.isFree && (
-                    <span className="self-center inline-flex items-center gap-1.5 text-sm font-semibold text-primary bg-primary/10 px-4 py-2 rounded-2xl">
-                      <CheckCircle2 className="h-4 w-4" /> Free to Download
                     </span>
                   )}
                 </div>

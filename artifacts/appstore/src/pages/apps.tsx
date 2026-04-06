@@ -6,7 +6,7 @@ import { SearchAutocomplete } from "@/components/search-autocomplete";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Search, Star, TrendingUp, Zap, Grid3x3, X,
-  SlidersHorizontal, Gamepad2, Smartphone, Globe
+  SlidersHorizontal, Gamepad2, Globe
 } from "lucide-react";
 
 function parseParams(search: string) {
@@ -43,9 +43,6 @@ function SearchResultItem({ app, query }: { app: any; query: string }) {
   const slug = app.id;
   const displayUrl = `appvault.app/apps/${slug}`;
   const isGame = app.appType === "game";
-  const hasAndroid = !!app.playStoreUrl;
-  const hasIos = !!app.appStoreUrl;
-
   return (
     <div className="py-5 border-b border-gray-100 last:border-0 group">
       {/* Breadcrumb / URL row */}
@@ -99,23 +96,6 @@ function SearchResultItem({ app, query }: { app: any; query: string }) {
         {app.categoryName && (
           <span className="text-xs text-gray-400">{app.categoryName}</span>
         )}
-        {/* Platform badges */}
-        <div className="flex items-center gap-1">
-          {hasAndroid && (
-            <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 bg-emerald-50 text-emerald-700 rounded border border-emerald-100">
-              <svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.523 15.341c-.397 0-.72-.323-.72-.72s.323-.72.72-.72.72.323.72.72-.323.72-.72.72m-11.046 0c-.397 0-.72-.323-.72-.72s.323-.72.72-.72.72.323.72.72-.323.72-.72.72M17.74 9.33l1.705-2.953a.357.357 0 00-.13-.487.357.357 0 00-.487.13L17.1 8.997a10.95 10.95 0 00-10.199 0L5.172 6.02a.357.357 0 00-.487-.13.357.357 0 00-.13.487L6.26 9.33C3.6 10.824 1.817 13.58 1.5 16.773h21c-.317-3.193-2.1-5.949-4.76-7.443"/>
-              </svg>
-              Android
-            </span>
-          )}
-          {hasIos && (
-            <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 bg-sky-50 text-sky-700 rounded border border-sky-100">
-              <Smartphone className="h-2.5 w-2.5" />
-              iPhone
-            </span>
-          )}
-        </div>
       </div>
     </div>
   );
