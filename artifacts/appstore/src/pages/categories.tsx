@@ -11,24 +11,37 @@ export function Categories() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
+
+      {/* Header */}
       <div className="bg-white border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-            <Grid3x3 className="h-3.5 w-3.5" /> All Categories
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex items-center gap-4">
+            <div className="h-12 w-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
+              <Grid3x3 className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-primary uppercase tracking-widest mb-0.5">Browse</p>
+              <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">All Categories</h1>
+            </div>
           </div>
-          <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-3">Browse by Category</h1>
-          <p className="text-gray-500 max-w-lg mx-auto">
-            Explore {categories?.length || "all"} categories to find the perfect app or game for every aspect of your life.
+          <p className="text-gray-500 mt-3 ml-16 max-w-lg">
+            {categories?.length || "18"} categories spanning apps and games — find the perfect fit for every part of your day.
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+
         {/* App Categories */}
         <section>
-          <div className="flex items-center gap-2 mb-6">
-            <Grid3x3 className="h-5 w-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">App Categories</h2>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-8 w-8 bg-primary/10 rounded-xl flex items-center justify-center">
+              <Grid3x3 className="h-4 w-4 text-primary" />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-gray-900 leading-tight">App Categories</h2>
+              <p className="text-sm text-gray-400 leading-tight">{appCategories?.length || 10} categories</p>
+            </div>
           </div>
           {isLoading ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -44,9 +57,14 @@ export function Categories() {
         {/* Game Categories */}
         {(isLoading || (gameCategories && gameCategories.length > 0)) && (
           <section>
-            <div className="flex items-center gap-2 mb-6">
-              <Gamepad2 className="h-5 w-5 text-primary" />
-              <h2 className="text-xl font-bold text-gray-900">Game Genres</h2>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-8 w-8 bg-primary/10 rounded-xl flex items-center justify-center">
+                <Gamepad2 className="h-4 w-4 text-primary" />
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-gray-900 leading-tight">Game Genres</h2>
+                <p className="text-sm text-gray-400 leading-tight">{gameCategories?.length || 8} genres</p>
+              </div>
             </div>
             {isLoading ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
@@ -59,6 +77,7 @@ export function Categories() {
             )}
           </section>
         )}
+
       </div>
     </div>
   );

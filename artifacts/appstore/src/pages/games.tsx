@@ -1,51 +1,93 @@
+import { useState } from "react";
 import { useGetPopularGames, useListApps } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Gamepad2, TrendingUp, Star, Zap } from "lucide-react";
+import { Gamepad2, TrendingUp, Star, Layers } from "lucide-react";
 import { Link } from "wouter";
 
 const genres = [
-  { name: "Action", slug: "action-games", color: "#EF4444", emoji: "⚔️" },
-  { name: "Puzzle", slug: "puzzle-games", color: "#8B5CF6", emoji: "🧩" },
-  { name: "Strategy", slug: "strategy-games", color: "#10B981", emoji: "♟️" },
-  { name: "Sports", slug: "sports-games", color: "#F59E0B", emoji: "🏆" },
-  { name: "Racing", slug: "racing-games", color: "#F97316", emoji: "🏎️" },
-  { name: "Arcade", slug: "arcade-games", color: "#EC4899", emoji: "🕹️" },
-  { name: "RPG", slug: "rpg-games", color: "#6366F1", emoji: "⚔️" },
-  { name: "Casual", slug: "casual-games", color: "#14B8A6", emoji: "🎮" },
+  { name: "Action", slug: "action-games", emoji: "⚔️", color: "from-red-50 to-red-100/60", border: "border-red-100", text: "text-red-600" },
+  { name: "Puzzle", slug: "puzzle-games", emoji: "🧩", color: "from-violet-50 to-violet-100/60", border: "border-violet-100", text: "text-violet-600" },
+  { name: "Strategy", slug: "strategy-games", emoji: "♟️", color: "from-emerald-50 to-emerald-100/60", border: "border-emerald-100", text: "text-emerald-600" },
+  { name: "Sports", slug: "sports-games", emoji: "🏆", color: "from-amber-50 to-amber-100/60", border: "border-amber-100", text: "text-amber-600" },
+  { name: "Racing", slug: "racing-games", emoji: "🏎️", color: "from-orange-50 to-orange-100/60", border: "border-orange-100", text: "text-orange-600" },
+  { name: "Arcade", slug: "arcade-games", emoji: "🕹️", color: "from-pink-50 to-pink-100/60", border: "border-pink-100", text: "text-pink-600" },
+  { name: "RPG", slug: "rpg-games", emoji: "🗡️", color: "from-indigo-50 to-indigo-100/60", border: "border-indigo-100", text: "text-indigo-600" },
+  { name: "Casual", slug: "casual-games", emoji: "🎮", color: "from-teal-50 to-teal-100/60", border: "border-teal-100", text: "text-teal-600" },
 ];
 
+function SectionHeader({ icon, title, subtitle }: { icon: React.ReactNode; title: string; subtitle?: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-6">
+      <div className="h-9 w-9 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+        {icon}
+      </div>
+      <div>
+        <h2 className="text-xl font-bold text-gray-900 leading-tight">{title}</h2>
+        {subtitle && <p className="text-sm text-gray-400 leading-tight">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
 export function Games() {
+  const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const { data: popularGames, isLoading: loadingPopular } = useGetPopularGames({ limit: 8 });
   const { data: allGames, isLoading: loadingAll } = useListApps({ appType: "game", limit: 20 } as any);
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
-            <Gamepad2 className="h-3.5 w-3.5" /> Mobile Gaming Hub
+
+      {/* Clean hero */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="h-12 w-12 bg-primary/10 rounded-2xl flex items-center justify-center shrink-0">
+              <Gamepad2 className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-primary uppercase tracking-widest mb-0.5">Games</p>
+              <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">Mobile Gaming Hub</h1>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-            Discover <span className="text-primary">Top Games</span>
-          </h1>
-          <p className="text-gray-300 text-lg max-w-xl mx-auto">
+          <p className="text-gray-500 max-w-lg ml-16">
             The best action, puzzle, strategy, and casual games for iOS and Android — curated and ranked.
           </p>
+
+          {/* Genre quick-filter chips */}
+          <div className="flex flex-wrap gap-2 mt-6 ml-16">
+            <button
+              onClick={() => setSelectedGenre(null)}
+              className={`px-3.5 py-1.5 rounded-full text-sm font-semibold border transition-all ${!selectedGenre ? "bg-primary text-white border-primary" : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"}`}
+            >
+              All Genres
+            </button>
+            {genres.map(g => (
+              <Link key={g.slug} href={`/categories/${g.slug}`}>
+                <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold border transition-all bg-white text-gray-600 border-gray-200 hover:border-gray-300 cursor-pointer`}>
+                  {g.emoji} {g.name}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
-        {/* Browse by Genre */}
+
+        {/* Genre Grid */}
         <section>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Browse by Genre</h2>
+          <SectionHeader
+            icon={<Layers className="h-4.5 w-4.5 text-primary" />}
+            title="Browse by Genre"
+            subtitle="Pick a category to explore"
+          />
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
             {genres.map(genre => (
               <Link key={genre.slug} href={`/categories/${genre.slug}`}
-                className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-4 flex flex-col items-center text-center gap-2 group">
-                <span className="text-2xl">{genre.emoji}</span>
-                <span className="text-xs font-semibold text-gray-700 group-hover:text-primary transition-colors">{genre.name}</span>
+                className={`bg-gradient-to-b ${genre.color} border ${genre.border} rounded-2xl p-4 flex flex-col items-center text-center gap-2.5 group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer`}>
+                <span className="text-2xl leading-none">{genre.emoji}</span>
+                <span className={`text-xs font-bold ${genre.text} group-hover:scale-105 transition-transform`}>{genre.name}</span>
               </Link>
             ))}
           </div>
@@ -53,14 +95,11 @@ export function Games() {
 
         {/* Popular Games */}
         <section>
-          <div className="flex items-end justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <TrendingUp className="h-6 w-6 text-orange-500" /> Popular Games
-              </h2>
-              <p className="text-gray-500 text-sm mt-0.5">Most downloaded games right now</p>
-            </div>
-          </div>
+          <SectionHeader
+            icon={<TrendingUp className="h-4.5 w-4.5 text-primary" />}
+            title="Popular Games"
+            subtitle="Most downloaded right now"
+          />
           {loadingPopular ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-[88px] rounded-2xl" />)}
@@ -74,11 +113,11 @@ export function Games() {
 
         {/* All Games */}
         <section>
-          <div className="flex items-end justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Star className="h-6 w-6 text-amber-400 fill-amber-400" /> All Games
-            </h2>
-          </div>
+          <SectionHeader
+            icon={<Star className="h-4.5 w-4.5 text-primary" />}
+            title="All Games"
+            subtitle="Every game in our catalog"
+          />
           {loadingAll ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-[88px] rounded-2xl" />)}
@@ -89,6 +128,7 @@ export function Games() {
             </div>
           )}
         </section>
+
       </div>
     </div>
   );
