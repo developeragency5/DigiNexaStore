@@ -24,18 +24,14 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function StoreBadge({ href, store, dimmed }: { href: string; store: "play" | "apple"; dimmed?: boolean }) {
+function StoreBadge({ href, store }: { href: string; store: "play" | "apple" }) {
   const isPlay = store === "play";
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center gap-3 px-5 py-3 rounded-xl active:scale-[0.98] transition-all duration-150 shadow-md hover:shadow-lg min-w-[160px] ${
-        dimmed
-          ? "bg-gray-200 text-gray-500 hover:bg-gray-300"
-          : "bg-black text-white hover:bg-gray-900"
-      }`}
+      className="inline-flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 active:scale-[0.98] transition-all duration-150 shadow-md hover:shadow-lg min-w-[160px]"
     >
       {isPlay ? (
         <svg className="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="currentColor">
@@ -215,12 +211,10 @@ export function AppDetail() {
                   <StoreBadge
                     href={playStoreUrl(app.playStoreUrl) ?? `https://play.google.com/store/search?q=${encodeURIComponent(app.name)}&c=apps`}
                     store="play"
-                    dimmed={!playStoreUrl(app.playStoreUrl)}
                   />
                   <StoreBadge
                     href={appStoreUrl(app.appStoreUrl) ?? `https://apps.apple.com/search?term=${encodeURIComponent(app.name)}`}
                     store="apple"
-                    dimmed={!appStoreUrl(app.appStoreUrl)}
                   />
                 </div>
               </div>
