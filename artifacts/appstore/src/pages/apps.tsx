@@ -2,23 +2,123 @@ import { useState, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
 import { useListApps, useListCategories, useGetNewApps, ListAppsParams } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
+import { SearchAutocomplete } from "@/components/search-autocomplete";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Search, Star, TrendingUp, Zap, Grid3x3, X,
-  SlidersHorizontal, Gamepad2
+  SlidersHorizontal, Gamepad2, Smartphone, Globe
 } from "lucide-react";
 
 function parseParams(search: string) {
   const sp = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
+  const hasSearch = !!sp.get("search");
   return {
     category: sp.get("category") || undefined,
     search: sp.get("search") || undefined,
-
     featured: sp.get("featured") === "true" ? true : undefined,
     trending: sp.get("trending") === "true" ? true : undefined,
     isNew: sp.get("new") === "true" ? true : undefined,
-    appType: sp.get("appType") || "app",
+    // When searching, default to all types unless explicitly set
+    appType: sp.get("appType") || (hasSearch ? undefined : "app"),
   };
+}
+
+/** Wrap matched portion of text in <strong> */
+function HighlightMatch({ text, query }: { text: string; query: string }) {
+  if (!query.trim()) return <>{text}</>;
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <strong className="font-bold text-gray-900">{text.slice(idx, idx + query.length)}</strong>
+      {text.slice(idx + query.length)}
+    </>
+  );
+}
+
+/** Single Google-style search result row */
+function SearchResultItem({ app, query }: { app: any; query: string }) {
+  const [, navigate] = useLocation();
+  const slug = app.id;
+  const displayUrl = `appvault.app/apps/${slug}`;
+  const isGame = app.appType === "game";
+  const hasAndroid = !!app.playStoreUrl;
+  const hasIos = !!app.appStoreUrl;
+
+  return (
+    <div className="py-5 border-b border-gray-100 last:border-0 group">
+      {/* Breadcrumb / URL row */}
+      <div className="flex items-center gap-2 mb-1.5">
+        {app.iconUrl ? (
+          <img
+            src={app.iconUrl}
+            alt=""
+            className="h-4 w-4 rounded-sm object-cover shrink-0"
+            onError={e => { (e.target as HTMLImageElement).style.display = "none"; }}
+          />
+        ) : (
+          <Globe className="h-3.5 w-3.5 text-gray-400 shrink-0" />
+        )}
+        <span className="text-xs text-gray-500 truncate">{displayUrl}</span>
+        {isGame && (
+          <span className="text-[10px] font-semibold px-1.5 py-0.5 bg-violet-50 text-violet-600 rounded border border-violet-100 shrink-0">Game</span>
+        )}
+      </div>
+
+      {/* Title — large blue link */}
+      <button
+        onClick={() => navigate(`/apps/${slug}`)}
+        className="text-left"
+      >
+        <h3 className="text-lg font-normal text-blue-700 group-hover:underline leading-snug mb-1">
+          <HighlightMatch text={app.name} query={query} />
+          {" "}
+          <span className="font-normal text-blue-700">- Free Download</span>
+        </h3>
+      </button>
+
+      {/* Description */}
+      {app.shortDescription && (
+        <p className="text-sm text-gray-600 leading-relaxed max-w-2xl mb-2">
+          <HighlightMatch text={app.shortDescription} query={query} />
+        </p>
+      )}
+
+      {/* Meta row */}
+      <div className="flex items-center gap-3 flex-wrap">
+        {app.rating > 0 && (
+          <span className="flex items-center gap-1 text-xs text-gray-500">
+            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+            {Number(app.rating).toFixed(1)}
+          </span>
+        )}
+        {app.developer && (
+          <span className="text-xs text-gray-400">{app.developer}</span>
+        )}
+        {app.categoryName && (
+          <span className="text-xs text-gray-400">{app.categoryName}</span>
+        )}
+        {/* Platform badges */}
+        <div className="flex items-center gap-1">
+          {hasAndroid && (
+            <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 bg-emerald-50 text-emerald-700 rounded border border-emerald-100">
+              <svg className="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.523 15.341c-.397 0-.72-.323-.72-.72s.323-.72.72-.72.72.323.72.72-.323.72-.72.72m-11.046 0c-.397 0-.72-.323-.72-.72s.323-.72.72-.72.72.323.72.72-.323.72-.72.72M17.74 9.33l1.705-2.953a.357.357 0 00-.13-.487.357.357 0 00-.487.13L17.1 8.997a10.95 10.95 0 00-10.199 0L5.172 6.02a.357.357 0 00-.487-.13.357.357 0 00-.13.487L6.26 9.33C3.6 10.824 1.817 13.58 1.5 16.773h21c-.317-3.193-2.1-5.949-4.76-7.443"/>
+              </svg>
+              Android
+            </span>
+          )}
+          {hasIos && (
+            <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold px-1.5 py-0.5 bg-sky-50 text-sky-700 rounded border border-sky-100">
+              <Smartphone className="h-2.5 w-2.5" />
+              iPhone
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 const collections = [
@@ -42,7 +142,6 @@ export function Apps() {
 
   const isGames = (params as any).appType === "game";
 
-  // Compute early so they can drive hook `enabled` flags
   const activeCollection =
     isGames ? "games" :
     params.featured ? "featured" :
@@ -52,11 +151,7 @@ export function Apps() {
 
   const isCollectionModeEarly = !params.category && !params.search;
 
-  // Fetch ALL items (apps + games, no appType filter) — used for "All Apps" grouped view + live category counts
-  const { data: allItemsData, isLoading: loadingAllItems } = useListApps(
-    { limit: 500 } as any
-  );
-
+  const { data: allItemsData, isLoading: loadingAllItems } = useListApps({ limit: 500 } as any);
   const { data: listAppsData, isLoading: loadingList } = useListApps({ ...params, limit: 500 } as any);
   const { data: newAppsData, isLoading: loadingNew } = useGetNewApps(
     { appType: "app", limit: 500 } as any,
@@ -70,7 +165,6 @@ export function Apps() {
   const { data: categories } = useListCategories();
   const appCategories = categories?.filter((c: any) => c.type !== "game");
 
-  // Live count map from fetched data (apps only, by categorySlug)
   const liveCounts = allItemsData
     ? allItemsData.reduce<Record<string, number>>((acc, app) => {
         const slug = (app as any).categorySlug;
@@ -95,8 +189,6 @@ export function Apps() {
   };
 
   const activeCol = collections.find(c => c.key === activeCollection) ?? collections[0];
-
-  // Collection mode: no category/search active → games-style full-width layout
   const isCollectionMode = isCollectionModeEarly;
 
   const pageTitle =
@@ -126,7 +218,111 @@ export function Apps() {
     )
   );
 
-  /* ── COLLECTION MODE (same style as /games) ── */
+  /* ── SEARCH ENGINE RESULTS PAGE ── */
+  if (params.search) {
+    const query = params.search;
+
+    return (
+      <div className="bg-white min-h-screen">
+
+        {/* Sticky search bar header */}
+        <div className="border-b border-gray-200 bg-white py-3 px-4 sm:px-6">
+          <div className="max-w-3xl mx-auto flex items-center gap-4">
+            <button
+              onClick={() => window.history.back()}
+              className="flex items-center gap-1.5 shrink-0 font-bold text-xl tracking-tight text-gray-900"
+            >
+              App<span className="text-primary">Vault</span>
+            </button>
+            <div className="flex-1">
+              <SearchAutocomplete
+                size="sm"
+                defaultValue={query}
+                placeholder="Search apps, games..."
+                onSearch={(q) => setParams(p => ({ ...p, search: q }))}
+              />
+            </div>
+          </div>
+
+          {/* Filter tabs */}
+          <div className="max-w-3xl mx-auto mt-3 flex items-center gap-1 pl-[calc(2rem+1px)] overflow-x-auto">
+            {[
+              { label: "All",   key: null },
+              { label: "Apps",  key: "app" },
+              { label: "Games", key: "game" },
+            ].map(tab => {
+              const currentType = (params as any).appType ?? null;
+              const active = tab.key === currentType;
+              return (
+                <button
+                  key={tab.label}
+                  onClick={() => setParams(p => ({ ...p, appType: tab.key ?? undefined }))}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
+                    active
+                      ? "bg-primary/10 text-primary border border-primary/20"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Results */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4">
+
+          {isLoading ? (
+            <div className="space-y-6 py-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div key={i} className="space-y-2 py-4 border-b border-gray-100">
+                  <Skeleton className="h-3 w-48 rounded" />
+                  <Skeleton className="h-6 w-80 rounded" />
+                  <Skeleton className="h-4 w-full max-w-lg rounded" />
+                  <Skeleton className="h-4 w-64 rounded" />
+                </div>
+              ))}
+            </div>
+          ) : !apps || apps.length === 0 ? (
+            <div className="py-16 text-center">
+              <p className="text-gray-400 text-base mb-1">
+                No results for <strong className="text-gray-700">"{query}"</strong>
+              </p>
+              <p className="text-gray-400 text-sm mb-6">Try a different search term or browse by category.</p>
+              <button
+                onClick={clearFilters}
+                className="px-5 py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors"
+              >
+                Browse All Apps
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* Result count */}
+              <p className="text-xs text-gray-400 mb-1 pt-2">
+                About {apps.length} result{apps.length !== 1 ? "s" : ""} for{" "}
+                <span className="font-medium text-gray-600">"{query}"</span>
+              </p>
+
+              {/* Result list */}
+              <div>
+                {apps.map(app => (
+                  <SearchResultItem
+                    key={app.id}
+                    app={app as any}
+                    query={query}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  /* ── COLLECTION MODE ── */
   if (isCollectionMode) {
     return (
       <div className="bg-gray-50 min-h-screen">
@@ -162,7 +358,6 @@ export function Apps() {
                 );
               })}
 
-              {/* Browse by category */}
               <button
                 onClick={() => setShowCategoryPanel(!showCategoryPanel)}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold border bg-white text-gray-600 border-gray-200 hover:border-gray-300 transition-all"
@@ -172,7 +367,6 @@ export function Apps() {
               </button>
             </div>
 
-            {/* Inline category panel */}
             {showCategoryPanel && (
               <div className="mt-4 ml-16 flex flex-wrap gap-2">
                 {appCategories?.map(cat => {
@@ -192,10 +386,9 @@ export function Apps() {
           </div>
         </div>
 
-        {/* Full-width content */}
+        {/* Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {activeCollection === "all" && !isLoading && apps ? (
-            /* Category-grouped view */
             (() => {
               const grouped: Record<string, { name: string; slug: string; items: typeof apps }> = {};
               apps.forEach(app => {
@@ -229,7 +422,6 @@ export function Apps() {
                     {apps.length} apps & games — {apps.length - totalGames} apps across {appSections.length} categories · {totalGames} games across {gameSections.length} genres
                   </p>
 
-                  {/* App category sections */}
                   {appSections.map(section => (
                     <div key={section.slug}>
                       <div className="flex items-center justify-between mb-4">
@@ -245,10 +437,8 @@ export function Apps() {
                     </div>
                   ))}
 
-                  {/* Games parent section with genre subsections */}
                   {gameSections.length > 0 && (
                     <div>
-                      {/* Games header */}
                       <div className="flex items-center justify-between mb-6">
                         <div>
                           <h2 className="text-xl font-extrabold text-gray-900 flex items-center gap-2">
@@ -256,15 +446,11 @@ export function Apps() {
                           </h2>
                           <p className="text-xs text-gray-400 mt-0.5">{totalGames} games across {gameSections.length} genres</p>
                         </div>
-                        <button
-                          onClick={() => setCollection("games")}
-                          className="text-sm font-semibold text-violet-600 hover:text-violet-500 transition-colors"
-                        >
+                        <button onClick={() => setCollection("games")} className="text-sm font-semibold text-violet-600 hover:text-violet-500 transition-colors">
                           Browse all games →
                         </button>
                       </div>
 
-                      {/* Genre subsections */}
                       <div className="space-y-10 pl-4 border-l-2 border-violet-100">
                         {gameSections.map(section => {
                           const genreName = section.name.replace(/ Games$/i, "");
@@ -290,7 +476,6 @@ export function Apps() {
               );
             })()
           ) : (
-            /* Category-grouped view for Featured / Trending / Latest / Games */
             (() => {
               if (isLoading) return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -357,7 +542,7 @@ export function Apps() {
     );
   }
 
-  /* ── BROWSE MODE (category / search active) ── */
+  /* ── BROWSE MODE (category active) ── */
   return (
     <div className="bg-gray-50 min-h-screen">
 
