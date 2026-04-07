@@ -419,3 +419,101 @@ export async function syncUSApps(): Promise<void> {
 
   log.info(`🎉 Sync complete! Fetched: ${syncStatus.fetched}, Inserted: ${syncStatus.inserted}, Updated: ${syncStatus.updated}, Errors: ${syncStatus.errors}`);
 }
+
+// ── Rating refresh ──────────────────────────────────────────────────────────
+
+export interface RefreshStatus {
+  running: boolean;
+  total: number;
+  done: number;
+  updated: number;
+  errors: number;
+  phase: string;
+}
+
+let refreshStatus: RefreshStatus = {
+  running: false,
+  total: 0,
+  done: 0,
+  updated: 0,
+  errors: 0,
+  phase: "idle",
+};
+
+export function getRefreshStatus(): RefreshStatus {
+  return { ...refreshStatus };
+}
+
+export async function refreshRatings(): Promise<void> {
+  if (refreshStatus.running) return;
+
+  refreshStatus = { running: true, total: 0, done: 0, updated: 0, errors: 0, phase: "starting" };
+
+  const { eq, sql: drizzleSql } = await import("drizzle-orm");
+
+  const appsWithNoRating = await db
+    .select({ id: appsTable.id, platform: appsTable.platform, playStoreUrl: appsTable.playStoreUrl, appStoreUrl: appsTable.appStoreUrl })
+    .from(appsTable)
+    .where(drizzleSql`${appsTable.rating} = 0`);
+
+  refreshStatus.total = appsWithNoRating.length;
+  log.info(`🔄 Refreshing ratings for ${refreshStatus.total} apps with missing scores...`);
+
+  for (const app of appsWithNoRating) {
+    refreshStatus.done++;
+
+    try {
+      let newRating: number | null = null;
+      let newReviews: number | null = null;
+
+      // Try Play Store first
+      if (app.playStoreUrl) {
+        const match = app.playStoreUrl.match(/[?&]id=([^&]+)/);
+        if (match) {
+          const appId = match[1];
+          refreshStatus.phase = `play:${appId}`;
+          try {
+            const details: any = await (gplay as any).app({ appId, country: "us", lang: "en" });
+            if (details?.score > 0) {
+              newRating = parseFloat(details.score.toFixed(1));
+              newReviews = clamp(details.ratings, 2_000_000_000);
+            }
+          } catch { /* skip */ }
+        }
+      }
+
+      // Try App Store if Play Store gave nothing
+      if ((newRating === null || newRating === 0) && app.appStoreUrl) {
+        const match = app.appStoreUrl.match(/\/id(\d+)/);
+        if (match) {
+          const id = parseInt(match[1]);
+          refreshStatus.phase = `ios:${id}`;
+          try {
+            const details: any = await (store as any).app({ id, country: "us" });
+            if (details?.score > 0) {
+              newRating = parseFloat(details.score.toFixed(1));
+              newReviews = clamp(details.reviews, 2_000_000_000);
+            }
+          } catch { /* skip */ }
+        }
+      }
+
+      if (newRating !== null && newRating > 0) {
+        await db.update(appsTable)
+          .set({ rating: newRating, ...(newReviews !== null ? { reviewCount: newReviews } : {}) })
+          .where(eq(appsTable.id, app.id));
+        refreshStatus.updated++;
+      }
+
+    } catch (err: any) {
+      refreshStatus.errors++;
+      log.warn({ err: err?.message }, `rating refresh error for app ${app.id}`);
+    }
+
+    await sleep(300); // gentle rate limit
+  }
+
+  refreshStatus.running = false;
+  refreshStatus.phase = "done";
+  log.info(`✅ Rating refresh done: ${refreshStatus.updated} updated, ${refreshStatus.errors} errors`);
+}
