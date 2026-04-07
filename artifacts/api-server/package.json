@@ -14,10 +14,12 @@
     "@workspace/api-zod": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/integrations-openai-ai-server": "workspace:*",
+    "app-store-scraper": "^0.18.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2",
     "drizzle-orm": "catalog:",
     "express": "^5",
+    "google-play-scraper": "^10.1.2",
     "pino": "^9",
     "pino-http": "^10"
   },
