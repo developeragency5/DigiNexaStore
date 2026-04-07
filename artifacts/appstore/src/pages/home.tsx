@@ -64,7 +64,7 @@ export function Home() {
     <div className="bg-white min-h-screen">
 
       {/* ── Hero Banner ── */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #14532d 0%, #166534 30%, #16a34a 70%, #22c55e 100%)" }}>
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #166534 0%, #16a34a 35%, #22c55e 70%, #4ade80 100%)" }}>
 
         {/* Subtle dot grid */}
         <div
