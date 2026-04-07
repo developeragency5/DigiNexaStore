@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { db } from "@workspace/db";
-import { appsTable, categoriesTable } from "@workspace/db";
-import { eq, ilike, and, desc, sql } from "drizzle-orm";
+import { appsTable, categoriesTable, userRatingsTable } from "@workspace/db";
+import { eq, ilike, and, desc, sql, avg } from "drizzle-orm";
 import {
   ListAppsQueryParams,
   GetAppParams,
@@ -184,6 +184,59 @@ router.get("/:id/related", async (req, res) => {
     .limit(limit);
 
   return res.json(related.map(formatApp));
+});
+
+router.post("/:id/rate", async (req, res) => {
+  const id = parseInt(req.params.id);
+  if (isNaN(id)) return res.status(400).json({ error: "Invalid app ID" });
+
+  const rating = parseInt(req.body?.rating);
+  if (!rating || rating < 1 || rating > 5) {
+    return res.status(400).json({ error: "Rating must be 1–5" });
+  }
+
+  const ip = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || req.socket.remoteAddress || "unknown";
+
+  const [app] = await db.select().from(appsTable).where(eq(appsTable.id, id)).limit(1);
+  if (!app) return res.status(404).json({ error: "App not found" });
+
+  const [existing] = await db.select().from(userRatingsTable)
+    .where(and(eq(userRatingsTable.appId, id), eq(userRatingsTable.ipAddress, ip)))
+    .limit(1);
+
+  if (existing) {
+    await db.update(userRatingsTable)
+      .set({ rating })
+      .where(eq(userRatingsTable.id, existing.id));
+  } else {
+    await db.insert(userRatingsTable).values({ appId: id, ipAddress: ip, rating });
+  }
+
+  const [{ avgRating, count }] = await db
+    .select({
+      avgRating: avg(userRatingsTable.rating),
+      count: sql<number>`COUNT(*)::int`,
+    })
+    .from(userRatingsTable)
+    .where(eq(userRatingsTable.appId, id));
+
+  const newAvg = parseFloat((avgRating ?? "0").toString());
+  const newCount = count ?? 0;
+
+  await db.update(appsTable)
+    .set({
+      rating: parseFloat(newAvg.toFixed(1)),
+      reviewCount: app.reviewCount + (existing ? 0 : 1),
+    })
+    .where(eq(appsTable.id, id));
+
+  return res.json({
+    success: true,
+    yourRating: rating,
+    newRating: parseFloat(newAvg.toFixed(1)),
+    reviewCount: app.reviewCount + (existing ? 0 : 1),
+    isUpdate: !!existing,
+  });
 });
 
 router.get("/:id", async (req, res) => {

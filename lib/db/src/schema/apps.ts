@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, real, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, real, boolean, timestamp, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod/v4";
 
@@ -38,3 +38,11 @@ export const appsTable = pgTable("apps", {
 export const insertAppSchema = createInsertSchema(appsTable).omit({ id: true });
 export type InsertApp = z.infer<typeof insertAppSchema>;
 export type App = typeof appsTable.$inferSelect;
+
+export const userRatingsTable = pgTable("user_ratings", {
+  id: serial("id").primaryKey(),
+  appId: integer("app_id").notNull(),
+  ipAddress: text("ip_address").notNull(),
+  rating: integer("rating").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+}, (t) => [unique("unique_ip_app").on(t.appId, t.ipAddress)]);

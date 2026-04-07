@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useParams, Link } from "wouter";
 import { useGetApp, useListApps, getGetAppQueryKey } from "@workspace/api-client-react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AppCard } from "@/components/app-card";
 import {
   Star, Download, Share2, Globe, Shield,
-  Smartphone, ChevronRight, Zap, Award, Link2
+  Smartphone, ChevronRight, Zap, Award, Link2, CheckCircle2
 } from "lucide-react";
 
 function StarRating({ rating }: { rating: number }) {
