@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import { Smartphone } from "lucide-react";
 
 export function Footer() {
   return (
@@ -9,10 +8,13 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="h-8 w-8 bg-primary rounded-lg flex items-center justify-center">
-                <Smartphone className="h-4 w-4 text-white" />
-              </div>
-              <span className="font-bold text-lg text-white">App<span className="text-primary">Vault</span></span>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="8" fill="#16A34A"/>
+                <circle cx="13.5" cy="16.5" r="6.5" stroke="white" strokeWidth="2.6" fill="none"/>
+                <line x1="20" y1="10" x2="20" y2="24" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
+                <line x1="14" y1="10" x2="20" y2="10" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
+              </svg>
+              <span className="font-bold text-lg text-white">app<span className="text-primary">us</span></span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
