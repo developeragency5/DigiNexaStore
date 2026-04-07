@@ -64,40 +64,37 @@ export function Home() {
     <div className="bg-white min-h-screen">
 
       {/* ── Hero Banner ── */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #166534 0%, #16a34a 35%, #22c55e 70%, #4ade80 100%)" }}>
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #bbf7d0 0%, #86efac 40%, #4ade80 75%, #22c55e 100%)" }}>
 
         {/* Subtle dot grid */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "28px 28px" }}
+          className="pointer-events-none absolute inset-0 opacity-[0.06]"
+          style={{ backgroundImage: "radial-gradient(circle, #14532d 1px, transparent 1px)", backgroundSize: "28px 28px" }}
         />
-
-        {/* Soft glow at bottom edge */}
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/10 to-transparent" />
 
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-14 pb-12 text-center">
 
           {/* Brand */}
           <div className="flex items-center justify-center gap-3 mb-3">
-            <svg width="48" height="48" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
-              <rect width="52" height="52" rx="13" fill="white" fillOpacity="0.18"/>
+            <svg width="48" height="48" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+              <rect width="52" height="52" rx="13" fill="#16A34A"/>
               <circle cx="22" cy="27" r="10.5" stroke="white" strokeWidth="4.2" fill="none"/>
               <line x1="32.5" y1="16.5" x2="32.5" y2="39" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
               <line x1="22.5" y1="16.5" x2="32.5" y2="16.5" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
             </svg>
-            <span className="text-4xl font-extrabold tracking-tight text-white">
-              app<span className="text-green-200">us</span>
+            <span className="text-4xl font-extrabold tracking-tight text-green-900">
+              app<span className="text-primary">us</span>
             </span>
           </div>
 
           {/* Tagline */}
-          <p className="text-green-100/80 text-sm font-medium tracking-wide mb-8">
+          <p className="text-green-800/70 text-sm font-medium tracking-wide mb-8">
             Discover &amp; compare the best apps and games
           </p>
 
-          {/* Search Bar — white on green */}
-          <div className="w-full max-w-2xl mx-auto drop-shadow-xl">
+          {/* Search Bar */}
+          <div className="w-full max-w-2xl mx-auto drop-shadow-md">
             <SearchAutocomplete
               size="lg"
               placeholder="Search apps, games, developers..."
@@ -111,9 +108,9 @@ export function Home() {
               <Link
                 key={cat.label}
                 href={cat.href}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-150 backdrop-blur-sm"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/50 text-green-900 border border-white/60 hover:bg-white/70 transition-all duration-150"
               >
-                <cat.icon className="h-3 w-3 opacity-80" />
+                <cat.icon className="h-3 w-3 opacity-70" />
                 {cat.label}
               </Link>
             ))}
