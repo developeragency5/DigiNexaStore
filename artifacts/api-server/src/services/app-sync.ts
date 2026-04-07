@@ -561,3 +561,62 @@ export async function refreshRatings(): Promise<void> {
   refreshStatus.phase = "done";
   log.info(`✅ Rating refresh done: ${refreshStatus.updated} updated, ${refreshStatus.errors} errors`);
 }
+
+// ── App Store rating sweep — fix ALL apps with an appStoreUrl ───────────────
+
+let iosStatus: RefreshStatus = {
+  running: false, total: 0, done: 0, updated: 0, errors: 0, phase: "idle",
+};
+
+export function getIosRefreshStatus(): RefreshStatus {
+  return { ...iosStatus };
+}
+
+export async function refreshAppStoreRatings(): Promise<void> {
+  if (iosStatus.running) return;
+
+  iosStatus = { running: true, total: 0, done: 0, updated: 0, errors: 0, phase: "starting" };
+
+  const { eq, isNotNull } = await import("drizzle-orm");
+
+  // Target every app that has an App Store URL — overwrite rating with iOS score
+  const targets = await db
+    .select({ id: appsTable.id, appStoreUrl: appsTable.appStoreUrl })
+    .from(appsTable)
+    .where(isNotNull(appsTable.appStoreUrl));
+
+  iosStatus.total = targets.length;
+  log.info(`🍎 App Store rating sweep: ${iosStatus.total} apps to process`);
+
+  for (const app of targets) {
+    iosStatus.done++;
+
+    try {
+      if (!app.appStoreUrl) { continue; }
+
+      const match = app.appStoreUrl.match(/\/id(\d+)/);
+      if (!match) continue;
+
+      const id = parseInt(match[1]);
+      iosStatus.phase = `ios:${id}`;
+
+      const details: any = await (store as any).app({ id, country: "us" });
+      if (details?.score > 0) {
+        const rating  = parseFloat(details.score.toFixed(1));
+        const reviews = clamp(details.reviews ?? 0, 2_000_000_000);
+        await db.update(appsTable)
+          .set({ rating, reviewCount: reviews })
+          .where(eq(appsTable.id, app.id));
+        iosStatus.updated++;
+      }
+    } catch {
+      iosStatus.errors++;
+    }
+
+    await sleep(350);
+  }
+
+  iosStatus.running = false;
+  iosStatus.phase = "done";
+  log.info(`✅ iOS sweep done: ${iosStatus.updated} updated, ${iosStatus.errors} errors`);
+}
