@@ -193,7 +193,6 @@ export function AppDetail() {
                   <div className="flex items-center gap-1.5">
                     <StarRating rating={app.rating} />
                     <span className="text-sm font-bold text-gray-900">{app.rating.toFixed(1)}</span>
-                    <span className="text-xs text-gray-400">({app.reviewCount.toLocaleString()} reviews)</span>
                   </div>
                   <div className="flex items-center gap-1.5 text-sm text-gray-500">
                     <Download className="h-4 w-4 text-gray-400" />
