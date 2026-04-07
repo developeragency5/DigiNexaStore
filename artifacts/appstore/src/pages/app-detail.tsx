@@ -82,13 +82,16 @@ export function AppDetail() {
   }
 
   function resolvedPlayStoreUrl(storedUrl?: string | null): string | null {
-    if (storedUrl && storedUrl.includes("play.google.com/store/apps/details")) return storedUrl;
-    if (storedUrl && storedUrl.includes("play.google.com/store/search")) return storedUrl;
+    if (!storedUrl) return null;
+    const url = storedUrl.trim();
+    if (url.includes("play.google.com")) return url;
     return null;
   }
 
   function resolvedAppStoreUrl(storedUrl?: string | null): string | null {
-    if (storedUrl && storedUrl.includes("apps.apple.com/") && storedUrl.length > 35) return storedUrl;
+    if (!storedUrl) return null;
+    const url = storedUrl.trim();
+    if (url.includes("apps.apple.com") && url.length > 30) return url;
     return null;
   }
 
