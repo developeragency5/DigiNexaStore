@@ -620,3 +620,74 @@ export async function refreshAppStoreRatings(): Promise<void> {
   iosStatus.phase = "done";
   log.info(`✅ iOS sweep done: ${iosStatus.updated} updated, ${iosStatus.errors} errors`);
 }
+
+// ── Resolve Play Store search URLs → direct package URLs ────────────────────
+
+let resolveStatus: RefreshStatus = {
+  running: false, total: 0, done: 0, updated: 0, errors: 0, phase: "idle",
+};
+
+export function getResolveStatus(): RefreshStatus {
+  return { ...resolveStatus };
+}
+
+export async function resolvePlayStoreUrls(): Promise<void> {
+  if (resolveStatus.running) return;
+
+  resolveStatus = { running: true, total: 0, done: 0, updated: 0, errors: 0, phase: "starting" };
+
+  const { eq, like } = await import("drizzle-orm");
+
+  // Find all apps whose play_store_url is a search URL (not a direct package URL)
+  const targets = await db
+    .select({ id: appsTable.id, name: appsTable.name, developer: appsTable.developer, playStoreUrl: appsTable.playStoreUrl })
+    .from(appsTable)
+    .where(like(appsTable.playStoreUrl, "%play.google.com/store/search%"));
+
+  resolveStatus.total = targets.length;
+  log.info(`🔍 Resolving ${resolveStatus.total} Play Store search URLs to direct package links...`);
+
+  for (const app of targets) {
+    resolveStatus.done++;
+    resolveStatus.phase = `searching:${app.name}`;
+
+    try {
+      const searchTerm = `${app.name} ${app.developer ?? ""}`.trim();
+      const results: any[] = await (gplay as any).search({
+        term: searchTerm,
+        num: 5,
+        country: "us",
+        lang: "en",
+      });
+
+      if (!results?.length) { resolveStatus.errors++; continue; }
+
+      // Pick the best match: exact name match first, then first result
+      const nameLower = app.name.toLowerCase();
+      const best =
+        results.find((r: any) => r.title?.toLowerCase() === nameLower) ||
+        results.find((r: any) => r.title?.toLowerCase().includes(nameLower.split(" ")[0]?.toLowerCase() ?? "")) ||
+        results[0];
+
+      if (best?.appId) {
+        const directUrl = `https://play.google.com/store/apps/details?id=${best.appId}`;
+        await db.update(appsTable)
+          .set({ playStoreUrl: directUrl })
+          .where(eq(appsTable.id, app.id));
+        resolveStatus.updated++;
+        log.info(`  ✅ ${app.name} → ${best.appId}`);
+      } else {
+        resolveStatus.errors++;
+      }
+    } catch (err: any) {
+      resolveStatus.errors++;
+      log.warn({ err: err?.message }, `resolve error for ${app.name}`);
+    }
+
+    await sleep(600);
+  }
+
+  resolveStatus.running = false;
+  resolveStatus.phase = "done";
+  log.info(`✅ Play Store resolve done: ${resolveStatus.updated} resolved, ${resolveStatus.errors} failed`);
+}

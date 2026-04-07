@@ -2,7 +2,7 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import { appsTable } from "@workspace/db";
 import { sql } from "drizzle-orm";
-import { syncUSApps, getSyncStatus, refreshRatings, getRefreshStatus, refreshAppStoreRatings, getIosRefreshStatus } from "../services/app-sync.js";
+import { syncUSApps, getSyncStatus, refreshRatings, getRefreshStatus, refreshAppStoreRatings, getIosRefreshStatus, resolvePlayStoreUrls, getResolveStatus } from "../services/app-sync.js";
 
 const router = Router();
 
@@ -29,6 +29,21 @@ router.get("/sync-status", async (_req, res) => {
     .select({ total: sql<number>`COUNT(*)` })
     .from(appsTable);
   res.json({ ...status, dbTotal: Number(row?.total ?? 0) });
+});
+
+// POST /resolve-play-urls — resolve search-based Play Store URLs to direct package links
+router.post("/resolve-play-urls", (_req, res) => {
+  const status = getResolveStatus();
+  if (status.running) {
+    res.json({ ok: false, message: "Resolver already running", status });
+    return;
+  }
+  resolvePlayStoreUrls().catch((err: any) => console.error("Play URL resolver crashed:", err?.message));
+  res.json({ ok: true, message: "Play Store URL resolver started. Poll GET /resolve-play-urls-status for progress." });
+});
+
+router.get("/resolve-play-urls-status", (_req, res) => {
+  res.json(getResolveStatus());
 });
 
 // POST /refresh-ios-ratings — sweep ALL apps with appStoreUrl and apply iOS rating
