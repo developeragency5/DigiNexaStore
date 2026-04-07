@@ -64,7 +64,7 @@ export function Home() {
     <div className="bg-white min-h-screen">
 
       {/* ── Hero Banner ── */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #bbf7d0 0%, #86efac 40%, #4ade80 75%, #22c55e 100%)" }}>
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #f0fdf4 0%, #dcfce7 35%, #bbf7d0 70%, #86efac 100%)" }}>
 
         {/* Subtle dot grid */}
         <div
@@ -77,13 +77,13 @@ export function Home() {
 
           {/* Brand */}
           <div className="flex items-center justify-center gap-3 mb-3">
-            <svg width="48" height="48" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+            <svg width="56" height="56" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
               <rect width="52" height="52" rx="13" fill="#16A34A"/>
-              <circle cx="22" cy="27" r="10.5" stroke="white" strokeWidth="4.2" fill="none"/>
-              <line x1="32.5" y1="16.5" x2="32.5" y2="39" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
-              <line x1="22.5" y1="16.5" x2="32.5" y2="16.5" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
+              <circle cx="22" cy="27" r="10" stroke="white" strokeWidth="5" fill="none"/>
+              <line x1="32" y1="17" x2="32" y2="39" stroke="white" strokeWidth="5" strokeLinecap="round"/>
+              <line x1="22" y1="17" x2="32" y2="17" stroke="white" strokeWidth="5" strokeLinecap="round"/>
             </svg>
-            <span className="text-4xl font-extrabold tracking-tight text-green-900">
+            <span className="text-4xl font-extrabold tracking-tight text-green-950">
               app<span className="text-primary">us</span>
             </span>
           </div>
