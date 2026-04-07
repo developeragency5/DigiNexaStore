@@ -133,10 +133,40 @@ async function upsertApp(data: AppData): Promise<"inserted" | "updated" | "skipp
 
     if (conditions.length === 0) return "skipped";
 
-    const existing = await db.select({ id: appsTable.id })
+    const existing = await db
+      .select({ id: appsTable.id, platform: appsTable.platform, downloadCount: appsTable.downloadCount, rating: appsTable.rating })
       .from(appsTable)
       .where(or(...conditions))
       .limit(1);
+
+    const incomingDownloads = clamp(data.downloadCount, 2_000_000_000);
+    const incomingRating    = data.rating;
+
+    let mergedDownloads = incomingDownloads;
+    let mergedRating    = incomingRating;
+    let mergedPlatform  = data.platform;
+
+    if (existing.length > 0) {
+      const ex = existing[0];
+
+      // Keep the higher download count — Apple doesn't publish install numbers so iOS comes in as 0
+      mergedDownloads = Math.max(incomingDownloads, ex.downloadCount);
+
+      // Prefer App Store rating when available; otherwise keep the better non-zero rating
+      if (data.platform === "ios" && incomingRating > 0) {
+        mergedRating = incomingRating;           // iOS update → use App Store rating
+      } else if (ex.rating > 0 && incomingRating === 0) {
+        mergedRating = ex.rating;                // incoming has no rating → keep existing
+      } else {
+        mergedRating = incomingRating || ex.rating;
+      }
+
+      // If we now have data from both stores, mark as "both"
+      if ((ex.platform === "android" && data.platform === "ios") ||
+          (ex.platform === "ios"     && data.platform === "android")) {
+        mergedPlatform = "both";
+      }
+    }
 
     const payload = {
       name:            data.name.slice(0, 200),
@@ -149,12 +179,12 @@ async function upsertApp(data: AppData): Promise<"inserted" | "updated" | "skipp
       categorySlug:    data.categorySlug,
       categoryName:    data.categoryName,
       appType:         data.appType,
-      rating:          data.rating,
-      reviewCount:     clamp(data.reviewCount,   2_000_000_000),
-      downloadCount:   clamp(data.downloadCount, 2_000_000_000),
+      rating:          mergedRating,
+      reviewCount:     clamp(data.reviewCount, 2_000_000_000),
+      downloadCount:   mergedDownloads,
       price:           data.price,
       isFree:          data.isFree,
-      platform:        data.platform,
+      platform:        mergedPlatform,
       appStoreUrl:     data.appStoreUrl,
       playStoreUrl:    data.playStoreUrl,
       tags:            data.tags,
@@ -465,8 +495,9 @@ export async function refreshRatings(): Promise<void> {
     try {
       let newRating: number | null = null;
       let newReviews: number | null = null;
+      let newDownloads: number | null = null;
 
-      // Try Play Store first
+      // Try Play Store first (Play Store gives real install counts)
       if (app.playStoreUrl) {
         const match = app.playStoreUrl.match(/[?&]id=([^&]+)/);
         if (match) {
@@ -478,12 +509,19 @@ export async function refreshRatings(): Promise<void> {
               newRating = parseFloat(details.score.toFixed(1));
               newReviews = clamp(details.ratings, 2_000_000_000);
             }
+            // Always capture install count from Play Store regardless of rating
+            if (details?.maxInstalls > 0) {
+              newDownloads = clamp(details.maxInstalls, 2_000_000_000);
+            } else if (details?.installs) {
+              const parsed = parseInt(String(details.installs).replace(/[^0-9]/g, ""));
+              if (!isNaN(parsed) && parsed > 0) newDownloads = clamp(parsed, 2_000_000_000);
+            }
           } catch { /* skip */ }
         }
       }
 
-      // Try App Store if Play Store gave nothing
-      if ((newRating === null || newRating === 0) && app.appStoreUrl) {
+      // Try App Store — prefer its rating over Play Store (per product requirement)
+      if (app.appStoreUrl) {
         const match = app.appStoreUrl.match(/\/id(\d+)/);
         if (match) {
           const id = parseInt(match[1]);
@@ -491,6 +529,7 @@ export async function refreshRatings(): Promise<void> {
           try {
             const details: any = await (store as any).app({ id, country: "us" });
             if (details?.score > 0) {
+              // App Store rating takes priority
               newRating = parseFloat(details.score.toFixed(1));
               newReviews = clamp(details.reviews, 2_000_000_000);
             }
@@ -498,9 +537,14 @@ export async function refreshRatings(): Promise<void> {
         }
       }
 
-      if (newRating !== null && newRating > 0) {
+      const hasUpdates = (newRating !== null && newRating > 0) || (newDownloads !== null && newDownloads > 0);
+      if (hasUpdates) {
         await db.update(appsTable)
-          .set({ rating: newRating, ...(newReviews !== null ? { reviewCount: newReviews } : {}) })
+          .set({
+            ...(newRating   !== null && newRating   > 0 ? { rating:        newRating   } : {}),
+            ...(newReviews  !== null                    ? { reviewCount:   newReviews  } : {}),
+            ...(newDownloads !== null && newDownloads > 0 ? { downloadCount: newDownloads } : {}),
+          })
           .where(eq(appsTable.id, app.id));
         refreshStatus.updated++;
       }
