@@ -144,11 +144,24 @@ router.get("/", async (req, res) => {
   if (platform) conditions.push(eq(appsTable.platform, platform));
   if (appType) conditions.push(eq((appsTable as any).appType, appType));
 
+  const orderBy = search
+    ? [
+        // Rank: 1 = exact name, 2 = name starts with query, 3 = name contains query, 4 = other fields
+        sql`CASE
+          WHEN LOWER(${appsTable.name}) = LOWER(${search}) THEN 1
+          WHEN LOWER(${appsTable.name}) LIKE LOWER(${search + '%'}) THEN 2
+          WHEN LOWER(${appsTable.name}) LIKE LOWER(${'%' + search + '%'}) THEN 3
+          ELSE 4
+        END`,
+        desc(appsTable.downloadCount),
+      ]
+    : [desc(appsTable.downloadCount)];
+
   const apps = await db
     .select()
     .from(appsTable)
     .where(conditions.length > 0 ? and(...conditions) : undefined)
-    .orderBy(desc(appsTable.downloadCount))
+    .orderBy(...orderBy)
     .limit(limit)
     .offset(offset);
 
