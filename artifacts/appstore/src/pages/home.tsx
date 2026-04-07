@@ -63,54 +63,57 @@ export function Home() {
   return (
     <div className="bg-white min-h-screen">
 
-      {/* ── Search Engine Hero ── */}
-      <section className="relative border-b border-green-100 overflow-hidden bg-gradient-to-b from-green-50 via-green-50/60 to-white">
+      {/* ── Hero Banner ── */}
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(150deg, #14532d 0%, #166534 30%, #16a34a 70%, #22c55e 100%)" }}>
 
-        {/* Decorative blurred blobs */}
-        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -left-32 w-[400px] h-[400px] rounded-full bg-green-200 opacity-25 blur-[80px]" />
-        <div aria-hidden="true" className="pointer-events-none absolute -top-32 -right-32 w-[400px] h-[400px] rounded-full bg-emerald-200 opacity-20 blur-[80px]" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full bg-green-100 opacity-30 blur-[60px]" />
+        {/* Subtle dot grid */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "28px 28px" }}
+        />
 
-        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-16 pb-14 text-center">
+        {/* Soft glow at bottom edge */}
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/10 to-transparent" />
 
-          {/* Logo / Brand */}
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-14 pb-12 text-center">
+
+          {/* Brand */}
           <div className="flex items-center justify-center gap-3 mb-3">
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
-              <rect width="52" height="52" rx="13" fill="#16A34A"/>
+            <svg width="48" height="48" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-lg">
+              <rect width="52" height="52" rx="13" fill="white" fillOpacity="0.18"/>
               <circle cx="22" cy="27" r="10.5" stroke="white" strokeWidth="4.2" fill="none"/>
               <line x1="32.5" y1="16.5" x2="32.5" y2="39" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
               <line x1="22.5" y1="16.5" x2="32.5" y2="16.5" stroke="white" strokeWidth="4.2" strokeLinecap="round"/>
             </svg>
-            <span className="text-4xl font-extrabold tracking-tight text-gray-900">
-              app<span className="text-primary">us</span>
+            <span className="text-4xl font-extrabold tracking-tight text-white">
+              app<span className="text-green-200">us</span>
             </span>
           </div>
 
           {/* Tagline */}
-          <p className="text-sm text-gray-500 font-medium tracking-wide mb-8">
+          <p className="text-green-100/80 text-sm font-medium tracking-wide mb-8">
             Discover &amp; compare the best apps and games
           </p>
 
-          {/* Main Search Bar */}
-          <SearchAutocomplete
-            size="lg"
-            placeholder="Search apps, games, developers..."
-            className="w-full max-w-2xl mx-auto"
-          />
+          {/* Search Bar — white on green */}
+          <div className="w-full max-w-2xl mx-auto drop-shadow-xl">
+            <SearchAutocomplete
+              size="lg"
+              placeholder="Search apps, games, developers..."
+              className="w-full"
+            />
+          </div>
 
           {/* Quick Category Pills */}
-          <div className="mt-8 flex flex-wrap justify-center gap-2">
+          <div className="mt-7 flex flex-wrap justify-center gap-2">
             {quickCategories.map(cat => (
               <Link
                 key={cat.label}
                 href={cat.href}
-                className={`
-                  inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold
-                  ${cat.bg} ${cat.color} border ${cat.border}
-                  hover:opacity-80 transition-opacity
-                `}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-150 backdrop-blur-sm"
               >
-                <cat.icon className="h-3 w-3" />
+                <cat.icon className="h-3 w-3 opacity-80" />
                 {cat.label}
               </Link>
             ))}
