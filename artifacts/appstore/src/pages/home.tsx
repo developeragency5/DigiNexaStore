@@ -97,7 +97,7 @@ export function Home() {
           <div className="w-full max-w-2xl mx-auto">
             <SearchAutocomplete
               size="lg"
-              placeholder="Search apps, games, developers..."
+              placeholder="Search apps, games..."
               className="w-full"
             />
           </div>

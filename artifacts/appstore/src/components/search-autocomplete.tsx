@@ -13,7 +13,7 @@ interface SearchAutocompleteProps {
 }
 
 export function SearchAutocomplete({
-  placeholder = "Search apps, games, developers...",
+  placeholder = "Search apps, games...",
   size = "md",
   autoFocus = false,
   onSearch,
