@@ -94,7 +94,7 @@ export function Home() {
           </p>
 
           {/* Search Bar */}
-          <div className="w-full max-w-2xl mx-auto drop-shadow-md">
+          <div className="w-full max-w-2xl mx-auto">
             <SearchAutocomplete
               size="lg"
               placeholder="Search apps, games, developers..."
