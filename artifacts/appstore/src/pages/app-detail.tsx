@@ -24,7 +24,8 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function StoreBadge({ href, store }: { href: string; store: "play" | "apple" }) {
+function StoreBadge({ href, store }: { href: string | null | undefined; store: "play" | "apple" }) {
+  if (!href) return null;
   const isPlay = store === "play";
   return (
     <a
@@ -80,17 +81,15 @@ export function AppDetail() {
     setTimeout(() => setCopied(false), 2500);
   }
 
-  function resolvedPlayStoreUrl(storedUrl?: string | null, appName?: string): string {
+  function resolvedPlayStoreUrl(storedUrl?: string | null): string | null {
     if (storedUrl && storedUrl.includes("play.google.com/store/apps/details")) return storedUrl;
     if (storedUrl && storedUrl.includes("play.google.com/store/search")) return storedUrl;
-    const q = encodeURIComponent(appName || "");
-    return `https://play.google.com/store/search?q=${q}&c=apps`;
+    return null;
   }
 
-  function resolvedAppStoreUrl(storedUrl?: string | null, appName?: string): string {
+  function resolvedAppStoreUrl(storedUrl?: string | null): string | null {
     if (storedUrl && storedUrl.includes("apps.apple.com/") && storedUrl.length > 35) return storedUrl;
-    const q = encodeURIComponent(appName || "");
-    return `https://apps.apple.com/us/search?term=${q}`;
+    return null;
   }
 
   if (isLoading) {
@@ -205,10 +204,10 @@ export function AppDetail() {
                   </div>
                 </div>
 
-                {/* Download buttons — always show both stores */}
+                {/* Download buttons — only shown when the app has that store's URL */}
                 <div className="flex flex-wrap gap-3 mt-1">
-                  <StoreBadge href={resolvedAppStoreUrl(app.appStoreUrl, app.name)} store="apple" />
-                  <StoreBadge href={resolvedPlayStoreUrl(app.playStoreUrl, app.name)} store="play" />
+                  <StoreBadge href={resolvedAppStoreUrl(app.appStoreUrl)} store="apple" />
+                  <StoreBadge href={resolvedPlayStoreUrl(app.playStoreUrl)} store="play" />
                 </div>
               </div>
             </div>
