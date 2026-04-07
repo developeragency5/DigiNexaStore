@@ -80,17 +80,17 @@ export function AppDetail() {
     setTimeout(() => setCopied(false), 2500);
   }
 
-  function playStoreUrl(storedUrl?: string | null): string | null {
-    if (!storedUrl || storedUrl.length < 20) return null;
-    if (storedUrl.includes("play.google.com/store/apps/details")) return storedUrl;
-    if (storedUrl.includes("play.google.com/store/search")) return storedUrl;
-    if (storedUrl.includes("appinme.com/")) return storedUrl;
-    return null;
+  function resolvedPlayStoreUrl(storedUrl?: string | null, appName?: string): string {
+    if (storedUrl && storedUrl.includes("play.google.com/store/apps/details")) return storedUrl;
+    if (storedUrl && storedUrl.includes("play.google.com/store/search")) return storedUrl;
+    const q = encodeURIComponent(appName || "");
+    return `https://play.google.com/store/search?q=${q}&c=apps`;
   }
 
-  function appStoreUrl(storedUrl?: string | null): string | null {
+  function resolvedAppStoreUrl(storedUrl?: string | null, appName?: string): string {
     if (storedUrl && storedUrl.includes("apps.apple.com/") && storedUrl.length > 35) return storedUrl;
-    return null;
+    const q = encodeURIComponent(appName || "");
+    return `https://apps.apple.com/us/search?term=${q}`;
   }
 
   if (isLoading) {
@@ -206,17 +206,10 @@ export function AppDetail() {
                   </div>
                 </div>
 
-                {/* Download buttons — only show badge when a real direct URL exists */}
+                {/* Download buttons — always show both stores */}
                 <div className="flex flex-wrap gap-3 mt-1">
-                  {playStoreUrl(app.playStoreUrl) && (
-                    <StoreBadge href={playStoreUrl(app.playStoreUrl)!} store="play" />
-                  )}
-                  {appStoreUrl(app.appStoreUrl) && (
-                    <StoreBadge href={appStoreUrl(app.appStoreUrl)!} store="apple" />
-                  )}
-                  {!playStoreUrl(app.playStoreUrl) && !appStoreUrl(app.appStoreUrl) && (
-                    <p className="text-sm text-gray-400 italic">Store links coming soon</p>
-                  )}
+                  <StoreBadge href={resolvedAppStoreUrl(app.appStoreUrl, app.name)} store="apple" />
+                  <StoreBadge href={resolvedPlayStoreUrl(app.playStoreUrl, app.name)} store="play" />
                 </div>
               </div>
             </div>

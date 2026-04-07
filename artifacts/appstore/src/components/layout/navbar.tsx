@@ -97,7 +97,13 @@ export function Navbar() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-200 ${scrolled ? "shadow-[0_2px_20px_rgba(0,0,0,0.08)]" : "border-b border-gray-100"}`}>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-white/90 backdrop-blur-md shadow-[0_1px_0_0_rgba(0,0,0,0.06),0_4px_24px_rgba(0,0,0,0.06)]"
+            : "bg-white border-b border-gray-100/80"
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center h-[60px] gap-3">
 
@@ -113,7 +119,7 @@ export function Navbar() {
                 <line x1="20" y1="10" x2="20" y2="24" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
                 <line x1="14" y1="10" x2="20" y2="10" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
               </svg>
-              <span className="font-bold text-xl tracking-tight text-gray-900 group-hover:text-primary transition-colors">app<span className="text-primary">us</span></span>
+              <span className="font-bold text-xl tracking-tight text-gray-900">app<span className="text-primary">us</span></span>
             </button>
 
             {/* Desktop Nav */}
@@ -125,14 +131,14 @@ export function Navbar() {
                   Apps <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === "apps" ? "rotate-180" : ""}`} />
                 </button>
                 {openDropdown === "apps" && (
-                  <div className="absolute top-full left-0 mt-2 w-[460px] bg-white rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] border border-gray-100 z-50 overflow-hidden" onMouseEnter={() => open("apps")} onMouseLeave={close}>
+                  <div className="absolute top-full left-0 mt-2 w-[460px] bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] z-50 overflow-hidden" onMouseEnter={() => open("apps")} onMouseLeave={close}>
                     <div className="grid grid-cols-2 gap-0">
                       <div className="p-4 border-r border-gray-100">
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Collections</p>
-                        <div className="space-y-1">
+                        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Collections</p>
+                        <div className="space-y-0.5">
                           {appsCollectionLinks.map(item => (
-                            <Link key={item.label} href={item.href} className="flex items-center gap-3 px-2 py-2.5 rounded-xl hover:bg-gray-50 transition-colors group">
-                              <div className={`h-8 w-8 ${item.bg} rounded-lg flex items-center justify-center shrink-0`}>
+                            <Link key={item.label} href={item.href} className="flex items-center gap-3 px-2.5 py-2.5 rounded-xl hover:bg-gray-50 transition-colors group">
+                              <div className={`h-8 w-8 ${item.bg} rounded-xl flex items-center justify-center shrink-0`}>
                                 <item.icon className={`h-4 w-4 ${item.color}`} />
                               </div>
                               <div className="min-w-0">
@@ -144,18 +150,18 @@ export function Navbar() {
                         </div>
                       </div>
                       <div className="p-4">
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Categories</p>
+                        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Categories</p>
                         <div className="space-y-0.5">
                           {appCategoryLinks.slice(0, 6).map(cat => (
-                            <Link key={cat.slug} href={`/categories/${cat.slug}`} className="flex items-center gap-2.5 px-2 py-1.5 rounded-lg hover:bg-gray-50 transition-colors group">
-                              <div className={`h-6 w-6 ${cat.bg} rounded-md flex items-center justify-center shrink-0`}>
+                            <Link key={cat.slug} href={`/categories/${cat.slug}`} className="flex items-center gap-2.5 px-2.5 py-2 rounded-xl hover:bg-gray-50 transition-colors group">
+                              <div className={`h-6 w-6 ${cat.bg} rounded-lg flex items-center justify-center shrink-0`}>
                                 <cat.icon className={`h-3.5 w-3.5 ${cat.color}`} />
                               </div>
                               <span className="text-sm text-gray-700 group-hover:text-primary transition-colors font-medium">{cat.name}</span>
                             </Link>
                           ))}
                         </div>
-                        <Link href="/categories" className="mt-3 flex items-center gap-1 px-2 text-xs font-semibold text-primary hover:underline">
+                        <Link href="/categories" className="mt-2.5 flex items-center gap-1 px-2.5 text-xs font-semibold text-primary hover:underline">
                           All categories <ArrowRight className="h-3 w-3" />
                         </Link>
                       </div>
@@ -170,9 +176,9 @@ export function Navbar() {
                   Games <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === "games" ? "rotate-180" : ""}`} />
                 </button>
                 {openDropdown === "games" && (
-                  <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] border border-gray-100 p-4 z-50" onMouseEnter={() => open("games")} onMouseLeave={close}>
+                  <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] p-4 z-50" onMouseEnter={() => open("games")} onMouseLeave={close}>
                     <Link href="/games" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-colors mb-4 group">
-                      <div className="h-8 w-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <div className="h-8 w-8 bg-primary/10 rounded-xl flex items-center justify-center">
                         <Gamepad2 className="h-4 w-4 text-primary" />
                       </div>
                       <div>
@@ -180,8 +186,8 @@ export function Navbar() {
                         <p className="text-xs text-gray-400">Browse every game</p>
                       </div>
                     </Link>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2.5">Browse by Genre</p>
-                    <div className="grid grid-cols-2 gap-1">
+                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2.5">Browse by Genre</p>
+                    <div className="grid grid-cols-2 gap-0.5">
                       {gameCategoryLinks.map(cat => (
                         <Link key={cat.slug} href={`/categories/${cat.slug}`} className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-50 transition-colors group">
                           <span className="text-base leading-none">{cat.emoji}</span>
@@ -199,7 +205,7 @@ export function Navbar() {
                   Categories <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === "categories" ? "rotate-180" : ""}`} />
                 </button>
                 {openDropdown === "categories" && (
-                  <div className="absolute top-full left-0 mt-2 w-[380px] bg-white rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] border border-gray-100 p-4 z-50" onMouseEnter={() => open("categories")} onMouseLeave={close}>
+                  <div className="absolute top-full left-0 mt-2 w-[380px] bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] p-4 z-50" onMouseEnter={() => open("categories")} onMouseLeave={close}>
                     <Link href="/categories" className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors mb-4 group">
                       <div className="flex items-center gap-2.5">
                         <div className="h-7 w-7 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -211,7 +217,7 @@ export function Navbar() {
                     </Link>
                     <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
                       <div>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Apps</p>
+                        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2 px-1">Apps</p>
                         {appCategoryLinks.map(cat => (
                           <Link key={cat.slug} href={`/categories/${cat.slug}`} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 transition-colors group">
                             <div className={`h-5 w-5 ${cat.bg} rounded-md flex items-center justify-center shrink-0`}>
@@ -222,7 +228,7 @@ export function Navbar() {
                         ))}
                       </div>
                       <div>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Games</p>
+                        <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2 px-1">Games</p>
                         {gameCategoryLinks.map(cat => (
                           <Link key={cat.slug} href={`/categories/${cat.slug}`} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-gray-50 transition-colors group">
                             <span className="text-sm leading-none w-5 text-center">{cat.emoji}</span>
@@ -236,11 +242,8 @@ export function Navbar() {
               </div>
             </nav>
 
-            {/* ── Desktop Search Bar (always visible) ── */}
-            <form
-              onSubmit={handleNavSearch}
-              className="hidden md:flex items-center ml-auto"
-            >
+            {/* ── Desktop Search Bar ── */}
+            <form onSubmit={handleNavSearch} className="hidden md:flex items-center ml-auto">
               <div className="relative flex items-center">
                 <Search className="absolute left-3 h-4 w-4 text-gray-400 pointer-events-none" />
                 <input
@@ -249,7 +252,7 @@ export function Navbar() {
                   value={navQuery}
                   onChange={e => setNavQuery(e.target.value)}
                   placeholder="Search apps & games..."
-                  className="pl-9 pr-8 py-2 w-56 xl:w-72 text-sm bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white transition-all duration-200"
+                  className="pl-9 pr-8 py-2 w-56 xl:w-72 text-sm bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white transition-all duration-200"
                 />
                 {navQuery && (
                   <button
@@ -283,9 +286,9 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Search Bar (expands below navbar) */}
+        {/* Mobile Search Bar */}
         {mobileSearchOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white px-4 py-3">
+          <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md px-4 py-3">
             <form onSubmit={handleMobileSearch} className="flex items-center gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 pointer-events-none" />
@@ -295,20 +298,13 @@ export function Navbar() {
                   value={navQuery}
                   onChange={e => setNavQuery(e.target.value)}
                   placeholder="Search apps & games..."
-                  className="w-full pl-9 pr-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary focus:bg-white transition-all"
+                  className="w-full pl-9 pr-4 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 focus:bg-white transition-all"
                 />
               </div>
-              <button
-                type="submit"
-                className="px-4 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors shrink-0"
-              >
+              <button type="submit" className="px-4 py-2.5 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors shrink-0">
                 Search
               </button>
-              <button
-                type="button"
-                onClick={() => { setMobileSearchOpen(false); setNavQuery(""); }}
-                className="p-2.5 text-gray-400 hover:text-gray-600 transition-colors shrink-0"
-              >
+              <button type="button" onClick={() => { setMobileSearchOpen(false); setNavQuery(""); }} className="p-2.5 text-gray-400 hover:text-gray-600 transition-colors shrink-0">
                 <X className="h-4 w-4" />
               </button>
             </form>
@@ -317,9 +313,9 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && !mobileSearchOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white">
+          <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md">
             <div className="max-w-7xl mx-auto px-4 py-4 space-y-0.5">
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 pt-2 pb-1">Apps</p>
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 pt-2 pb-1">Apps</p>
               {[
                 { href: "/apps", label: "All Apps" },
                 { href: "/apps?featured=true", label: "Featured Apps" },
@@ -328,13 +324,13 @@ export function Navbar() {
                 <Link key={link.href + link.label} href={link.href} className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl">{link.label}</Link>
               ))}
 
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 pt-4 pb-1">Games</p>
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 pt-4 pb-1">Games</p>
               <Link href="/games" className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl">All Games</Link>
               {gameCategoryLinks.slice(0, 4).map(cat => (
                 <Link key={cat.slug} href={`/categories/${cat.slug}`} className="block px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 rounded-xl">{cat.emoji} {cat.name}</Link>
               ))}
 
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest px-3 pt-4 pb-1">Categories</p>
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 pt-4 pb-1">Categories</p>
               <Link href="/categories" className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl">Browse All Categories</Link>
               {appCategoryLinks.slice(0, 5).map(cat => (
                 <Link key={cat.slug} href={`/categories/${cat.slug}`} className="flex items-center gap-2.5 px-3 py-2.5 text-sm text-gray-600 hover:bg-gray-50 rounded-xl">
