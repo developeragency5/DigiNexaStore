@@ -2,7 +2,7 @@ import { Router } from "express";
 import { db } from "@workspace/db";
 import { appsTable } from "@workspace/db";
 import { sql } from "drizzle-orm";
-import { syncUSApps, getSyncStatus, refreshRatings, getRefreshStatus, refreshAppStoreRatings, getIosRefreshStatus, resolvePlayStoreUrls, getResolveStatus } from "../services/app-sync.js";
+import { syncUSApps, getSyncStatus, refreshRatings, getRefreshStatus, refreshAppStoreRatings, getIosRefreshStatus, resolvePlayStoreUrls, getResolveStatus, findPlayStoreEquivalents, getIosMatchStatus } from "../services/app-sync.js";
 
 const router = Router();
 
@@ -29,6 +29,21 @@ router.get("/sync-status", async (_req, res) => {
     .select({ total: sql<number>`COUNT(*)` })
     .from(appsTable);
   res.json({ ...status, dbTotal: Number(row?.total ?? 0) });
+});
+
+// POST /find-android-equivalents — find Play Store equivalents for iOS-only apps
+router.post("/find-android-equivalents", (_req, res) => {
+  const status = getIosMatchStatus();
+  if (status.running) {
+    res.json({ ok: false, message: "Job already running", status });
+    return;
+  }
+  findPlayStoreEquivalents().catch((err: any) => console.error("iOS match crashed:", err?.message));
+  res.json({ ok: true, message: "iOS → Android matching started. Poll GET /find-android-equivalents-status." });
+});
+
+router.get("/find-android-equivalents-status", (_req, res) => {
+  res.json(getIosMatchStatus());
 });
 
 // POST /resolve-play-urls — resolve search-based Play Store URLs to direct package links

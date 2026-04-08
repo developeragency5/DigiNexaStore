@@ -691,3 +691,77 @@ export async function resolvePlayStoreUrls(): Promise<void> {
   resolveStatus.phase = "done";
   log.info(`✅ Play Store resolve done: ${resolveStatus.updated} resolved, ${resolveStatus.errors} failed`);
 }
+
+// ── Find Play Store equivalents for iOS-only apps ────────────────────────────
+
+let iosMatchStatus: RefreshStatus = {
+  running: false, total: 0, done: 0, updated: 0, errors: 0, phase: "idle",
+};
+
+export function getIosMatchStatus(): RefreshStatus {
+  return { ...iosMatchStatus };
+}
+
+export async function findPlayStoreEquivalents(): Promise<void> {
+  if (iosMatchStatus.running) return;
+
+  iosMatchStatus = { running: true, total: 0, done: 0, updated: 0, errors: 0, phase: "starting" };
+
+  const { eq } = await import("drizzle-orm");
+  const { sql: drizzleSql } = await import("drizzle-orm");
+
+  const targets = await db
+    .select({ id: appsTable.id, name: appsTable.name, developer: appsTable.developer, appStoreUrl: appsTable.appStoreUrl })
+    .from(appsTable)
+    .where(drizzleSql`${appsTable.platform} = 'ios'`);
+
+  iosMatchStatus.total = targets.length;
+  log.info(`🔍 Searching Play Store equivalents for ${iosMatchStatus.total} iOS-only apps...`);
+
+  for (const app of targets) {
+    iosMatchStatus.done++;
+    iosMatchStatus.phase = `matching:${app.name}`;
+
+    try {
+      const searchTerm = `${app.name} ${app.developer ?? ""}`.trim();
+      const results: any[] = await (gplay as any).search({
+        term: searchTerm,
+        num: 5,
+        country: "us",
+        lang: "en",
+      });
+
+      if (!results?.length) { iosMatchStatus.errors++; await sleep(400); continue; }
+
+      const nameLower = app.name.toLowerCase();
+      const firstWordLower = nameLower.split(" ")[0] ?? "";
+
+      // Require at least the first word to match to avoid wrong app
+      const best =
+        results.find((r: any) => r.title?.toLowerCase() === nameLower) ||
+        results.find((r: any) => {
+          const t = r.title?.toLowerCase() ?? "";
+          return t.startsWith(firstWordLower) && t.length <= nameLower.length + 12;
+        });
+
+      if (best?.appId) {
+        const directUrl = `https://play.google.com/store/apps/details?id=${best.appId}`;
+        await db.update(appsTable)
+          .set({ playStoreUrl: directUrl, platform: "both" })
+          .where(eq(appsTable.id, app.id));
+        iosMatchStatus.updated++;
+      } else {
+        iosMatchStatus.errors++;
+      }
+    } catch (err: any) {
+      iosMatchStatus.errors++;
+      log.warn({ err: err?.message }, `iOS match error for ${app.name}`);
+    }
+
+    await sleep(500);
+  }
+
+  iosMatchStatus.running = false;
+  iosMatchStatus.phase = "done";
+  log.info(`✅ iOS match done: ${iosMatchStatus.updated} matched, ${iosMatchStatus.errors} not found`);
+}
