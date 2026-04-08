@@ -113,7 +113,7 @@ export function Navbar() {
               onClick={() => navigate("/")}
               className="flex items-center gap-2 shrink-0 group cursor-pointer"
             >
-              <span className="font-bold text-2xl tracking-tight text-gray-900">App <span className="text-primary relative top-0.5">US</span></span>
+              <img src="/logo-mark.png" alt="App US" className="h-8 w-auto object-contain group-hover:opacity-90 transition-opacity" />
             </button>
 
             {/* Desktop Nav */}
