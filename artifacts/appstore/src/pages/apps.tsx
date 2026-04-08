@@ -196,9 +196,9 @@ export function Apps() {
           <div className="max-w-3xl mx-auto flex items-center gap-4">
             <button
               onClick={() => window.history.back()}
-              className="flex items-center gap-1.5 shrink-0 font-bold text-xl tracking-tight text-gray-900"
+              className="flex items-center shrink-0"
             >
-              App <span className="text-primary relative top-0.5">US</span>
+              <img src="/logo-mark.png" alt="App US" className="h-9 w-auto object-contain" />
             </button>
             <div className="flex-1">
               <SearchAutocomplete
