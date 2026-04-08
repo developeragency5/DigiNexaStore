@@ -84,12 +84,6 @@ function SearchResultItem({ app, query }: { app: any; query: string }) {
 
       {/* Meta row */}
       <div className="flex items-center gap-3 flex-wrap">
-        {app.rating > 0 && (
-          <span className="flex items-center gap-1 text-xs text-gray-500">
-            <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-            {Number(app.rating).toFixed(1)}
-          </span>
-        )}
         {app.developer && (
           <span className="text-xs text-gray-400">{app.developer}</span>
         )}
@@ -204,7 +198,7 @@ export function Apps() {
               onClick={() => window.history.back()}
               className="flex items-center gap-1.5 shrink-0 font-bold text-xl tracking-tight text-gray-900"
             >
-              App<span className="text-primary">Vault</span>
+              App<span className="text-primary">US</span>
             </button>
             <div className="flex-1">
               <SearchAutocomplete

@@ -1,29 +1,9 @@
 import { App } from "@workspace/api-client-react";
 import { Link, useLocation } from "wouter";
-import { Star } from "lucide-react";
 
 interface AppCardProps {
   app: App;
   variant?: "default" | "compact" | "featured" | "hero";
-}
-
-function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {
-  const full = Math.floor(rating);
-  const half = rating - full >= 0.5;
-  return (
-    <div className={`flex items-center gap-0.5 ${size === "md" ? "text-sm" : "text-xs"}`}>
-      {[1,2,3,4,5].map(i => (
-        <Star
-          key={i}
-          className={`${size === "md" ? "h-3.5 w-3.5" : "h-3 w-3"} ${
-            i <= full ? "fill-amber-400 text-amber-400" :
-            i === full + 1 && half ? "fill-amber-200 text-amber-400" :
-            "fill-gray-200 text-gray-200"
-          }`}
-        />
-      ))}
-    </div>
-  );
 }
 
 function GetButton({ app, className }: { app: App; className: string }) {
@@ -52,10 +32,6 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
           <div className="w-full space-y-1">
             <h3 className="font-semibold text-sm text-gray-900 line-clamp-1 group-hover:text-primary transition-colors">{app.name}</h3>
             <p className="text-xs text-gray-500 line-clamp-1">{app.shortDescription}</p>
-            <div className="flex items-center justify-center gap-1 text-xs text-gray-500">
-              <StarRating rating={app.rating} />
-              <span className="font-medium text-gray-700">{app.rating.toFixed(1)}</span>
-            </div>
           </div>
           <GetButton
             app={app}
@@ -78,7 +54,6 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
         <div className="flex-1 min-w-0">
           <h4 className="font-semibold text-sm text-gray-900 group-hover:text-primary transition-colors line-clamp-1">{app.name}</h4>
           <p className="text-xs text-gray-500 line-clamp-1">{app.categoryName}</p>
-          <StarRating rating={app.rating} />
         </div>
         <GetButton
           app={app}
@@ -106,10 +81,6 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
           <div className="pt-10 pb-5 px-5 text-center">
             <h3 className="font-bold text-gray-900 group-hover:text-primary transition-colors">{app.name}</h3>
             <p className="text-xs text-gray-500 mt-0.5">{app.developer}</p>
-            <div className="flex items-center justify-center gap-1.5 mt-2">
-              <StarRating rating={app.rating} />
-              <span className="text-xs font-medium text-gray-600">{app.rating.toFixed(1)}</span>
-            </div>
             <GetButton
               app={app}
               className="mt-3 w-full py-2 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary/90 transition-colors"
@@ -131,18 +102,14 @@ export function AppCard({ app, variant = "default" }: AppCardProps) {
         />
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 group-hover:text-primary transition-colors line-clamp-1">{app.name}</h3>
-          <p className="text-xs text-gray-500 line-clamp-1">{app.developer}</p>
-          <div className="flex items-center gap-1.5 mt-1.5">
-            <StarRating rating={app.rating} size="md" />
-            <span className="text-xs font-medium text-gray-600">{app.rating.toFixed(1)}</span>
-          </div>
+          <p className="text-xs text-gray-500 line-clamp-1 mt-0.5">{app.developer}</p>
+          <p className="text-xs text-gray-400 line-clamp-1 mt-0.5">{app.categoryName}</p>
         </div>
-        <div className="flex-shrink-0 text-right space-y-1.5">
+        <div className="flex-shrink-0 text-right">
           <GetButton
             app={app}
             className="block px-5 py-1.5 bg-gray-100 hover:bg-primary hover:text-white text-gray-700 text-sm font-semibold rounded-full transition-all duration-200"
           />
-          <p className="text-[10px] text-gray-400">{app.categoryName}</p>
         </div>
       </div>
     </Link>
