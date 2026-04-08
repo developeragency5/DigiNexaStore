@@ -8,12 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="32" height="32" rx="8" fill="#16A34A"/>
-                <path d="M16 6L6 26h4.8l1.7-4h7l1.7 4H26L16 6zm-1.8 14.5L16 13.8l1.8 6.7h-3.6z" fill="white"/>
-                <circle cx="26" cy="9" r="3.5" fill="#22C55E"/>
-                <path d="M24.5 9l1 1 2-2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <img src="/logo-mark.png" alt="App US logo" width="36" height="36" className="object-contain" />
               <span className="font-bold text-lg text-white">App <span className="text-primary relative top-0.5">US</span></span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">

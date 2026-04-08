@@ -77,12 +77,7 @@ export function Home() {
 
           {/* Brand */}
           <div className="flex items-center justify-center gap-3 mb-3">
-            <svg width="56" height="56" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
-              <rect width="52" height="52" rx="13" fill="#16A34A"/>
-              <path d="M26 8L9 44h7.8l2.8-6.5h12.8L35.2 44H43L26 8zm-3 27.5L26 21l3 14.5h-6z" fill="white"/>
-              <circle cx="43" cy="13" r="6" fill="#22C55E"/>
-              <path d="M40.8 13l1.5 1.5 3-3.2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <img src="/logo-mark.png" alt="App US logo" width="72" height="72" className="object-contain drop-shadow-lg" />
             <span className="text-4xl font-extrabold tracking-tight text-green-950">
               App <span className="text-primary relative top-1">US</span>
             </span>
