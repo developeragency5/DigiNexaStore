@@ -84,7 +84,7 @@ export function Home() {
               <path d="M40.8 13l1.5 1.5 3-3.2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <span className="text-4xl font-extrabold tracking-tight text-green-950">
-              App<span className="text-primary">US</span>
+              App <span className="text-primary">US</span>
             </span>
           </div>
 

@@ -14,7 +14,7 @@ export function Footer() {
                 <circle cx="26" cy="9" r="3.5" fill="#22C55E"/>
                 <path d="M24.5 9l1 1 2-2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="font-bold text-lg text-white">App<span className="text-primary">US</span></span>
+              <span className="font-bold text-lg text-white">App <span className="text-primary">US</span></span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.

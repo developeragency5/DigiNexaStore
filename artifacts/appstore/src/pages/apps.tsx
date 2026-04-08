@@ -198,7 +198,7 @@ export function Apps() {
               onClick={() => window.history.back()}
               className="flex items-center gap-1.5 shrink-0 font-bold text-xl tracking-tight text-gray-900"
             >
-              App<span className="text-primary">US</span>
+              App <span className="text-primary">US</span>
             </button>
             <div className="flex-1">
               <SearchAutocomplete

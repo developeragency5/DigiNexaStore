@@ -119,7 +119,7 @@ export function Navbar() {
                 <circle cx="26" cy="9" r="3.5" fill="#22C55E"/>
                 <path d="M24.5 9l1 1 2-2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="font-bold text-xl tracking-tight text-gray-900">App<span className="text-primary">US</span></span>
+              <span className="font-bold text-xl tracking-tight text-gray-900">App <span className="text-primary">US</span></span>
             </button>
 
             {/* Desktop Nav */}
