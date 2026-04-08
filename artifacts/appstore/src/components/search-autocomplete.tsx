@@ -138,9 +138,6 @@ export function SearchAutocomplete({
       <div className={`absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] z-50 overflow-hidden origin-top transition-all duration-200 ease-out ${open && (showSuggestions || showTrending) ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-2 scale-95 pointer-events-none"}`}>
           {showSuggestions ? (
             <>
-              <div className="px-4 pt-3 pb-1">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Results</p>
-              </div>
               {loadingSuggestions ? (
                 <div className="px-4 py-4 flex items-center gap-2 text-sm text-gray-400">
                   <div className="h-4 w-4 border-2 border-gray-200 border-t-primary rounded-full animate-spin" />
