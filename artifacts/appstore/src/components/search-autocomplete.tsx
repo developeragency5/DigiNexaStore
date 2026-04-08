@@ -135,8 +135,7 @@ export function SearchAutocomplete({
         </button>
       </div>
 
-      {open && (showSuggestions || showTrending) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] z-50 overflow-hidden">
+      <div className={`absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-[0_12px_48px_rgba(0,0,0,0.12)] z-50 overflow-hidden origin-top transition-all duration-200 ease-out ${open && (showSuggestions || showTrending) ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-2 scale-95 pointer-events-none"}`}>
           {showSuggestions ? (
             <>
               <div className="px-4 pt-3 pb-1">
@@ -222,8 +221,7 @@ export function SearchAutocomplete({
               ))}
             </>
           ) : null}
-        </div>
-      )}
+      </div>
     </div>
   );
 }
