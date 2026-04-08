@@ -7,7 +7,7 @@ const values = [
     color: "text-green-600",
     bg: "bg-green-50",
     title: "Curated, Not Crawled",
-    desc: "Every app on appus is reviewed by a real person. We never auto-import junk or bloatware — only apps that genuinely deserve your attention make the cut.",
+    desc: "Every app on App US is reviewed by a real person. We never auto-import junk or bloatware — only apps that genuinely deserve your attention make the cut.",
   },
   {
     icon: Star,
@@ -28,7 +28,7 @@ const values = [
     color: "text-purple-500",
     bg: "bg-purple-50",
     title: "Built for Real People",
-    desc: "No affiliate bias, no pay-to-play placements. appus is designed for users who want honest recommendations — not ads disguised as reviews.",
+    desc: "No affiliate bias, no pay-to-play placements. App US is designed for users who want honest recommendations — not ads disguised as reviews.",
   },
 ];
 
@@ -53,7 +53,7 @@ export function About() {
             <span className="text-primary"> Care About Quality</span>
           </h1>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-            appus was built out of frustration. The major app stores are overrun with clones, low-effort cash-grabs, and misleading ratings.
+            App US was built out of frustration. The major app stores are overrun with clones, low-effort cash-grabs, and misleading ratings.
             We set out to build the directory we always wished existed — curated, honest, and actually useful.
           </p>
         </div>
@@ -80,7 +80,7 @@ export function About() {
             <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Our Mission</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
               We believe great apps can genuinely improve your life — but finding them shouldn't require wading through thousands of mediocre
-              alternatives. appus is our answer to that problem.
+              alternatives. App US is our answer to that problem.
             </p>
             <p className="text-gray-600 leading-relaxed">
               Every app in our directory has been downloaded, tested, and evaluated by our editorial team.

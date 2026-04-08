@@ -115,11 +115,11 @@ export function Navbar() {
             >
               <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" className="group-hover:scale-105 transition-transform shrink-0">
                 <rect width="32" height="32" rx="8" fill="#16A34A"/>
-                <circle cx="13.5" cy="16.5" r="6.5" stroke="white" strokeWidth="2.6" fill="none"/>
-                <line x1="20" y1="10" x2="20" y2="24" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
-                <line x1="14" y1="10" x2="20" y2="10" stroke="white" strokeWidth="2.6" strokeLinecap="round"/>
+                <path d="M16 6L6 26h4.8l1.7-4h7l1.7 4H26L16 6zm-1.8 14.5L16 13.8l1.8 6.7h-3.6z" fill="white"/>
+                <circle cx="26" cy="9" r="3.5" fill="#22C55E"/>
+                <path d="M24.5 9l1 1 2-2" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="font-bold text-xl tracking-tight text-gray-900">app<span className="text-primary">us</span></span>
+              <span className="font-bold text-xl tracking-tight text-gray-900">App<span className="text-primary">US</span></span>
             </button>
 
             {/* Desktop Nav */}

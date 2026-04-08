@@ -79,12 +79,12 @@ export function Home() {
           <div className="flex items-center justify-center gap-3 mb-3">
             <svg width="56" height="56" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-md">
               <rect width="52" height="52" rx="13" fill="#16A34A"/>
-              <circle cx="22" cy="27" r="10" stroke="white" strokeWidth="5" fill="none"/>
-              <line x1="32" y1="17" x2="32" y2="39" stroke="white" strokeWidth="5" strokeLinecap="round"/>
-              <line x1="22" y1="17" x2="32" y2="17" stroke="white" strokeWidth="5" strokeLinecap="round"/>
+              <path d="M26 8L9 44h7.8l2.8-6.5h12.8L35.2 44H43L26 8zm-3 27.5L26 21l3 14.5h-6z" fill="white"/>
+              <circle cx="43" cy="13" r="6" fill="#22C55E"/>
+              <path d="M40.8 13l1.5 1.5 3-3.2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <span className="text-4xl font-extrabold tracking-tight text-green-950">
-              app<span className="text-primary">us</span>
+              App<span className="text-primary">US</span>
             </span>
           </div>
 

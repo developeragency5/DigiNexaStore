@@ -4,13 +4,13 @@ import { Megaphone } from "lucide-react";
 const sections = [
   {
     title: "1. Overview",
-    body: `appus ("we", "us", "our") is a free app discovery platform. To keep appus free for everyone, we display digital advertisements. This Advertising Disclosure explains: (a) that advertising appears on our site; (b) how interest-based advertising works; (c) what data is collected by our advertising technology partners; and (d) how you can control or opt out of targeted advertising.
+    body: `App US ("we", "us", "our") is a free app discovery platform. To keep App US free for everyone, we display digital advertisements. This Advertising Disclosure explains: (a) that advertising appears on our site; (b) how interest-based advertising works; (c) what data is collected by our advertising technology partners; and (d) how you can control or opt out of targeted advertising.
 
 This disclosure is provided to comply with digital advertising transparency standards and applicable privacy regulations including the California Consumer Privacy Act (CCPA), the General Data Protection Regulation (GDPR), and self-regulatory guidelines for interest-based advertising.`,
   },
   {
-    title: "2. Types of Advertising on appus",
-    body: `appus may display:
+    title: "2. Types of Advertising on App US",
+    body: `App US may display:
 
 Contextual Advertisements
 Ads based on the content of the page you are viewing — for example, ads for productivity tools on productivity app pages. These do not rely on your personal browsing history.
@@ -23,20 +23,20 @@ When a user clicks an advertisement and later completes an action (such as insta
   },
   {
     title: "3. How Interest-Based Advertising Works",
-    body: `When you visit appus, our advertising technology partners may place cookies, pixel tags, or similar tracking technologies on your device. These technologies may:
+    body: `When you visit App US, our advertising technology partners may place cookies, pixel tags, or similar tracking technologies on your device. These technologies may:
 
-• Record that you visited specific pages on appus
+• Record that you visited specific pages on App US
 • Associate your browser or device with interest categories
 • Combine data collected here with data collected from other websites you visit
-• Use this data to serve you relevant advertisements on appus and on other websites across the internet
+• Use this data to serve you relevant advertisements on App US and on other websites across the internet
 
 This data is processed by advertising technology platforms operating as independent controllers. Their data practices are governed by their own privacy policies. We require all advertising partners to comply with applicable privacy laws and industry self-regulatory guidelines.`,
   },
   {
     title: "4. Universal Event Tracking & Conversion Pixels",
-    body: `appus uses conversion tracking technology provided by our digital advertising partners. This technology:
+    body: `App US uses conversion tracking technology provided by our digital advertising partners. This technology:
 
-• Tracks when users arrive at appus from an advertisement
+• Tracks when users arrive at App US from an advertisement
 • Records specific actions taken after clicking an ad (e.g., navigating to an app detail page)
 • Uses first-party and third-party cookies and URL parameters to attribute conversions
 
@@ -61,15 +61,15 @@ You can find opt-out tools for participating advertising networks at:
   },
   {
     title: "6. Affiliate Links",
-    body: `Some links on appus may be affiliate links. This means that if you click a link and subsequently make a purchase or take an action on a third-party platform, appus may receive a referral fee or commission at no additional cost to you.
+    body: `Some links on App US may be affiliate links. This means that if you click a link and subsequently make a purchase or take an action on a third-party platform, App US may receive a referral fee or commission at no additional cost to you.
 
-Affiliate links are not clearly labelled in every instance because the existence of an affiliate relationship does not influence the inclusion, ranking, or description of any app listed on appus. Our editorial decisions are independent of commercial relationships.
+Affiliate links are not clearly labelled in every instance because the existence of an affiliate relationship does not influence the inclusion, ranking, or description of any app listed on App US. Our editorial decisions are independent of commercial relationships.
 
 We disclose this practice in accordance with the Federal Trade Commission (FTC) endorsement guidelines.`,
   },
   {
     title: "7. Do Not Track & Global Privacy Control",
-    body: `appus does not currently respond to browser "Do Not Track" (DNT) signals because there is no universal standard for interpreting these signals.
+    body: `App US does not currently respond to browser "Do Not Track" (DNT) signals because there is no universal standard for interpreting these signals.
 
 However, we do honour the Global Privacy Control (GPC) signal. If your browser or extension sends a GPC signal, we will treat it as a request to opt out of the sale or sharing of your personal information for cross-context behavioural advertising.`,
   },
@@ -86,15 +86,15 @@ Note: Opting out does not mean you will see fewer advertisements — it means th
   },
   {
     title: "9. Children's Advertising",
-    body: `appus does not knowingly serve targeted advertisements to children under the age of 13. If we become aware that a child under 13 has provided us with personal information, we will take steps to delete such information and halt any targeted advertising directed to that individual.`,
+    body: `App US does not knowingly serve targeted advertisements to children under the age of 13. If we become aware that a child under 13 has provided us with personal information, we will take steps to delete such information and halt any targeted advertising directed to that individual.`,
   },
   {
     title: "10. Contact Us",
-    body: `If you have questions about advertising on appus or this Advertising Disclosure:
+    body: `If you have questions about advertising on App US or this Advertising Disclosure:
 
-Email: hello@appus.net
+Email: hello@App US.net
 Subject: "Advertising Disclosure Inquiry"
-appus, Inc.
+App US, Inc.
 
 Last Updated: April 6, 2025`,
   },
@@ -114,7 +114,7 @@ export function AdvertisingDisclosure() {
           </div>
           <p className="text-gray-500 mb-1">Last updated: April 6, 2025</p>
           <p className="text-gray-600 mt-4 leading-relaxed">
-            appus is supported by digital advertising. This disclosure explains how advertising works on
+            App US is supported by digital advertising. This disclosure explains how advertising works on
             our platform, what data may be collected by advertising technology partners, and how you can
             control targeted advertising.
           </p>
