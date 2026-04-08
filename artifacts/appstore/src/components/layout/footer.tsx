@@ -8,7 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <img src="/logo-mark.png" alt="App US logo" width="36" height="36" className="object-contain" />
+              <img src="/logo-icon.png" alt="App US logo" className="object-contain h-9 w-auto" />
               <span className="font-bold text-lg text-white">App <span className="text-primary relative top-0.5">US</span></span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">

@@ -77,10 +77,7 @@ export function Home() {
 
           {/* Brand */}
           <div className="flex items-center justify-center gap-3 mb-3">
-            <img src="/logo-mark.png" alt="App US logo" width="72" height="72" className="object-contain drop-shadow-lg" />
-            <span className="text-4xl font-extrabold tracking-tight text-green-950">
-              App <span className="text-primary relative top-1">US</span>
-            </span>
+            <img src="/logo-mark.png" alt="App US" className="object-contain w-64 h-auto drop-shadow-lg" />
           </div>
 
           {/* Tagline */}

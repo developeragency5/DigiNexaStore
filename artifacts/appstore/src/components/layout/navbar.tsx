@@ -113,7 +113,7 @@ export function Navbar() {
               onClick={() => navigate("/")}
               className="flex items-center gap-2 shrink-0 group cursor-pointer"
             >
-              <img src="/logo-mark.png" alt="App US logo" width="36" height="36" className="group-hover:scale-105 transition-transform shrink-0 object-contain" />
+              <img src="/logo-icon.png" alt="App US logo" className="group-hover:scale-105 transition-transform shrink-0 object-contain h-9 w-auto" />
               <span className="font-bold text-xl tracking-tight text-gray-900">App <span className="text-primary relative top-0.5">US</span></span>
             </button>
 
