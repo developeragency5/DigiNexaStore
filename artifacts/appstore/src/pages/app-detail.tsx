@@ -196,14 +196,21 @@ export function AppDetail() {
                     <StarRating rating={app.rating} />
                     <span className="text-sm font-bold text-gray-900">{app.rating.toFixed(1)}</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-sm text-gray-500">
-                    <Download className="h-4 w-4 text-gray-400" />
-                    <span className="font-semibold text-gray-700">{app.downloadCount >= 1000000 ? `${(app.downloadCount/1000000).toFixed(0)}M+` : app.downloadCount.toLocaleString()}</span>
-                    <span>downloads</span>
-                  </div>
+                  {app.downloadCount > 0 && (
+                    <div className="flex items-center gap-1.5 text-sm text-gray-500">
+                      <Download className="h-4 w-4 text-gray-400" />
+                      <span className="font-semibold text-gray-700">{app.downloadCount >= 1000000 ? `${(app.downloadCount/1000000).toFixed(0)}M+` : app.downloadCount.toLocaleString()}</span>
+                      <span>downloads</span>
+                    </div>
+                  )}
                   <div className="flex items-center gap-1.5 text-sm">
                     <Smartphone className="h-4 w-4 text-gray-400" />
-                    <span className="text-gray-600 capitalize">{app.platform === "both" ? "iOS & Android" : app.platform}</span>
+                    <span className="text-gray-600">{
+                      app.platform === "both" || app.platform === "IOS & Android" ? "iOS & Android" :
+                      app.platform === "ios" ? "iOS" :
+                      app.platform === "android" ? "Android" :
+                      app.platform
+                    }</span>
                   </div>
                 </div>
 
@@ -287,7 +294,7 @@ export function AppDetail() {
                 { label: "Developer", value: app.developer },
                 { label: "Version", value: app.version || "Latest" },
                 { label: "Size", value: app.size || "Varies" },
-                { label: "Platform", value: app.platform === "both" ? "iOS & Android" : app.platform },
+                { label: "Platform", value: app.platform === "both" || app.platform === "IOS & Android" ? "iOS & Android" : app.platform === "ios" ? "iOS" : app.platform === "android" ? "Android" : app.platform },
                 { label: "Requirements", value: app.requirements || "Android 5.0+" },
                 { label: "Price", value: app.isFree ? "Free" : `$${app.price}` },
               ].map(({ label, value }) => (
