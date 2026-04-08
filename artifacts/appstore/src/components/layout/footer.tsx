@@ -2,18 +2,18 @@ import { Link } from "wouter";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-400">
+    <footer className="bg-green-50 text-gray-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 pb-10 border-b border-gray-800">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 pb-10 border-b border-green-200">
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="font-bold text-xl tracking-tight text-white">App <span className="text-primary relative top-0.5">US</span></span>
+              <img src="/logo-mark.png" alt="App US" className="h-10 w-auto object-contain" />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
             </p>
-            <p className="text-xs leading-relaxed text-gray-600 max-w-xs">
+            <p className="text-xs leading-relaxed text-gray-400 max-w-xs">
               App US is a free discovery platform. We do not sell apps or process payments.
               All purchases occur on official third-party app stores.
             </p>
@@ -21,7 +21,7 @@ export function Footer() {
 
           {/* Explore */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Explore</h4>
+            <h4 className="text-sm font-semibold text-gray-800 mb-4">Explore</h4>
             <ul className="space-y-3">
               {[
                 { label: "All Apps", href: "/apps" },
@@ -31,7 +31,7 @@ export function Footer() {
                 { label: "Latest", href: "/apps?new=true" },
               ].map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                  <Link href={link.href} className="text-sm hover:text-gray-900 transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -39,7 +39,7 @@ export function Footer() {
 
           {/* Categories */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Categories</h4>
+            <h4 className="text-sm font-semibold text-gray-800 mb-4">Categories</h4>
             <ul className="space-y-3">
               {[
                 { label: "Productivity", href: "/categories/productivity" },
@@ -49,7 +49,7 @@ export function Footer() {
                 { label: "Action Games", href: "/categories/action-games" },
               ].map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                  <Link href={link.href} className="text-sm hover:text-gray-900 transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -57,7 +57,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
+            <h4 className="text-sm font-semibold text-gray-800 mb-4">Company</h4>
             <ul className="space-y-3">
               {[
                 { label: "About Us", href: "/about" },
@@ -65,7 +65,7 @@ export function Footer() {
                 { label: "Contact", href: "/contact" },
               ].map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                  <Link href={link.href} className="text-sm hover:text-gray-900 transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -73,7 +73,7 @@ export function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
+            <h4 className="text-sm font-semibold text-gray-800 mb-4">Legal</h4>
             <ul className="space-y-3">
               {[
                 { label: "Privacy Policy", href: "/privacy-policy" },
@@ -85,7 +85,7 @@ export function Footer() {
                 { label: "No-Purchase Policy", href: "/no-purchase-policy" },
               ].map(link => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-sm hover:text-white transition-colors">{link.label}</Link>
+                  <Link href={link.href} className="text-sm hover:text-gray-900 transition-colors">{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -95,16 +95,16 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-sm">© {new Date().getFullYear()} App US. All rights reserved.</p>
-            <p className="text-xs text-gray-600 mt-1">
+            <p className="text-xs text-gray-400 mt-1">
               App US is an independent app discovery platform. Not affiliated with Apple Inc. or Google LLC.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs">
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms-of-service" className="hover:text-white transition-colors">Terms</Link>
-            <Link href="/cookie-policy" className="hover:text-white transition-colors">Cookies</Link>
-            <Link href="/ccpa-privacy-rights" className="hover:text-white transition-colors">CA Privacy Rights</Link>
-            <Link href="/advertising-disclosure" className="hover:text-white transition-colors">Ad Disclosure</Link>
+            <Link href="/privacy-policy" className="hover:text-gray-900 transition-colors">Privacy</Link>
+            <Link href="/terms-of-service" className="hover:text-gray-900 transition-colors">Terms</Link>
+            <Link href="/cookie-policy" className="hover:text-gray-900 transition-colors">Cookies</Link>
+            <Link href="/ccpa-privacy-rights" className="hover:text-gray-900 transition-colors">CA Privacy Rights</Link>
+            <Link href="/advertising-disclosure" className="hover:text-gray-900 transition-colors">Ad Disclosure</Link>
           </div>
         </div>
       </div>
