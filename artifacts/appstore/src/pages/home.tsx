@@ -82,7 +82,7 @@ export function Home() {
 
           {/* Tagline */}
           <p className="text-green-800/70 text-sm font-medium tracking-wide mb-8">
-            Discover &amp; compare the best apps and games
+            Discover curated apps and games
           </p>
 
           {/* Search Bar */}
