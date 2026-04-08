@@ -124,8 +124,10 @@ export function Navbar() {
                 <button className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${openDropdown === "apps" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`}>
                   Apps <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === "apps" ? "rotate-180" : ""}`} />
                 </button>
-                {openDropdown === "apps" && (
-                  <div className="absolute top-full left-0 mt-2 w-[460px] bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] z-50 overflow-hidden" onMouseEnter={() => open("apps")} onMouseLeave={close}>
+                <div
+                  onMouseEnter={() => open("apps")} onMouseLeave={close}
+                  className={`absolute top-full left-0 mt-2 w-[460px] bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] z-50 overflow-hidden origin-top transition-all duration-200 ease-out ${openDropdown === "apps" ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-2 scale-95 pointer-events-none"}`}
+                >
                     <div className="grid grid-cols-2 gap-0">
                       <div className="p-4 border-r border-gray-100">
                         <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-3">Collections</p>
@@ -160,8 +162,7 @@ export function Navbar() {
                         </Link>
                       </div>
                     </div>
-                  </div>
-                )}
+                </div>
               </div>
 
               {/* ── Games ── */}
@@ -169,8 +170,10 @@ export function Navbar() {
                 <button className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${openDropdown === "games" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`}>
                   Games <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === "games" ? "rotate-180" : ""}`} />
                 </button>
-                {openDropdown === "games" && (
-                  <div className="absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] p-4 z-50" onMouseEnter={() => open("games")} onMouseLeave={close}>
+                <div
+                  onMouseEnter={() => open("games")} onMouseLeave={close}
+                  className={`absolute top-full left-0 mt-2 w-72 bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] p-4 z-50 origin-top transition-all duration-200 ease-out ${openDropdown === "games" ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-2 scale-95 pointer-events-none"}`}
+                >
                     <Link href="/games" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-colors mb-4 group">
                       <div className="h-8 w-8 bg-primary/10 rounded-xl flex items-center justify-center">
                         <Gamepad2 className="h-4 w-4 text-primary" />
@@ -189,8 +192,7 @@ export function Navbar() {
                         </Link>
                       ))}
                     </div>
-                  </div>
-                )}
+                </div>
               </div>
 
               {/* ── Categories ── */}
@@ -198,8 +200,10 @@ export function Navbar() {
                 <button className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${openDropdown === "categories" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`}>
                   Categories <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${openDropdown === "categories" ? "rotate-180" : ""}`} />
                 </button>
-                {openDropdown === "categories" && (
-                  <div className="absolute top-full left-0 mt-2 w-[380px] bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] p-4 z-50" onMouseEnter={() => open("categories")} onMouseLeave={close}>
+                <div
+                  onMouseEnter={() => open("categories")} onMouseLeave={close}
+                  className={`absolute top-full left-0 mt-2 w-[380px] bg-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.04)] p-4 z-50 origin-top transition-all duration-200 ease-out ${openDropdown === "categories" ? "opacity-100 translate-y-0 scale-100 pointer-events-auto" : "opacity-0 -translate-y-2 scale-95 pointer-events-none"}`}
+                >
                     <Link href="/categories" className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors mb-4 group">
                       <div className="flex items-center gap-2.5">
                         <div className="h-7 w-7 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -231,8 +235,7 @@ export function Navbar() {
                         ))}
                       </div>
                     </div>
-                  </div>
-                )}
+                </div>
               </div>
             </nav>
 
