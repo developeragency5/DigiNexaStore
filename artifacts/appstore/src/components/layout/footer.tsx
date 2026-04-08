@@ -8,8 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <img src="/logo-icon.png" alt="App US logo" className="object-contain h-9 w-auto" />
-              <span className="font-bold text-lg text-white">App <span className="text-primary relative top-0.5">US</span></span>
+              <span className="font-bold text-xl tracking-tight text-white">App <span className="text-primary relative top-0.5">US</span></span>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
