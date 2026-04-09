@@ -222,45 +222,46 @@ export function AppDetail() {
 
         {/* ── Screenshots ── */}
         {hasScreenshots && (
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-5">
-            <div className="px-6 pt-6 pb-4 flex items-center justify-between">
+          <div className="bg-white rounded-3xl border border-gray-100 shadow-sm mb-5">
+            <div className="px-6 pt-6 pb-4">
               <h2 className="text-lg font-bold text-gray-900">Screenshots</h2>
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400">{activeScreenshot + 1} / {screenshots.length}</span>
-                <button
-                  onClick={() => {
-                    const next = Math.max(0, activeScreenshot - 1);
-                    setActiveScreenshot(next);
-                    const el = scrollRef.current?.children[next] as HTMLElement;
-                    el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                  }}
-                  disabled={activeScreenshot === 0}
-                  className="p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                  aria-label="Previous screenshot"
-                >
-                  <ChevronLeft className="h-4 w-4 text-gray-700" />
-                </button>
-                <button
-                  onClick={() => {
-                    const next = Math.min(screenshots.length - 1, activeScreenshot + 1);
-                    setActiveScreenshot(next);
-                    const el = scrollRef.current?.children[next] as HTMLElement;
-                    el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                  }}
-                  disabled={activeScreenshot === screenshots.length - 1}
-                  className="p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                  aria-label="Next screenshot"
-                >
-                  <ChevronRight className="h-4 w-4 text-gray-700" />
-                </button>
-              </div>
             </div>
 
-            <div className="px-6 pb-5">
+            <div className="pb-5 relative">
+              {/* Left arrow */}
+              <button
+                onClick={() => {
+                  const next = Math.max(0, activeScreenshot - 1);
+                  setActiveScreenshot(next);
+                  const el = scrollRef.current?.children[next] as HTMLElement;
+                  el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                }}
+                disabled={activeScreenshot === 0}
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/90 shadow-lg border border-gray-100 hover:bg-white hover:shadow-xl disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
+                aria-label="Previous screenshot"
+              >
+                <ChevronLeft className="h-5 w-5 text-gray-700" />
+              </button>
+
+              {/* Right arrow */}
+              <button
+                onClick={() => {
+                  const next = Math.min(screenshots.length - 1, activeScreenshot + 1);
+                  setActiveScreenshot(next);
+                  const el = scrollRef.current?.children[next] as HTMLElement;
+                  el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                }}
+                disabled={activeScreenshot === screenshots.length - 1}
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/90 shadow-lg border border-gray-100 hover:bg-white hover:shadow-xl disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
+                aria-label="Next screenshot"
+              >
+                <ChevronRight className="h-5 w-5 text-gray-700" />
+              </button>
+
               {/* Scroll strip */}
               <div
                 ref={scrollRef}
-                className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth"
+                className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-6"
               >
                 {screenshots.map((url, i) => (
                   <button
@@ -284,7 +285,7 @@ export function AppDetail() {
               </div>
 
               {/* Dot indicators */}
-              <div className="flex justify-center gap-1.5 mt-4">
+              <div className="flex justify-center gap-1.5 mt-4 px-6">
                 {screenshots.map((_, i) => (
                   <button
                     key={i}
