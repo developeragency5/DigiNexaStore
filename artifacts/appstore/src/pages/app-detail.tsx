@@ -81,18 +81,22 @@ export function AppDetail() {
     setTimeout(() => setCopied(false), 2500);
   }
 
-  function resolvedPlayStoreUrl(storedUrl?: string | null): string | null {
-    if (!storedUrl) return null;
-    const url = storedUrl.trim();
-    if (url.includes("play.google.com")) return url;
-    return null;
+  function resolvedPlayStoreUrl(storedUrl?: string | null): string {
+    if (storedUrl) {
+      const url = storedUrl.trim();
+      if (url.includes("play.google.com")) return url;
+    }
+    // Fallback: open Play Store search for this app by name
+    return `https://play.google.com/store/search?q=${encodeURIComponent(app?.name ?? "")}&c=apps`;
   }
 
-  function resolvedAppStoreUrl(storedUrl?: string | null): string | null {
-    if (!storedUrl) return null;
-    const url = storedUrl.trim();
-    if (url.includes("apps.apple.com") && url.length > 30) return url;
-    return null;
+  function resolvedAppStoreUrl(storedUrl?: string | null): string {
+    if (storedUrl) {
+      const url = storedUrl.trim();
+      if (url.includes("apps.apple.com") && url.length > 30) return url;
+    }
+    // Fallback: open App Store search for this app by name
+    return `https://apps.apple.com/us/search?term=${encodeURIComponent(app?.name ?? "")}`;
   }
 
   if (isLoading) {
@@ -190,7 +194,7 @@ export function AppDetail() {
                   </div>
                 </div>
 
-                {/* Download buttons — only shown when the app has that store's URL */}
+                {/* Download buttons — always show both; falls back to store search when exact URL unknown */}
                 <div className="flex flex-wrap gap-3 mt-1">
                   <StoreBadge href={resolvedAppStoreUrl(app.appStoreUrl)} store="apple" />
                   <StoreBadge href={resolvedPlayStoreUrl(app.playStoreUrl)} store="play" />
