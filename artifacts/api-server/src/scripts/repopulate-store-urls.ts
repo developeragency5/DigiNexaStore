@@ -2,19 +2,66 @@
  * repopulate-store-urls.ts
  * ========================
  * Re-finds App Store & Play Store URLs for every app that's missing one.
- * Tries multiple search strategies per app to maximise coverage.
+ * Uses Node's native https module (not fetch) to avoid Apple's bot blocking.
  */
 
 import { db } from "@workspace/db";
 import { appsTable } from "@workspace/db";
-import { isNull, isNotNull, eq } from "drizzle-orm";
+import { isNull, eq } from "drizzle-orm";
 import gplay from "google-play-scraper";
+import https from "node:https";
 
-const CONCURRENCY = 10;
-const DELAY_MS    = 80;
-const THRESHOLD   = 0.60; // lowered for better recall
+const CONCURRENCY = 4;
+const DELAY_MS    = 300;
+const THRESHOLD   = 0.60;
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+
+// ── https helper ──────────────────────────────────────────────────────────────
+function httpsGet(url: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const opts = {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Accept-Encoding": "gzip, deflate",
+        "Connection": "keep-alive",
+      },
+    };
+    const req = https.get(url, opts, (res) => {
+      // Handle redirect
+      if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        httpsGet(res.headers.location).then(resolve).catch(reject);
+        res.resume();
+        return;
+      }
+      if (res.statusCode !== 200) {
+        res.resume();
+        reject(new Error(`HTTP ${res.statusCode}`));
+        return;
+      }
+
+      let encoding = res.headers["content-encoding"];
+      let stream: NodeJS.ReadableStream = res;
+
+      if (encoding === "gzip") {
+        const zlib = require("zlib");
+        stream = res.pipe(zlib.createGunzip());
+      } else if (encoding === "deflate") {
+        const zlib = require("zlib");
+        stream = res.pipe(zlib.createInflate());
+      }
+
+      const chunks: Buffer[] = [];
+      stream.on("data", (chunk: Buffer) => chunks.push(chunk));
+      stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+      stream.on("error", reject);
+    });
+    req.setTimeout(8000, () => { req.destroy(); reject(new Error("timeout")); });
+    req.on("error", reject);
+  });
+}
 
 // ── similarity ────────────────────────────────────────────────────────────────
 function bigrams(str: string): Set<string> {
@@ -33,20 +80,19 @@ function similarity(a: string, b: string): number {
   return (2 * hits) / (ba.size + bb.size);
 }
 
-// ── iTunes ────────────────────────────────────────────────────────────────────
+// ── iTunes search ─────────────────────────────────────────────────────────────
 async function searchITunes(term: string, appName: string): Promise<string | null> {
   try {
     const url = `https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=software&limit=8&country=us`;
-    const res = await fetch(url, { signal: AbortSignal.timeout(7000) });
-    if (!res.ok) return null;
-    const data: any = await res.json();
+    const body = await httpsGet(url);
+    const data = JSON.parse(body);
     let best = { sim: 0, trackUrl: "" };
     for (const r of (data.results ?? [])) {
       const sim = similarity(appName, r.trackName ?? "");
       if (sim > best.sim) best = { sim, trackUrl: r.trackViewUrl ?? "" };
     }
     if (best.sim >= THRESHOLD && best.trackUrl) {
-      return best.trackUrl.split("?")[0]; // strip ?uo=4 tracking
+      return best.trackUrl.split("?")[0];
     }
     return null;
   } catch {
@@ -55,16 +101,9 @@ async function searchITunes(term: string, appName: string): Promise<string | nul
 }
 
 async function getAppStoreUrl(name: string, developer: string): Promise<string | null> {
-  // Strategy 1: full name
   let url = await searchITunes(name, name);
   if (url) return url;
-  // Strategy 2: first word of name + developer
-  const firstName = name.split(/[\s:–-]/)[0];
-  if (firstName && firstName.length > 3) {
-    url = await searchITunes(`${firstName} ${developer}`, name);
-    if (url) return url;
-  }
-  // Strategy 3: name without subtitle (everything before colon/dash)
+
   const shortName = name.split(/[:\-–]/)[0].trim();
   if (shortName !== name && shortName.length > 3) {
     url = await searchITunes(shortName, name);
@@ -73,34 +112,21 @@ async function getAppStoreUrl(name: string, developer: string): Promise<string |
   return null;
 }
 
-// ── Play Store ─────────────────────────────────────────────────────────────────
-async function searchPlayStore(name: string, appName: string): Promise<string | null> {
+// ── Play Store search ─────────────────────────────────────────────────────────
+async function getPlayStoreUrl(name: string): Promise<string | null> {
   try {
     const results: any[] = await (gplay as any).search({
       term: name, num: 8, lang: "en", country: "us", throttle: 10,
     });
     let best = { sim: 0, appId: "" };
     for (const r of (results ?? [])) {
-      const sim = similarity(appName, r.title ?? "");
+      const sim = similarity(name, r.title ?? "");
       if (sim > best.sim) best = { sim, appId: r.appId ?? "" };
     }
     if (best.sim >= THRESHOLD && best.appId) {
       return `https://play.google.com/store/apps/details?id=${best.appId}`;
     }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-async function getPlayStoreUrl(name: string, developer: string): Promise<string | null> {
-  let url = await searchPlayStore(name, name);
-  if (url) return url;
-  const shortName = name.split(/[:\-–]/)[0].trim();
-  if (shortName !== name && shortName.length > 3) {
-    url = await searchPlayStore(shortName, name);
-    if (url) return url;
-  }
+  } catch {}
   return null;
 }
 
@@ -112,24 +138,39 @@ async function processBatch<T>(
   batchSize: number,
 ) {
   let done = 0;
+  let found = 0;
   for (let i = 0; i < items.length; i += batchSize) {
-    await Promise.all(items.slice(i, i + batchSize).map(fn));
+    const results = await Promise.allSettled(items.slice(i, i + batchSize).map(async item => {
+      const before = found;
+      await fn(item);
+    }));
     done += Math.min(batchSize, items.length - i);
     process.stdout.write(`\r  [${label}] ${done}/${items.length}`);
     await sleep(DELAY_MS);
   }
   console.log();
+  return found;
 }
 
 // ── main ──────────────────────────────────────────────────────────────────────
 async function main() {
+  // ── Verify iTunes API works ──────────────────────────────────────────────
+  try {
+    const test = await httpsGet("https://itunes.apple.com/search?term=spotify&entity=software&limit=1&country=us");
+    const td = JSON.parse(test);
+    console.log(`\n✓ iTunes API OK (test: "${td.results?.[0]?.trackName}")`);
+  } catch (e: any) {
+    console.error(`\n✗ iTunes API failed: ${e.message} — aborting`);
+    process.exit(1);
+  }
+
   // ── App Store pass ──────────────────────────────────────────────────────────
   const needsIOS = await db
     .select({ id: appsTable.id, name: appsTable.name, developer: appsTable.developer, playStoreUrl: appsTable.playStoreUrl })
     .from(appsTable)
     .where(isNull(appsTable.appStoreUrl));
 
-  console.log(`\nApps missing App Store URL: ${needsIOS.length}`);
+  console.log(`Apps missing App Store URL: ${needsIOS.length}`);
   let iosFound = 0;
 
   await processBatch(needsIOS, async (app) => {
@@ -155,7 +196,7 @@ async function main() {
   let playFound = 0;
 
   await processBatch(needsAndroid, async (app) => {
-    const url = await getPlayStoreUrl(app.name, app.developer ?? "");
+    const url = await getPlayStoreUrl(app.name);
     if (url) {
       const newPlatform = app.appStoreUrl ? "both" : "android";
       await db.update(appsTable)
