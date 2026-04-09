@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useParams, Link } from "wouter";
 import { useGetApp, useListApps, getGetAppQueryKey } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AppCard } from "@/components/app-card";
 import {
   Star, Download, Share2, Globe, Shield,
-  Smartphone, ChevronRight, Zap, Award, Link2
+  Smartphone, ChevronRight, ChevronLeft, Zap, Award, Link2
 } from "lucide-react";
 
 function StarRating({ rating }: { rating: number }) {
@@ -57,6 +57,8 @@ export function AppDetail() {
   const appId = id ? parseInt(id, 10) : 0;
   const [screenshotModal, setScreenshotModal] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [activeScreenshot, setActiveScreenshot] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const { data: app, isLoading } = useGetApp(appId, {
     query: { enabled: !!appId, queryKey: getGetAppQueryKey(appId) }
@@ -222,30 +224,85 @@ export function AppDetail() {
         {/* ── Screenshots ── */}
         {hasScreenshots && (
           <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-5">
-            <div className="p-6 pb-0">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Screenshots</h2>
+            <div className="px-6 pt-6 pb-4 flex items-center justify-between">
+              <h2 className="text-lg font-bold text-gray-900">Screenshots</h2>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-400">{activeScreenshot + 1} / {screenshots.length}</span>
+                <button
+                  onClick={() => {
+                    const next = Math.max(0, activeScreenshot - 1);
+                    setActiveScreenshot(next);
+                    const el = scrollRef.current?.children[next] as HTMLElement;
+                    el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                  }}
+                  disabled={activeScreenshot === 0}
+                  className="p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  aria-label="Previous screenshot"
+                >
+                  <ChevronLeft className="h-4 w-4 text-gray-700" />
+                </button>
+                <button
+                  onClick={() => {
+                    const next = Math.min(screenshots.length - 1, activeScreenshot + 1);
+                    setActiveScreenshot(next);
+                    const el = scrollRef.current?.children[next] as HTMLElement;
+                    el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                  }}
+                  disabled={activeScreenshot === screenshots.length - 1}
+                  className="p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  aria-label="Next screenshot"
+                >
+                  <ChevronRight className="h-4 w-4 text-gray-700" />
+                </button>
+              </div>
             </div>
-            <div className="px-6 pb-6">
-              <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
+
+            <div className="px-6 pb-5">
+              {/* Scroll strip */}
+              <div
+                ref={scrollRef}
+                className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth"
+              >
                 {screenshots.map((url, i) => (
                   <button
                     key={i}
                     onClick={() => setScreenshotModal(url)}
-                    className="shrink-0 snap-start relative group"
+                    className="shrink-0 snap-start relative group focus:outline-none"
                   >
                     <img
                       src={url}
                       alt={`Screenshot ${i + 1}`}
-                      className="h-72 sm:h-96 w-auto rounded-2xl border border-gray-100 shadow-sm object-cover group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-200"
+                      className="h-64 sm:h-96 w-auto rounded-2xl border border-gray-100 shadow-sm object-cover group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-200"
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
-                    <div className="absolute inset-0 rounded-2xl bg-black/0 group-hover:bg-black/5 transition-colors flex items-center justify-center">
-                      <span className="opacity-0 group-hover:opacity-100 bg-white/90 text-xs font-semibold px-2.5 py-1 rounded-full transition-opacity">View</span>
+                    <div className="absolute inset-0 rounded-2xl bg-black/0 group-hover:bg-black/10 transition-colors flex items-end justify-center pb-3">
+                      <span className="opacity-0 group-hover:opacity-100 bg-black/70 text-white text-xs font-semibold px-3 py-1 rounded-full transition-opacity backdrop-blur-sm">
+                        Tap to enlarge
+                      </span>
                     </div>
                   </button>
                 ))}
               </div>
-              <p className="text-xs text-gray-400 mt-2 text-center">Tap any screenshot to enlarge</p>
+
+              {/* Dot indicators */}
+              <div className="flex justify-center gap-1.5 mt-4">
+                {screenshots.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setActiveScreenshot(i);
+                      const el = scrollRef.current?.children[i] as HTMLElement;
+                      el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+                    }}
+                    className={`rounded-full transition-all duration-200 ${
+                      i === activeScreenshot
+                        ? "w-5 h-2 bg-primary"
+                        : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+                    }`}
+                    aria-label={`Go to screenshot ${i + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         )}
