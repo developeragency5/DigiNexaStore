@@ -250,9 +250,10 @@ export function AppDetail() {
           {/* ── Description ── */}
           <div className="lg:col-span-2 bg-white rounded-3xl border border-gray-100 shadow-sm p-6">
             <h2 className="text-lg font-bold text-gray-900 mb-4">About this {app.appType === "game" ? "game" : "app"}</h2>
-            <div className="text-sm text-gray-600 leading-relaxed space-y-3 whitespace-pre-line">
-              {app.fullDescription || app.description}
-            </div>
+            <div
+              className="text-sm text-gray-600 leading-relaxed prose prose-sm max-w-none prose-p:my-1.5 prose-li:my-0"
+              dangerouslySetInnerHTML={{ __html: (app.fullDescription || app.description || "").replace(/\n/g, "<br/>") }}
+            />
             {app.tags && app.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mt-5 pt-5 border-t border-gray-100">
                 {app.tags.filter(t => t && t !== 'mobile').map(tag => (
