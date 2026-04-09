@@ -56,8 +56,21 @@ export function AppDetail() {
   const appId = id ? parseInt(id, 10) : 0;
   const [screenshotModal, setScreenshotModal] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [activeScreenshot, setActiveScreenshot] = useState(0);
+  const [scrollPage, setScrollPage] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScreenshotScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const page = Math.round(el.scrollLeft / el.clientWidth);
+    setScrollPage(page);
+  };
+
+  const slideTo = (dir: 1 | -1) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth, behavior: "smooth" });
+  };
 
   const { data: app, isLoading } = useGetApp(appId, {
     query: { enabled: !!appId, queryKey: getGetAppQueryKey(appId) }
@@ -230,30 +243,20 @@ export function AppDetail() {
             <div className="pb-5 relative">
               {/* Left arrow */}
               <button
-                onClick={() => {
-                  const next = Math.max(0, activeScreenshot - 1);
-                  setActiveScreenshot(next);
-                  const el = scrollRef.current?.children[next] as HTMLElement;
-                  el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                }}
-                disabled={activeScreenshot === 0}
-                className="absolute left-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/90 shadow-lg border border-gray-100 hover:bg-white hover:shadow-xl disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
-                aria-label="Previous screenshot"
+                onClick={() => slideTo(-1)}
+                disabled={scrollPage === 0}
+                className="absolute left-2 top-[45%] -translate-y-1/2 z-10 p-2 rounded-full bg-white/90 shadow-lg border border-gray-100 hover:bg-white hover:shadow-xl disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
+                aria-label="Previous screenshots"
               >
                 <ChevronLeft className="h-5 w-5 text-gray-700" />
               </button>
 
               {/* Right arrow */}
               <button
-                onClick={() => {
-                  const next = Math.min(screenshots.length - 1, activeScreenshot + 1);
-                  setActiveScreenshot(next);
-                  const el = scrollRef.current?.children[next] as HTMLElement;
-                  el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                }}
-                disabled={activeScreenshot === screenshots.length - 1}
-                className="absolute right-2 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-white/90 shadow-lg border border-gray-100 hover:bg-white hover:shadow-xl disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
-                aria-label="Next screenshot"
+                onClick={() => slideTo(1)}
+                disabled={!scrollRef.current || scrollPage >= Math.ceil((scrollRef.current.scrollWidth - scrollRef.current.clientWidth) / scrollRef.current.clientWidth)}
+                className="absolute right-2 top-[45%] -translate-y-1/2 z-10 p-2 rounded-full bg-white/90 shadow-lg border border-gray-100 hover:bg-white hover:shadow-xl disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
+                aria-label="Next screenshots"
               >
                 <ChevronRight className="h-5 w-5 text-gray-700" />
               </button>
@@ -261,13 +264,14 @@ export function AppDetail() {
               {/* Scroll strip */}
               <div
                 ref={scrollRef}
-                className="flex gap-3 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth px-6"
+                onScroll={handleScreenshotScroll}
+                className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth px-6"
               >
                 {screenshots.map((url, i) => (
                   <button
                     key={i}
                     onClick={() => setScreenshotModal(url)}
-                    className="shrink-0 snap-start relative group focus:outline-none"
+                    className="shrink-0 relative group focus:outline-none"
                   >
                     <img
                       src={url}
@@ -284,25 +288,34 @@ export function AppDetail() {
                 ))}
               </div>
 
-              {/* Dot indicators */}
-              <div className="flex justify-center gap-1.5 mt-4 px-6">
-                {screenshots.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setActiveScreenshot(i);
-                      const el = scrollRef.current?.children[i] as HTMLElement;
-                      el?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-                    }}
-                    className={`rounded-full transition-all duration-200 ${
-                      i === activeScreenshot
-                        ? "w-5 h-2 bg-primary"
-                        : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
-                    }`}
-                    aria-label={`Go to screenshot ${i + 1}`}
-                  />
-                ))}
-              </div>
+              {/* Page dots */}
+              {(() => {
+                const totalPages = scrollRef.current
+                  ? Math.round(scrollRef.current.scrollWidth / scrollRef.current.clientWidth)
+                  : Math.ceil(screenshots.length / 4);
+                return (
+                  <div className="flex justify-center gap-1.5 mt-4 px-6">
+                    {Array.from({ length: totalPages }).map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          const el = scrollRef.current;
+                          if (el) {
+                            el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+                            setScrollPage(i);
+                          }
+                        }}
+                        className={`rounded-full transition-all duration-200 ${
+                          i === scrollPage
+                            ? "w-5 h-2 bg-primary"
+                            : "w-2 h-2 bg-gray-300 hover:bg-gray-400"
+                        }`}
+                        aria-label={`Go to page ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         )}
