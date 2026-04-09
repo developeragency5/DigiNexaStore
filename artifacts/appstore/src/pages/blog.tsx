@@ -150,7 +150,7 @@ export function Blog() {
         <div className="mt-12 text-center bg-white rounded-3xl border border-gray-100 p-10">
           <Tag className="h-8 w-8 text-primary mx-auto mb-3" />
           <h3 className="text-xl font-extrabold text-gray-900 mb-2">Discover the apps we write about</h3>
-          <p className="text-gray-500 text-sm mb-5">Browse our full curated directory — 487 apps and games across 18 categories.</p>
+          <p className="text-gray-500 text-sm mb-5">Browse our full curated directory — 4,565 apps and games across 21 categories.</p>
           <Link href="/apps" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-2xl hover:bg-primary/90 transition-colors">
             Browse Apps <ArrowRight className="h-4 w-4" />
           </Link>
