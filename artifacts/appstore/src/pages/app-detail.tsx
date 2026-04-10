@@ -27,11 +27,17 @@ function StarRating({ rating }: { rating: number }) {
 function StoreBadge({ href, store }: { href: string | null | undefined; store: "play" | "apple" }) {
   if (!href) return null;
   const isPlay = store === "play";
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    const opened = window.open(href!, "_blank", "noopener,noreferrer");
+    if (!opened) window.location.href = href!;
+  }
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       className="inline-flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 active:scale-[0.98] transition-all duration-150 shadow-md hover:shadow-lg min-w-[160px]"
     >
       {isPlay ? (
@@ -100,17 +106,15 @@ export function AppDetail() {
       const url = storedUrl.trim();
       if (url.includes("play.google.com")) return url;
     }
-    // Fallback: open Play Store search for this app by name
     return `https://play.google.com/store/search?q=${encodeURIComponent(app?.name ?? "")}&c=apps`;
   }
 
-  function resolvedAppStoreUrl(storedUrl?: string | null): string {
+  function resolvedAppStoreUrl(storedUrl?: string | null): string | null {
     if (storedUrl) {
       const url = storedUrl.trim();
       if (url.includes("apps.apple.com") && url.length > 30) return url;
     }
-    // Fallback: open App Store search for this app by name
-    return `https://apps.apple.com/us/search?term=${encodeURIComponent(app?.name ?? "")}`;
+    return null;
   }
 
   if (isLoading) {
