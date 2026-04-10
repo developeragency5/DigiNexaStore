@@ -7,17 +7,13 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 pb-10 border-b border-green-200">
           {/* Brand */}
           <div className="col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="overflow-hidden shrink-0" style={{ width: 52, height: 56 }}>
+            <Link href="/" className="inline-block group">
+              <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl px-3 py-2 group-hover:from-green-200 group-hover:to-green-300 transition-all duration-200">
                 <img
                   src="/digi-nexa-store-logo-transparent.png"
-                  alt=""
-                  style={{ height: 56, width: "auto", maxWidth: "none" }}
+                  alt="Digi Nexa Store"
+                  className="h-[52px] w-auto object-contain"
                 />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-extrabold text-[20px] text-gray-900 tracking-tight leading-tight">Digi Nexa</span>
-                <span className="font-extrabold text-[20px] text-green-600 tracking-tight leading-tight">Store</span>
               </div>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">

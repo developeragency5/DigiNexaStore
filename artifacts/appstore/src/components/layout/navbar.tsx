@@ -105,24 +105,20 @@ export function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-[60px] gap-3">
+          <div className="flex items-center h-[72px] gap-3">
 
             {/* Logo */}
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="flex items-center gap-3 shrink-0 group cursor-pointer"
+              className="shrink-0 group cursor-pointer"
             >
-              <div className="overflow-hidden shrink-0" style={{ width: 52, height: 56 }}>
+              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl px-3 py-1.5 group-hover:from-green-100 group-hover:to-green-200 transition-all duration-200">
                 <img
                   src="/digi-nexa-store-logo-transparent.png"
-                  alt=""
-                  style={{ height: 56, width: "auto", maxWidth: "none" }}
+                  alt="Digi Nexa Store"
+                  className="h-[52px] w-auto object-contain"
                 />
-              </div>
-              <div className="flex flex-col leading-none group-hover:opacity-85 transition-opacity">
-                <span className="font-extrabold text-[20px] text-gray-900 tracking-tight leading-tight">Digi Nexa</span>
-                <span className="font-extrabold text-[20px] text-green-600 tracking-tight leading-tight">Store</span>
               </div>
             </button>
 
