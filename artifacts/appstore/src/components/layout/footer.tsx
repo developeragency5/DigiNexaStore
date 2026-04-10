@@ -96,6 +96,20 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Disclaimer */}
+        <div className="py-8 border-b border-green-200">
+          <h5 className="text-xs font-semibold text-gray-700 uppercase tracking-widest mb-3">Disclaimer</h5>
+          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl">
+            Digi Nexa Store is an independent app discovery and information platform. We are not affiliated with, endorsed by, or in any way officially connected to Apple Inc., Google LLC, or any app developer listed on this site. All app names, logos, trademarks, and brand identities are the property of their respective owners.
+          </p>
+          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl mt-2">
+            The "Download on the App Store" and "Get it on Google Play" buttons on this site direct users to the respective official third-party stores. Digi Nexa Store does not sell, distribute, host, or process payments for any application. All transactions and downloads are handled solely by Apple App Store and Google Play Store under their respective terms and conditions.
+          </p>
+          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl mt-2">
+            App ratings, descriptions, pricing, and availability displayed on this site are provided for informational purposes only and may not reflect current information on the respective stores. Digi Nexa Store makes no warranties regarding the accuracy, completeness, or reliability of any app information and accepts no liability for any loss or damage arising from reliance on content published here.
+          </p>
+        </div>
+
         <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-sm">© {new Date().getFullYear()} Digi Nexa Store. All rights reserved.</p>
