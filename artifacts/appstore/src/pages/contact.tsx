@@ -55,7 +55,7 @@ export function Contact() {
           <span className="inline-block text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
             Get in Touch
           </span>
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Contact App US</h1>
+          <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Contact Digi Nexa Store</h1>
           <p className="text-gray-500 max-w-lg mx-auto">
             Have a question, spotted an error, or want to suggest an app? We'd love to hear from you.
           </p>
@@ -72,7 +72,7 @@ export function Contact() {
                 color: "text-primary",
                 bg: "bg-primary/10",
                 title: "Email Us",
-                body: "hello@appus.net",
+                body: "hello@diginexa.store",
                 sub: "We reply within 1 business day",
               },
               {

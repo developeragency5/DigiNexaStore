@@ -90,7 +90,7 @@ export function AppDetail() {
   async function handleShare() {
     const url = window.location.href;
     const title = app?.name ?? "Check out this app";
-    const text = `${title} — discover it on App US`;
+    const text = `${title} — discover it on Digi Nexa Store`;
     if (navigator.share) {
       try { await navigator.share({ title, text, url }); return; } catch {}
     }

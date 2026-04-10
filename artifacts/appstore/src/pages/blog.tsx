@@ -79,7 +79,7 @@ export function Blog() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14 text-center">
           <span className="inline-block text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full mb-4 uppercase tracking-widest">
-            App US Blog
+            Digi Nexa Store Blog
           </span>
           <h1 className="text-4xl font-extrabold text-gray-900 mb-3">App Picks, Tips & Trends</h1>
           <p className="text-gray-500 max-w-xl mx-auto">

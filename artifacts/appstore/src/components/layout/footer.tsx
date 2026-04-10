@@ -8,13 +8,13 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <img src="/logo-mark.png" alt="App US" className="h-10 w-auto object-contain" />
+              <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="h-10 w-auto object-contain" />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
             </p>
             <p className="text-xs leading-relaxed text-gray-400 max-w-xs">
-              App US is a free discovery platform. We do not sell apps or process payments.
+              Digi Nexa Store is a free discovery platform. We do not sell apps or process payments.
               All purchases occur on official third-party app stores.
             </p>
           </div>
@@ -94,9 +94,9 @@ export function Footer() {
 
         <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <p className="text-sm">© {new Date().getFullYear()} App US. All rights reserved.</p>
+            <p className="text-sm">© {new Date().getFullYear()} Digi Nexa Store. All rights reserved.</p>
             <p className="text-xs text-gray-400 mt-1">
-              App US is an independent app discovery platform. Not affiliated with Apple Inc. or Google LLC.
+              Digi Nexa Store is an independent app discovery platform. Not affiliated with Apple Inc. or Google LLC.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs">

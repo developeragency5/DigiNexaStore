@@ -41,7 +41,7 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
 function SearchResultItem({ app, query }: { app: any; query: string }) {
   const [, navigate] = useLocation();
   const slug = app.id;
-  const displayUrl = `appus.net/apps/${slug}`;
+  const displayUrl = `diginexa.store/apps/${slug}`;
   const isGame = app.appType === "game";
   return (
     <div className="py-5 border-b border-gray-100 last:border-0 group">
@@ -198,7 +198,7 @@ export function Apps() {
               onClick={() => window.history.back()}
               className="flex items-center shrink-0"
             >
-              <img src="/logo-mark.png" alt="App US" className="h-9 w-auto object-contain" />
+              <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="h-9 w-auto object-contain" />
             </button>
             <div className="flex-1">
               <SearchAutocomplete

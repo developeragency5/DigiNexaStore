@@ -77,7 +77,7 @@ export function Home() {
 
           {/* Brand */}
           <div className="flex items-center justify-center gap-3 mb-2">
-            <img src="/logo-mark.png" alt="App US" className="object-contain w-64 h-auto drop-shadow-lg" />
+            <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="object-contain w-64 h-auto drop-shadow-lg" />
           </div>
 
           {/* Tagline */}

@@ -1,33 +1,33 @@
 const sections = [
   {
     title: "1. Acceptance of Terms",
-    body: `By accessing or using App US (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.
+    body: `By accessing or using Digi Nexa Store (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.
 
 We reserve the right to modify these Terms at any time. We will notify you of material changes by posting a notice on our website or updating the "Last Updated" date. Your continued use of the Service after any changes constitutes your acceptance of the revised Terms.`,
   },
   {
     title: "2. Description of Service",
-    body: `App US is a curated app discovery platform that provides information about mobile applications and games for iOS and Android platforms. App US is a free discovery and information service only.
+    body: `Digi Nexa Store is a curated app discovery platform that provides information about mobile applications and games for iOS and Android platforms. Digi Nexa Store is a free discovery and information service only.
 
 We do NOT:
 • Distribute, host, sell, or license any application
 • Process payments or collect financial information from users
-• Charge users any fee for browsing, searching, or using App US
+• Charge users any fee for browsing, searching, or using Digi Nexa Store
 
-All apps are available exclusively through third-party app stores, including Google Play and the Apple App Store. App US provides links to these platforms for your convenience. We are not a party to any transaction between you and an app store or developer.`,
+All apps are available exclusively through third-party app stores, including Google Play and the Apple App Store. Digi Nexa Store provides links to these platforms for your convenience. We are not a party to any transaction between you and an app store or developer.`,
   },
   {
-    title: "3. No Purchases on App US",
-    body: `App US does not sell, distribute, or facilitate the purchase of any applications or in-app content. Any transaction you make after following a link from App US is governed entirely by the terms, policies, and payment systems of the relevant app store platform (Apple or Google) and/or the app developer.
+    title: "3. No Purchases on Digi Nexa Store",
+    body: `Digi Nexa Store does not sell, distribute, or facilitate the purchase of any applications or in-app content. Any transaction you make after following a link from Digi Nexa Store is governed entirely by the terms, policies, and payment systems of the relevant app store platform (Apple or Google) and/or the app developer.
 
-App US has no responsibility for:
+Digi Nexa Store has no responsibility for:
 • The cost, pricing, or availability of any app
 • Purchases made through third-party app stores
 • Refund requests, chargebacks, or subscription cancellations (these must be directed to the relevant app store — see our No-Purchase Policy for details)`,
   },
   {
     title: "4. Use of the Service",
-    body: `You agree to use App US only for lawful purposes and in a manner that does not infringe the rights of others. You must not:
+    body: `You agree to use Digi Nexa Store only for lawful purposes and in a manner that does not infringe the rights of others. You must not:
 • Use the Service in any way that violates applicable laws or regulations
 • Attempt to gain unauthorised access to any part of the Service
 • Transmit any harmful, offensive, or disruptive content
@@ -38,27 +38,27 @@ App US has no responsibility for:
   },
   {
     title: "5. Intellectual Property",
-    body: `All content on App US — including text, graphics, logos, the selection and arrangement of content, and underlying code — is owned by App US or its licensors and is protected by copyright, trademark, and other intellectual property laws.
+    body: `All content on Digi Nexa Store — including text, graphics, logos, the selection and arrangement of content, and underlying code — is owned by Digi Nexa Store or its licensors and is protected by copyright, trademark, and other intellectual property laws.
 
-App names, icons, screenshots, descriptions, and other materials displayed on App US are the intellectual property of their respective developers and are used for informational and editorial purposes only. App US claims no ownership over third-party intellectual property.
+App names, icons, screenshots, descriptions, and other materials displayed on Digi Nexa Store are the intellectual property of their respective developers and are used for informational and editorial purposes only. Digi Nexa Store claims no ownership over third-party intellectual property.
 
-You may not reproduce, distribute, or create derivative works from App US content without our prior written consent.`,
+You may not reproduce, distribute, or create derivative works from Digi Nexa Store content without our prior written consent.`,
   },
   {
     title: "6. Accuracy of Information",
-    body: `We strive to keep app information accurate and current. However, App US makes no warranties or representations regarding the accuracy, completeness, or reliability of any app descriptions, ratings, pricing, or other information displayed on the Service.
+    body: `We strive to keep app information accurate and current. However, Digi Nexa Store makes no warranties or representations regarding the accuracy, completeness, or reliability of any app descriptions, ratings, pricing, or other information displayed on the Service.
 
 App details such as pricing, availability, and features may change without notice. Always verify current information on the relevant official app store before downloading or purchasing any application. See our Disclaimer for further details.`,
   },
   {
     title: "7. Third-Party Links",
-    body: `App US contains links to third-party websites and app stores. These links are provided for convenience only. We have no control over the content, policies, or practices of third-party sites and accept no responsibility for them or for any loss or damage that may arise from your use of them.
+    body: `Digi Nexa Store contains links to third-party websites and app stores. These links are provided for convenience only. We have no control over the content, policies, or practices of third-party sites and accept no responsibility for them or for any loss or damage that may arise from your use of them.
 
-The presence of a link on App US does not imply our endorsement of the linked site or its content.`,
+The presence of a link on Digi Nexa Store does not imply our endorsement of the linked site or its content.`,
   },
   {
     title: "8. Advertising",
-    body: `App US displays digital advertisements, including interest-based advertisements served through third-party advertising networks. By using App US, you consent to the display of such advertising. For details on how advertising data is collected and how to opt out of interest-based advertising, see our Advertising Disclosure.`,
+    body: `Digi Nexa Store displays digital advertisements, including interest-based advertisements served through third-party advertising networks. By using Digi Nexa Store, you consent to the display of such advertising. For details on how advertising data is collected and how to opt out of interest-based advertising, see our Advertising Disclosure.`,
   },
   {
     title: "9. Disclaimer of Warranties",
@@ -81,7 +81,7 @@ THIS LIMITATION APPLIES REGARDLESS OF THE LEGAL THEORY AND EVEN IF WE HAVE BEEN 
   },
   {
     title: "11. Indemnification",
-    body: `You agree to indemnify and hold harmless App US and its officers, directors, employees, and affiliates from and against any claims, liabilities, damages, losses, and expenses (including reasonable legal fees) arising from:
+    body: `You agree to indemnify and hold harmless Digi Nexa Store and its officers, directors, employees, and affiliates from and against any claims, liabilities, damages, losses, and expenses (including reasonable legal fees) arising from:
 • Your violation of these Terms
 • Your use of the Service
 • Your violation of any applicable law or regulation
@@ -107,9 +107,9 @@ Upon termination, all rights granted to you under these Terms will immediately c
     title: "14. Contact",
     body: `If you have questions about these Terms of Service:
 
-Email: hello@App US.net
+Email: hello@diginexa.store
 Subject: "Terms of Service Inquiry"
-App US, Inc.
+Digi Nexa Store, Inc.
 
 Last Updated: April 6, 2025`,
   },
@@ -126,7 +126,7 @@ export function TermsOfService() {
           <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Terms of Service</h1>
           <p className="text-gray-500">Last updated: April 6, 2025</p>
           <p className="text-gray-600 mt-4 leading-relaxed">
-            Please read these Terms of Service carefully before using App US. They govern your use of our website
+            Please read these Terms of Service carefully before using Digi Nexa Store. They govern your use of our website
             and services, including important disclaimers, limitations of liability, and our no-purchase policy.
           </p>
         </div>
