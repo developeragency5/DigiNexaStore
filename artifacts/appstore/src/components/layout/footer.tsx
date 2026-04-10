@@ -11,7 +11,7 @@ export function Footer() {
               <img
                 src="/digi-nexa-store-logo-transparent.png"
                 alt="Digi Nexa Store"
-                className="h-[62px] w-auto object-contain"
+                className="h-[80px] w-auto object-contain"
               />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
