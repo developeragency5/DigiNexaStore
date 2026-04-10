@@ -30,7 +30,7 @@ async function checkUrl(url: string, expectedDomain: string): Promise<UrlStatus>
       redirect: "follow",
       signal: controller.signal,
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; AppUS/1.0; +https://appus.net)",
+        "User-Agent": "Mozilla/5.0 (compatible; DigiNexaStore/1.0; +https://diginexa.store)",
       },
     });
     clearTimeout(timer);

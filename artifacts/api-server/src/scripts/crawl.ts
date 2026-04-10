@@ -1,7 +1,7 @@
 /**
- * Appus Crawler
+ * Digi Nexa Store Crawler
  * ================
- * Crawls us.appinme.com to import apps and games into the Appus database.
+ * Crawls us.appinme.com to import apps and games into the Digi Nexa Store database.
  *
  * Usage:
  *   pnpm --filter @workspace/api-server run crawl
@@ -200,7 +200,7 @@ function parseDetailPage(html: string, fallback: { name: string; iconUrl: string
 // ─── Main crawl loop ──────────────────────────────────────────────────────────
 
 async function crawl() {
-  console.log("🔍 Appus Crawler starting...\n");
+  console.log("🔍 Digi Nexa Store Crawler starting...\n");
 
   // Existing names to skip
   const existing = await db.select({ name: appsTable.name }).from(appsTable);
