@@ -76,7 +76,7 @@ export function Home() {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-14 pb-12 text-center">
 
           {/* Brand */}
-          <div className="flex items-center justify-center gap-3 mb-3">
+          <div className="flex items-center justify-center gap-3 -mb-10">
             <img src="/digi-nexa-store-logo-transparent.png" alt="Digi Nexa Store" className="object-contain w-[420px] max-w-full h-auto drop-shadow-xl" />
           </div>
 
