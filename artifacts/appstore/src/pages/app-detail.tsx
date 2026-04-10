@@ -27,17 +27,11 @@ function StarRating({ rating }: { rating: number }) {
 function StoreBadge({ href, store }: { href: string | null | undefined; store: "play" | "apple" }) {
   if (!href) return null;
   const isPlay = store === "play";
-  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
-    e.preventDefault();
-    const opened = window.open(href!, "_blank", "noopener,noreferrer");
-    if (!opened) window.location.href = href!;
-  }
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={handleClick}
       className="inline-flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-900 active:scale-[0.98] transition-all duration-150 shadow-md hover:shadow-lg min-w-[160px]"
     >
       {isPlay ? (
