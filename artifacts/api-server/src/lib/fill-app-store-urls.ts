@@ -50,7 +50,7 @@ async function searchItunes(term: string, appName: string): Promise<string | nul
     for (const result of data.results) {
       const score = wordOverlap(appName, result.trackName);
       if (score > (best?.score ?? 0)) {
-        best = { url: result.trackViewUrl.replace(/\?uo=\d+$/, ""), score };
+        best = { url: result.trackViewUrl.replace(/\?uo=\d+$/, "").replace(/apps\.apple\.com\/[a-z]{2}\//, "apps.apple.com/"), score };
       }
     }
     if (best && best.score >= 0.4) return best.url;
