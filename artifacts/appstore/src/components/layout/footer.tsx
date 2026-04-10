@@ -7,14 +7,12 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 pb-10 border-b border-green-200">
           {/* Brand */}
           <div className="col-span-2 space-y-4">
-            <Link href="/" className="inline-block group">
-              <div className="bg-gradient-to-br from-green-100 to-green-200 rounded-2xl px-3 py-2 group-hover:from-green-200 group-hover:to-green-300 transition-all duration-200">
-                <img
-                  src="/digi-nexa-store-logo-transparent.png"
-                  alt="Digi Nexa Store"
-                  className="h-[52px] w-auto object-contain"
-                />
-              </div>
+            <Link href="/" className="inline-block group hover:opacity-90 transition-opacity">
+              <img
+                src="/digi-nexa-store-logo-transparent.png"
+                alt="Digi Nexa Store"
+                className="h-[62px] w-auto object-contain"
+              />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.

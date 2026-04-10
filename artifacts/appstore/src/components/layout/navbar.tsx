@@ -111,15 +111,13 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="shrink-0 group cursor-pointer"
+              className="shrink-0 group cursor-pointer group-hover:opacity-90 transition-opacity"
             >
-              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl px-3 py-1.5 group-hover:from-green-100 group-hover:to-green-200 transition-all duration-200">
-                <img
-                  src="/digi-nexa-store-logo-transparent.png"
-                  alt="Digi Nexa Store"
-                  className="h-[52px] w-auto object-contain"
-                />
-              </div>
+              <img
+                src="/digi-nexa-store-logo.png"
+                alt="Digi Nexa Store"
+                className="h-[62px] w-auto object-contain"
+              />
             </button>
 
             {/* Desktop Nav */}
