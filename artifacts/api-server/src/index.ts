@@ -1,5 +1,6 @@
 import app from "./app";
 import { logger } from "./lib/logger";
+import { runFillAppStoreUrls } from "./lib/fill-app-store-urls";
 
 const rawPort = process.env["PORT"];
 
@@ -22,4 +23,8 @@ app.listen(port, (err) => {
   }
 
   logger.info({ port }, "Server listening");
+
+  setTimeout(() => {
+    runFillAppStoreUrls().catch((e) => logger.error({ e }, "Fill App Store URLs task error"));
+  }, 5000);
 });
