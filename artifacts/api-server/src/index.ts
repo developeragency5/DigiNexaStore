@@ -1,6 +1,7 @@
 import app from "./app";
 import { logger } from "./lib/logger";
 import { runFillAppStoreUrls } from "./lib/fill-app-store-urls";
+import { runValidateAppStoreUrls } from "./lib/validate-app-store-urls";
 
 const rawPort = process.env["PORT"];
 
