@@ -7,8 +7,18 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8 pb-10 border-b border-green-200">
           {/* Brand */}
           <div className="col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2 group">
-              <img src="/digi-nexa-store-logo-transparent.png" alt="Digi Nexa Store" className="h-12 w-auto object-contain" />
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="overflow-hidden shrink-0" style={{ width: 52, height: 56 }}>
+                <img
+                  src="/digi-nexa-store-logo-transparent.png"
+                  alt=""
+                  style={{ height: 56, width: "auto", maxWidth: "none" }}
+                />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="font-extrabold text-[20px] text-gray-900 tracking-tight leading-tight">Digi Nexa</span>
+                <span className="font-extrabold text-[20px] text-green-600 tracking-tight leading-tight">Store</span>
+              </div>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
