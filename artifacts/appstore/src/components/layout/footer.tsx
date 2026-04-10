@@ -97,32 +97,18 @@ export function Footer() {
         </div>
 
         {/* Disclaimer */}
-        <div className="py-8 border-b border-green-200">
-          <h5 className="text-xs font-semibold text-gray-700 uppercase tracking-widest mb-3">Disclaimer</h5>
+        <div className="py-6 border-b border-green-200">
           <p className="text-xs text-gray-400 leading-relaxed max-w-5xl">
-            Digi Nexa Store is an independent app discovery and information platform. We are not affiliated with, endorsed by, or in any way officially connected to Apple Inc., Google LLC, or any app developer listed on this site. All app names, logos, trademarks, and brand identities are the property of their respective owners.
-          </p>
-          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl mt-2">
-            The "Download on the App Store" and "Get it on Google Play" buttons on this site direct users to the respective official third-party stores. Digi Nexa Store does not sell, distribute, host, or process payments for any application. All transactions and downloads are handled solely by Apple App Store and Google Play Store under their respective terms and conditions.
-          </p>
-          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl mt-2">
-            App ratings, descriptions, pricing, and availability displayed on this site are provided for informational purposes only and may not reflect current information on the respective stores. Digi Nexa Store makes no warranties regarding the accuracy, completeness, or reliability of any app information and accepts no liability for any loss or damage arising from reliance on content published here.
+            <span className="font-semibold text-gray-500">Disclaimer:</span> Digi Nexa Store is an independent app discovery platform, not affiliated with Apple Inc. or Google LLC. All app names, logos, and trademarks are the property of their respective owners. Store buttons direct users to official third-party stores — we do not sell, host, or process payments for any application. App information is provided for informational purposes only and may not reflect current store listings.
           </p>
         </div>
 
-        <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <p className="text-sm">© {new Date().getFullYear()} Digi Nexa Store. All rights reserved.</p>
-            <p className="text-xs text-gray-400 mt-1">
-              Digi Nexa Store is an independent app discovery platform. Not affiliated with Apple Inc. or Google LLC.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-4 text-xs">
-            <Link href="/privacy-policy" className="hover:text-gray-900 transition-colors">Privacy</Link>
-            <Link href="/terms-of-service" className="hover:text-gray-900 transition-colors">Terms</Link>
-            <Link href="/cookie-policy" className="hover:text-gray-900 transition-colors">Cookies</Link>
-            <Link href="/ccpa-privacy-rights" className="hover:text-gray-900 transition-colors">CA Privacy Rights</Link>
-            <Link href="/advertising-disclosure" className="hover:text-gray-900 transition-colors">Ad Disclosure</Link>
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-gray-400">© {new Date().getFullYear()} Digi Nexa Store. All rights reserved.</p>
+          <div className="flex items-center gap-6 text-xs text-gray-400">
+            <Link href="/privacy-policy" className="hover:text-gray-700 transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-gray-700 transition-colors">Terms of Service</Link>
+            <Link href="/cookie-policy" className="hover:text-gray-700 transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>
