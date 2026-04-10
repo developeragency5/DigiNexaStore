@@ -109,12 +109,12 @@ export function AppDetail() {
     return `https://play.google.com/store/search?q=${encodeURIComponent(app?.name ?? "")}&c=apps`;
   }
 
-  function resolvedAppStoreUrl(storedUrl?: string | null): string | null {
+  function resolvedAppStoreUrl(storedUrl?: string | null): string {
     if (storedUrl) {
       const url = storedUrl.trim();
       if (url.includes("apps.apple.com") && url.length > 30) return url;
     }
-    return null;
+    return `https://apps.apple.com/us/search?term=${encodeURIComponent(app?.name ?? "")}`;
   }
 
   if (isLoading) {
