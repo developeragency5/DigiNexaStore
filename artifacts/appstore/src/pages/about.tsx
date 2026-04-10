@@ -14,7 +14,7 @@ const values = [
     color: "text-amber-500",
     bg: "bg-amber-50",
     title: "Quality Over Quantity",
-    desc: "We'd rather list 5,000 truly excellent apps than 500,000 mediocre ones. Our strict editorial standards mean you can trust every recommendation.",
+    desc: "We'd rather list 4,000 truly excellent apps than 500,000 mediocre ones. Our strict editorial standards mean you can trust every recommendation.",
   },
   {
     icon: Zap,
