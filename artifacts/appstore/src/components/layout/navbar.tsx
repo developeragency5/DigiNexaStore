@@ -111,13 +111,21 @@ export function Navbar() {
             <button
               type="button"
               onClick={() => navigate("/")}
-              className="shrink-0 group cursor-pointer group-hover:opacity-90 transition-opacity"
+              className="shrink-0 cursor-pointer hover:opacity-90 transition-opacity flex items-center gap-2.5"
             >
-              <img
-                src="/digi-nexa-store-logo.png"
-                alt="Digi Nexa Store"
-                className="h-[64px] w-auto object-contain"
-              />
+              {/* Icon-only portion of logo (clip text half) */}
+              <div style={{ width: 44, height: 56, overflow: "hidden", flexShrink: 0 }}>
+                <img
+                  src="/digi-nexa-store-logo-transparent.png"
+                  alt=""
+                  style={{ height: 56, width: "auto", display: "block" }}
+                />
+              </div>
+              {/* Brand text */}
+              <div className="leading-none hidden sm:block">
+                <div className="text-[19px] font-black tracking-tight leading-none" style={{ color: "#1a5c2a" }}>Digi Nexa</div>
+                <div className="text-[14px] font-extrabold tracking-widest leading-none mt-1 text-green-500">Store</div>
+              </div>
             </button>
 
             {/* Desktop Nav */}
