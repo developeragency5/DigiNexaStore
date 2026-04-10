@@ -198,7 +198,7 @@ export function Apps() {
               onClick={() => window.history.back()}
               className="flex items-center shrink-0"
             >
-              <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="h-9 w-auto object-contain" />
+              <img src="/digi-nexa-store-logo-transparent.png" alt="Digi Nexa Store" className="h-9 w-auto object-contain" />
             </button>
             <div className="flex-1">
               <SearchAutocomplete

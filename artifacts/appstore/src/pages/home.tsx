@@ -76,12 +76,12 @@ export function Home() {
         <div className="relative max-w-3xl mx-auto px-4 sm:px-6 pt-14 pb-12 text-center">
 
           {/* Brand */}
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="object-contain w-64 h-auto drop-shadow-lg" />
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <img src="/digi-nexa-store-logo-transparent.png" alt="Digi Nexa Store" className="object-contain w-[420px] max-w-full h-auto drop-shadow-xl" />
           </div>
 
           {/* Tagline */}
-          <p className="text-green-800/70 text-sm font-medium tracking-wide mb-8">
+          <p className="text-green-900/75 text-lg font-semibold tracking-wide mb-8">
             Discover curated apps and games
           </p>
 

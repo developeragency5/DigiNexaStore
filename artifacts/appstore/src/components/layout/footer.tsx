@@ -8,7 +8,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="h-10 w-auto object-contain" />
+              <img src="/digi-nexa-store-logo-transparent.png" alt="Digi Nexa Store" className="h-12 w-auto object-contain" />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
               The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.

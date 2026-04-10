@@ -113,7 +113,7 @@ export function Navbar() {
               onClick={() => navigate("/")}
               className="flex items-center gap-2 shrink-0 group cursor-pointer"
             >
-              <img src="/digi-nexa-store-logo.png" alt="Digi Nexa Store" className="h-11 w-auto object-contain group-hover:opacity-90 transition-opacity" />
+              <img src="/digi-nexa-store-logo-transparent.png" alt="Digi Nexa Store" className="h-14 w-auto object-contain group-hover:opacity-90 transition-opacity" />
             </button>
 
             {/* Desktop Nav */}
