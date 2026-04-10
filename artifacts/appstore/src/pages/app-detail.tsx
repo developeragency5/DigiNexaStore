@@ -106,9 +106,11 @@ export function AppDetail() {
   function resolvedAppStoreUrl(storedUrl?: string | null): string {
     if (storedUrl) {
       const url = storedUrl.trim();
-      if (url.includes("apps.apple.com") && url.length > 30) return url;
+      if (url.includes("apps.apple.com") && url.length > 30) {
+        return url.replace(/apps\.apple\.com\/[a-z]{2}\//, "apps.apple.com/");
+      }
     }
-    return `https://apps.apple.com/us/search?term=${encodeURIComponent(app?.name ?? "")}`;
+    return `https://apps.apple.com/search?term=${encodeURIComponent(app?.name ?? "")}`;
   }
 
   if (isLoading) {
