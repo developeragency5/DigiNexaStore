@@ -105,7 +105,7 @@ export function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-[72px] gap-3">
+          <div className="flex items-center h-[80px] gap-3">
 
             {/* Logo */}
             <button
@@ -116,7 +116,7 @@ export function Navbar() {
               <img
                 src="/digi-nexa-store-logo.png"
                 alt="Digi Nexa Store"
-                className="h-[54px] w-auto object-contain"
+                className="h-[64px] w-auto object-contain"
               />
             </button>
 
@@ -345,7 +345,7 @@ export function Navbar() {
           </div>
         )}
       </header>
-      <div className="h-[72px]" />
+      <div className="h-[80px]" />
     </>
   );
 }
