@@ -70,24 +70,24 @@ We are not responsible for the content of third-party advertisements. For inform
   },
   {
     title: "9. Disclaimer of Warranties",
-    body: `THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, DIGI NEXA STORE EXPRESSLY DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+    body: `The Service is provided on an "as is" and "as available" basis without any warranties of any kind, express or implied. To the maximum extent permitted by applicable law, Digi Nexa Store expressly disclaims all warranties, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.
 
-DIGI NEXA STORE DOES NOT WARRANT THAT:
-• THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE
-• ANY INFORMATION ON THE SERVICE IS ACCURATE, CURRENT, OR COMPLETE
-• THE SERVICE OR ITS SERVERS ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS
+Digi Nexa Store does not warrant that:
+• The Service will be uninterrupted, timely, secure, or error-free
+• Any information on the Service is accurate, current, or complete
+• The Service or its servers are free of viruses or other harmful components
 
-YOUR USE OF THE SERVICE IS ENTIRELY AT YOUR OWN RISK.`,
+Your use of the Service is entirely at your own risk.`,
   },
   {
     title: "10. Limitation of Liability",
-    body: `TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, DIGI NEXA STORE AND ITS OPERATORS, EMPLOYEES, AND AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OR INABILITY TO USE THE SERVICE, ANY APP DISCOVERED VIA THE SERVICE, OR ANY THIRD-PARTY CONTENT OR PLATFORM LINKED FROM THE SERVICE.
+    body: `To the fullest extent permitted by applicable law, Digi Nexa Store and its operators, employees, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or in connection with your use of or inability to use the Service, any app discovered via the Service, or any third-party content or platform linked from the Service.
 
-THIS INCLUDES BUT IS NOT LIMITED TO DAMAGES FOR LOSS OF DATA, LOSS OF PROFITS, BUSINESS INTERRUPTION, OR ANY OTHER COMMERCIAL LOSS.
+This includes but is not limited to damages for loss of data, loss of profits, business interruption, or any other commercial loss.
 
-IN NO EVENT SHALL DIGI NEXA STORE'S TOTAL CUMULATIVE LIABILITY TO YOU FOR ANY AND ALL CLAIMS ARISING FROM YOUR USE OF THE SERVICE EXCEED ONE HUNDRED US DOLLARS (USD $100).
+In no event shall Digi Nexa Store's total cumulative liability to you for any and all claims arising from your use of the Service exceed one hundred US dollars (USD $100).
 
-THIS LIMITATION APPLIES REGARDLESS OF THE FORM OF ACTION, LEGAL THEORY ASSERTED, AND EVEN IF DIGI NEXA STORE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. SOME JURISDICTIONS DO NOT ALLOW CERTAIN LIABILITY EXCLUSIONS, SO SOME OF THE ABOVE MAY NOT APPLY TO YOU.`,
+This limitation applies regardless of the form of action or legal theory asserted, and even if Digi Nexa Store has been advised of the possibility of such damages. Some jurisdictions do not allow certain liability exclusions, so some of the above may not apply to you.`,
   },
   {
     title: "11. Indemnification",
