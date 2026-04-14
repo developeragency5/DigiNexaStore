@@ -61,7 +61,7 @@ export function About() {
       {/* Stats */}
       <div className="border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
             {stats.map(({ value, label }) => (
               <div key={label} className="text-center">
                 <div className="text-3xl font-extrabold text-primary mb-1">{value}</div>
