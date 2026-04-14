@@ -1,117 +1,126 @@
 const sections = [
   {
     title: "1. Acceptance of Terms",
-    body: `By accessing or using Digi Nexa Store (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.
+    body: `By accessing or using the Digi Nexa Store website ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.
 
-We reserve the right to modify these Terms at any time. We will notify you of material changes by posting a notice on our website or updating the "Last Updated" date. Your continued use of the Service after any changes constitutes your acceptance of the revised Terms.`,
+We reserve the right to update these Terms at any time. Changes take effect when posted. The "Last Updated" date at the top of this page reflects the most recent revision. Your continued use of the Service after changes are posted constitutes your acceptance of the revised Terms.`,
   },
   {
     title: "2. Description of Service",
-    body: `Digi Nexa Store is a curated app discovery platform that provides information about mobile applications and games for iOS and Android platforms. Digi Nexa Store is a free discovery and information service only.
+    body: `Digi Nexa Store (diginexa.store) is a free, read-only app discovery website. It provides publicly available information about mobile applications and games for iOS (Apple App Store) and Android (Google Play Store).
 
-We do NOT:
-• Distribute, host, sell, or license any application
-• Process payments or collect financial information from users
-• Charge users any fee for browsing, searching, or using Digi Nexa Store
+What this Service does:
+• Displays app names, descriptions, category information, and icons sourced from or derived from publicly available app store data
+• Provides direct links to apps on the Apple App Store and Google Play Store
+• Organises apps by category to help users browse and discover them more easily
 
-All apps are available exclusively through third-party app stores, including Google Play and the Apple App Store. Digi Nexa Store provides links to these platforms for your convenience. We are not a party to any transaction between you and an app store or developer.`,
+What this Service does NOT do:
+• Distribute, host, sell, license, or deliver any application or software
+• Process payments or collect any financial or payment card information
+• Sell or charge users for access to the website
+• Employ a review, editorial, or moderation process for individual apps
+• Guarantee the accuracy, completeness, or availability of any app information displayed`,
   },
   {
-    title: "3. No Purchases on Digi Nexa Store",
-    body: `Digi Nexa Store does not sell, distribute, or facilitate the purchase of any applications or in-app content. Any transaction you make after following a link from Digi Nexa Store is governed entirely by the terms, policies, and payment systems of the relevant app store platform (Apple or Google) and/or the app developer.
+    title: "3. No Purchases or Transactions",
+    body: `Digi Nexa Store does not sell anything and does not process any payments or transactions. No purchases of any kind can be made through this website.
 
-Digi Nexa Store has no responsibility for:
-• The cost, pricing, or availability of any app
-• Purchases made through third-party app stores
-• Refund requests, chargebacks, or subscription cancellations (these must be directed to the relevant app store — see our No-Purchase Policy for details)`,
+Any transaction you make after following a link from Digi Nexa Store takes place entirely on a third-party platform (Apple App Store or Google Play Store) and is governed solely by that platform's terms, pricing, refund policies, and payment systems.
+
+Digi Nexa Store has no responsibility or liability for:
+• App pricing, in-app purchases, or subscription fees set by developers or app stores
+• Purchases, charges, or billing disputes arising on third-party platforms
+• Refund requests or subscription cancellations — these must be directed to the relevant app store (Apple or Google) or the app developer directly`,
   },
   {
-    title: "4. Use of the Service",
-    body: `You agree to use Digi Nexa Store only for lawful purposes and in a manner that does not infringe the rights of others. You must not:
-• Use the Service in any way that violates applicable laws or regulations
-• Attempt to gain unauthorised access to any part of the Service
-• Transmit any harmful, offensive, or disruptive content
-• Scrape, crawl, or systematically extract data from the Service without our prior written permission
-• Use the Service to distribute spam or unsolicited communications
-• Impersonate any person or entity
-• Interfere with or disrupt the integrity or performance of the Service`,
+    title: "4. Accuracy of Information",
+    body: `App information displayed on Digi Nexa Store (including names, descriptions, categories, availability, and pricing) is sourced from publicly available data and is provided for general information purposes only. We do not independently verify, test, or endorse any app listed.
+
+Information may be incomplete, out of date, or inaccurate. App availability, pricing, features, and compatibility can change at any time without notice. Always check the official Apple App Store or Google Play Store listing for current, authoritative information before downloading or purchasing any application.`,
   },
   {
-    title: "5. Intellectual Property",
-    body: `All content on Digi Nexa Store — including text, graphics, logos, the selection and arrangement of content, and underlying code — is owned by Digi Nexa Store or its licensors and is protected by copyright, trademark, and other intellectual property laws.
-
-App names, icons, screenshots, descriptions, and other materials displayed on Digi Nexa Store are the intellectual property of their respective developers and are used for informational and editorial purposes only. Digi Nexa Store claims no ownership over third-party intellectual property.
-
-You may not reproduce, distribute, or create derivative works from Digi Nexa Store content without our prior written consent.`,
+    title: "5. Permitted Use",
+    body: `You may use Digi Nexa Store only for lawful personal, non-commercial browsing and discovery purposes. You must not:
+• Use the Service in any way that violates applicable local, national, or international laws or regulations
+• Attempt to gain unauthorised access to any part of the Service or its underlying infrastructure
+• Systematically scrape, crawl, copy, or extract content from the Service without prior written permission from Digi Nexa Store
+• Use automated tools (bots, scrapers, spiders) to access or index the Service in a manner that places unreasonable load on our servers
+• Distribute spam or unsolicited communications through or about the Service
+• Attempt to interfere with the availability, performance, or integrity of the Service`,
   },
   {
-    title: "6. Accuracy of Information",
-    body: `We strive to keep app information accurate and current. However, Digi Nexa Store makes no warranties or representations regarding the accuracy, completeness, or reliability of any app descriptions, ratings, pricing, or other information displayed on the Service.
+    title: "6. Intellectual Property",
+    body: `The Digi Nexa Store name, logo, website design, and original written content are owned by Digi Nexa Store and are protected by applicable intellectual property laws. You may not reproduce or use them without prior written permission.
 
-App details such as pricing, availability, and features may change without notice. Always verify current information on the relevant official app store before downloading or purchasing any application. See our Disclaimer for further details.`,
+App names, icons, screenshots, and descriptions remain the intellectual property of their respective developers and publishers. These are displayed on Digi Nexa Store for informational purposes only under fair use principles. Digi Nexa Store does not claim ownership over any third-party intellectual property.
+
+Nothing on this website grants you any licence or right to use any intellectual property of Digi Nexa Store or any third party beyond what is expressly stated in these Terms.`,
   },
   {
     title: "7. Third-Party Links",
-    body: `Digi Nexa Store contains links to third-party websites and app stores. These links are provided for convenience only. We have no control over the content, policies, or practices of third-party sites and accept no responsibility for them or for any loss or damage that may arise from your use of them.
+    body: `Digi Nexa Store provides outbound links to the Apple App Store and Google Play Store for user convenience. These are independent third-party platforms governed by their own terms of service and privacy policies.
 
-The presence of a link on Digi Nexa Store does not imply our endorsement of the linked site or its content.`,
+Digi Nexa Store has no control over and accepts no responsibility for the content, policies, availability, or practices of any third-party website or platform. The presence of a link on Digi Nexa Store does not constitute an endorsement of the linked site, platform, app, or developer.`,
   },
   {
     title: "8. Advertising",
-    body: `Digi Nexa Store displays digital advertisements, including interest-based advertisements served through third-party advertising networks. By using Digi Nexa Store, you consent to the display of such advertising. For details on how advertising data is collected and how to opt out of interest-based advertising, see our Advertising Disclosure.`,
+    body: `Digi Nexa Store may display third-party advertisements, including interest-based advertisements served by third-party advertising networks. By using the Service, you acknowledge that such advertising may be displayed.
+
+We are not responsible for the content of third-party advertisements. For information on how advertising-related data may be collected or how to opt out of interest-based advertising, please refer to our Advertising Disclosure page.`,
   },
   {
     title: "9. Disclaimer of Warranties",
-    body: `THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+    body: `THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT ANY WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, DIGI NEXA STORE EXPRESSLY DISCLAIMS ALL WARRANTIES, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
 
-We do not warrant that:
-• The Service will be uninterrupted, error-free, or available at any particular time
-• Any information on the Service is accurate, current, or complete
-• The Service is free of viruses or other harmful components
+DIGI NEXA STORE DOES NOT WARRANT THAT:
+• THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE
+• ANY INFORMATION ON THE SERVICE IS ACCURATE, CURRENT, OR COMPLETE
+• THE SERVICE OR ITS SERVERS ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS
 
-Your use of the Service is entirely at your own risk.`,
+YOUR USE OF THE SERVICE IS ENTIRELY AT YOUR OWN RISK.`,
   },
   {
     title: "10. Limitation of Liability",
-    body: `TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, APPVAULT AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, AND AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES ARISING FROM YOUR USE OF OR INABILITY TO USE THE SERVICE, ANY APP YOU DISCOVER VIA APPVAULT, OR ANY THIRD-PARTY CONTENT LINKED FROM APPVAULT.
+    body: `TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, DIGI NEXA STORE AND ITS OPERATORS, EMPLOYEES, AND AFFILIATES SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OR INABILITY TO USE THE SERVICE, ANY APP DISCOVERED VIA THE SERVICE, OR ANY THIRD-PARTY CONTENT OR PLATFORM LINKED FROM THE SERVICE.
 
-IN NO EVENT SHALL OUR TOTAL LIABILITY TO YOU FOR ANY CLAIM EXCEED ONE HUNDRED US DOLLARS (USD $100).
+THIS INCLUDES BUT IS NOT LIMITED TO DAMAGES FOR LOSS OF DATA, LOSS OF PROFITS, BUSINESS INTERRUPTION, OR ANY OTHER COMMERCIAL LOSS.
 
-THIS LIMITATION APPLIES REGARDLESS OF THE LEGAL THEORY AND EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.`,
+IN NO EVENT SHALL DIGI NEXA STORE'S TOTAL CUMULATIVE LIABILITY TO YOU FOR ANY AND ALL CLAIMS ARISING FROM YOUR USE OF THE SERVICE EXCEED ONE HUNDRED US DOLLARS (USD $100).
+
+THIS LIMITATION APPLIES REGARDLESS OF THE FORM OF ACTION, LEGAL THEORY ASSERTED, AND EVEN IF DIGI NEXA STORE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. SOME JURISDICTIONS DO NOT ALLOW CERTAIN LIABILITY EXCLUSIONS, SO SOME OF THE ABOVE MAY NOT APPLY TO YOU.`,
   },
   {
     title: "11. Indemnification",
-    body: `You agree to indemnify and hold harmless Digi Nexa Store and its officers, directors, employees, and affiliates from and against any claims, liabilities, damages, losses, and expenses (including reasonable legal fees) arising from:
+    body: `You agree to defend, indemnify, and hold harmless Digi Nexa Store and its operators, employees, and affiliates from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable legal fees) arising from or related to:
+• Your use or misuse of the Service
 • Your violation of these Terms
-• Your use of the Service
 • Your violation of any applicable law or regulation
-• Your infringement of any third-party rights`,
+• Your infringement of any right of a third party`,
   },
   {
-    title: "12. Governing Law & Dispute Resolution",
-    body: `These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law provisions.
+    title: "12. Governing Law",
+    body: `These Terms are governed by and construed in accordance with applicable law. Any dispute arising from these Terms or your use of the Service that cannot be resolved informally will be subject to the exclusive jurisdiction of the courts of competent jurisdiction.
 
-Any dispute arising from these Terms or your use of the Service shall be resolved through binding arbitration in accordance with the American Arbitration Association's rules, except that either party may seek injunctive or other equitable relief in a court of competent jurisdiction.
-
-You waive any right to participate in a class action lawsuit or class-wide arbitration.
-
-Nothing in this section prevents you from filing a complaint with a regulatory authority in your jurisdiction.`,
+Nothing in these Terms limits your rights under the mandatory consumer protection laws of the country in which you reside.`,
   },
   {
     title: "13. Termination",
-    body: `We reserve the right to terminate or suspend your access to the Service at our sole discretion, without notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties.
+    body: `Digi Nexa Store reserves the right to restrict, suspend, or terminate access to the Service at its sole discretion, at any time and without prior notice, for conduct that it reasonably believes violates these Terms or is harmful to users, third parties, or the integrity of the Service.
 
-Upon termination, all rights granted to you under these Terms will immediately cease. Sections that by their nature should survive termination (including intellectual property, disclaimers, limitation of liability, and indemnification) will survive.`,
+Sections of these Terms that by their nature should survive termination — including Intellectual Property, Disclaimer of Warranties, Limitation of Liability, and Indemnification — will remain in effect after termination.`,
   },
   {
-    title: "14. Contact",
-    body: `If you have questions about these Terms of Service:
+    title: "14. Severability",
+    body: `If any provision of these Terms is found to be invalid, illegal, or unenforceable under applicable law, that provision will be modified to the minimum extent necessary to make it enforceable, or severed if modification is not possible. The remaining provisions of these Terms will continue in full force and effect.`,
+  },
+  {
+    title: "15. Contact",
+    body: `If you have any questions or concerns about these Terms of Service, please contact us at:
 
 Email: hello@diginexa.store
-Subject: "Terms of Service Inquiry"
-Digi Nexa Store, Inc.
+Website: diginexa.store
 
-Last Updated: April 6, 2025`,
+Last Updated: April 14, 2026`,
   },
 ];
 
@@ -124,10 +133,10 @@ export function TermsOfService() {
             Legal
           </span>
           <h1 className="text-4xl font-extrabold text-gray-900 mb-3">Terms of Service</h1>
-          <p className="text-gray-500">Last updated: April 6, 2025</p>
+          <p className="text-gray-500">Last updated: April 14, 2026</p>
           <p className="text-gray-600 mt-4 leading-relaxed">
-            Please read these Terms of Service carefully before using Digi Nexa Store. They govern your use of our website
-            and services, including important disclaimers, limitations of liability, and our no-purchase policy.
+            Please read these Terms of Service carefully before using Digi Nexa Store. They explain exactly what this
+            website is, what it does, and the terms under which you may use it.
           </p>
         </div>
       </div>
