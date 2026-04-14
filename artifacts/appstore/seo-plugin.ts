@@ -59,10 +59,10 @@ interface PageMeta {
 
 const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
   "/": {
-    title: "Digi Nexa Store – Discover the Best Apps & Games",
-    h1: "Discover the Best iOS & Android Apps and Games, Curated by Experts",
+    title: "Digi Nexa Store – Discover Apps & Games",
+    h1: "Discover iOS & Android Apps and Games, Organised by Category",
     description:
-      "Digi Nexa Store is your go-to curated app discovery platform. Browse hand-picked iOS and Android apps and games, organized by category — free to explore, no clutter.",
+      "Digi Nexa Store is a free app discovery platform. Browse 4,000+ iOS and Android apps and games organised by category — all linking to official stores, free to explore.",
     type: "website",
     jsonLd: [
       {
@@ -94,28 +94,28 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
     ],
   },
   "/apps": {
-    title: "Browse Apps – Curated iOS & Android | Digi Nexa Store",
-    h1: "All Apps — Hand-Picked iOS & Android Applications",
+    title: "Browse Apps – iOS & Android | Digi Nexa Store",
+    h1: "All Apps — iOS & Android Applications",
     description:
-      "Explore thousands of curated iOS and Android apps across Productivity, Education, Finance, Health & Fitness, and more. Discover your next favourite app on Digi Nexa Store.",
+      "Explore thousands of iOS and Android apps across Productivity, Education, Finance, Health & Fitness, and more — all organised by category on Digi Nexa Store.",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "All Apps",
-      description: "Curated iOS and Android apps, hand-picked by the Digi Nexa Store team.",
+      description: "iOS and Android apps organised by category on Digi Nexa Store.",
       url: `${SITE_URL}/apps`,
     },
   },
   "/games": {
     title: "Browse Games – Mobile iOS & Android | Digi Nexa Store",
-    h1: "All Mobile Games — Top-Rated iOS & Android Games",
+    h1: "All Mobile Games — iOS & Android Games",
     description:
-      "Discover the best mobile games for iOS and Android, hand-picked across Puzzle, Action, Arcade, Casual, and more genres. Find your next favourite game on Digi Nexa Store.",
+      "Browse mobile games for iOS and Android across Puzzle, Action, Arcade, Casual, and more genres — all organised by category on Digi Nexa Store.",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "All Games",
-      description: "Top-rated mobile games for iOS and Android, curated by Digi Nexa Store.",
+      description: "Mobile games for iOS and Android organised by category on Digi Nexa Store.",
       url: `${SITE_URL}/games`,
     },
   },
@@ -297,7 +297,7 @@ async function getCategoryMeta(slug: string): Promise<Omit<PageMeta, "canonical"
   const label = isGame ? "Games" : "Apps";
   const title = trunc(`Best ${row.name} ${label} | ${BRAND}`, 60);
   const h1 = `Best ${row.name} ${label} for iOS and Android`;
-  const desc = `Browse ${row.app_count}+ curated ${row.name} ${label.toLowerCase()} for iOS and Android on Digi Nexa Store. Hand-picked by experts — no clutter, no spam, just the best ${row.name} ${label.toLowerCase()}.`;
+  const desc = `Browse ${row.app_count}+ ${row.name} ${label.toLowerCase()} for iOS and Android on Digi Nexa Store. Organised by category — find the right ${row.name.toLowerCase()} ${label.toLowerCase()} quickly without the clutter.`;
   return {
     title,
     h1,
@@ -334,10 +334,10 @@ async function resolveMeta(pathname: string): Promise<PageMeta> {
   }
 
   return {
-    title: `${BRAND} – Discover the Best Apps & Games`,
-    h1: "Discover the Best Apps & Games on Digi Nexa Store",
+    title: `${BRAND} – Discover Apps & Games`,
+    h1: "Discover Apps & Games on Digi Nexa Store",
     description:
-      "Digi Nexa Store is your go-to curated app discovery platform. Browse hand-picked iOS and Android apps and games, free to explore.",
+      "Digi Nexa Store is a free app discovery platform. Browse iOS and Android apps and games organised by category, all linking to official stores.",
     canonical,
     type: "website",
   };

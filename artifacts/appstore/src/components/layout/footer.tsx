@@ -15,7 +15,7 @@ export function Footer() {
               />
             </Link>
             <p className="text-sm leading-relaxed max-w-xs">
-              The internet's most curated app directory. Discover the best iOS and Android apps and games, hand-picked by experts.
+              A free app discovery platform. Browse iOS and Android apps and games organised by category — all linking directly to official stores.
             </p>
             <p className="text-xs leading-relaxed text-gray-400 max-w-xs">
               Digi Nexa Store is a free discovery platform. We do not sell apps or process payments.

@@ -6,15 +6,15 @@ const values = [
     icon: Shield,
     color: "text-green-600",
     bg: "bg-green-50",
-    title: "Curated, Not Crawled",
-    desc: "Every app on Digi Nexa Store is reviewed by a real person. We never auto-import junk or bloatware — only apps that genuinely deserve your attention make the cut.",
+    title: "All in One Place",
+    desc: "Digi Nexa Store aggregates app information from the Apple App Store and Google Play in one organised directory, so you can browse and compare without switching between stores.",
   },
   {
     icon: Star,
     color: "text-amber-500",
     bg: "bg-amber-50",
     title: "Quality Over Quantity",
-    desc: "We'd rather list 4,000 truly excellent apps than 500,000 mediocre ones. Our strict editorial standards mean you can trust every recommendation.",
+    desc: "With 4,000+ apps organised across 21 categories, you can quickly find what you're looking for — without scrolling through hundreds of irrelevant results.",
   },
   {
     icon: CheckCircle2,
@@ -125,7 +125,7 @@ export function About() {
         <div className="bg-primary/5 border border-primary/20 rounded-3xl p-10 text-center">
           <h2 className="text-2xl font-extrabold text-gray-900 mb-3">Start Discovering Better Apps</h2>
           <p className="text-gray-600 mb-6 max-w-md mx-auto">
-            Explore our hand-picked collection of apps and games across 18 categories.
+            Explore our directory of 4,000+ apps and games organised across 21 categories.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/apps" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-2xl hover:bg-primary/90 transition-colors">

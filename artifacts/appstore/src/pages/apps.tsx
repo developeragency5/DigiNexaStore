@@ -300,7 +300,7 @@ export function Apps() {
                 <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">{pageTitle}</h1>
               </div>
             </div>
-            <p className="text-gray-500 max-w-lg ml-16">{activeCol.sub} — hand-picked and curated for iOS & Android.</p>
+            <p className="text-gray-500 max-w-lg ml-16">{activeCol.sub} — organised and searchable for iOS & Android.</p>
 
             {/* Collection chips */}
             <div className="flex flex-wrap gap-2 mt-6 ml-16">
