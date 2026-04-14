@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Shield, Star, Zap, Users, CheckCircle2, ArrowRight } from "lucide-react";
+import { Shield, Star, Users, CheckCircle2, ArrowRight } from "lucide-react";
 
 const values = [
   {
@@ -17,11 +17,11 @@ const values = [
     desc: "We'd rather list 4,000 truly excellent apps than 500,000 mediocre ones. Our strict editorial standards mean you can trust every recommendation.",
   },
   {
-    icon: Zap,
-    color: "text-blue-500",
-    bg: "bg-blue-50",
-    title: "Always Up to Date",
-    desc: "Our team continuously reviews new releases and revisits existing entries. If an app goes downhill, it leaves our directory. Period.",
+    icon: CheckCircle2,
+    color: "text-teal-500",
+    bg: "bg-teal-50",
+    title: "Free to Explore",
+    desc: "No account, no subscription, no hidden fees. Browse thousands of curated apps and games across 21 categories — completely free, anytime, from any device.",
   },
   {
     icon: Users,
