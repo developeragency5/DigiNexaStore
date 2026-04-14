@@ -35,7 +35,6 @@ const values = [
 const stats = [
   { value: "4,565+", label: "Curated Apps & Games" },
   { value: "21", label: "Categories Covered" },
-  { value: "100%", label: "Human-Reviewed" },
   { value: "0", label: "Paid Placements" },
 ];
 
