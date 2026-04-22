@@ -1,4 +1,4 @@
-import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories } from "@workspace/api-client-react";
+import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories, useGetAppsByCategory, useListApps } from "@workspace/api-client-react";
 import { AppCard } from "@/components/app-card";
 import { CategoryCard } from "@/components/category-card";
 import { SearchAutocomplete } from "@/components/search-autocomplete";
@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowRight, TrendingUp, Gamepad2, Smartphone, Star, Zap,
   Briefcase, HeartPulse, GraduationCap, Tv, MessageCircle,
-  DollarSign, Camera, Map, Utensils, Music, Grid3x3
+  DollarSign, Camera, Map, Utensils, Music, Grid3x3, Sparkles, Flame
 } from "lucide-react";
 
 const quickCategories = [
@@ -57,6 +57,10 @@ export function Home() {
   const { data: newApps, isLoading: loadingNew } = useGetNewApps({ appType: "app" as any, limit: 8 });
   const { data: popularGames, isLoading: loadingGames } = useGetPopularGames();
   const { data: categories, isLoading: loadingCategories } = useListCategories();
+  const { data: productivityApps, isLoading: loadingProductivity } = useGetAppsByCategory("productivity", { limit: 8 } as any);
+  const { data: studyApps, isLoading: loadingStudy } = useGetAppsByCategory("education", { limit: 8 } as any);
+  const { data: fitnessApps, isLoading: loadingFitness } = useGetAppsByCategory("health-fitness", { limit: 8 } as any);
+  const { data: aiApps, isLoading: loadingAi } = useListApps({ search: "AI", appType: "app", limit: 8 } as any);
 
   const appCategories = categories?.filter(c => (c as any).type !== "game").slice(0, 9);
 
@@ -158,6 +162,78 @@ export function Home() {
           )}
         </section>
 
+        {/* ── Productivity Apps ── */}
+        <section>
+          <SectionHeader
+            title="Productivity Apps"
+            subtitle="Boost focus, organisation and daily efficiency"
+            viewAllHref="/categories/productivity"
+          />
+          {loadingProductivity ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {productivityApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── Study Apps ── */}
+        <section>
+          <SectionHeader
+            title="Study Apps"
+            subtitle="Learning tools for students and lifelong learners"
+            viewAllHref="/categories/education"
+          />
+          {loadingStudy ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {studyApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── Fitness Apps ── */}
+        <section>
+          <SectionHeader
+            title="Fitness Apps"
+            subtitle="Workouts, tracking and a healthier routine"
+            viewAllHref="/categories/health-fitness"
+          />
+          {loadingFitness ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {fitnessApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── AI Apps ── */}
+        <section>
+          <SectionHeader
+            title="AI Apps & Smart Tools"
+            subtitle="AI-powered assistants for work, study and creativity"
+            viewAllHref="/apps?search=AI"
+          />
+          {loadingAi ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {aiApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
         {/* ── Browse by Category ── */}
         <section>
           <SectionHeader title="Browse by Category" viewAllHref="/categories" />
@@ -209,6 +285,188 @@ export function Home() {
         </section>
 
       </div>
+
+      {/* ── SEO Content / Discovery Guide ── */}
+      <section className="bg-gradient-to-b from-green-50/40 to-white border-t border-gray-100">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              Explore Apps by Category
+            </h2>
+            <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
+              At Digi Nexa Store, we make it easy to explore apps across different
+              categories. Whether you're looking for trending apps, productivity apps,
+              study apps, or fitness apps, everything is organised for a smooth
+              discovery experience.
+            </p>
+          </div>
+
+          {/* Category cards grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+            <Link href="/apps?trending=true" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <Flame className="h-5 w-5 text-orange-500" />
+                <h3 className="font-bold text-gray-900">Trending Apps</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                Discover the most trending apps gaining popularity right now —
+                viral apps, fresh releases and what people are talking about.
+              </p>
+            </Link>
+
+            <Link href="/categories/productivity" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <Briefcase className="h-5 w-5 text-blue-600" />
+                <h3 className="font-bold text-gray-900">Productivity Apps</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                Boost your efficiency with the best productivity apps designed for
+                focus, task management and daily organisation.
+              </p>
+            </Link>
+
+            <Link href="/categories/education" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <GraduationCap className="h-5 w-5 text-indigo-500" />
+                <h3 className="font-bold text-gray-900">Study Apps</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                Explore powerful study apps and learning tools that help students
+                improve focus, manage time and achieve better results.
+              </p>
+            </Link>
+
+            <Link href="/categories/health-fitness" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <HeartPulse className="h-5 w-5 text-rose-500" />
+                <h3 className="font-bold text-gray-900">Fitness Apps</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                Stay active and healthy with top fitness apps for workouts,
+                tracking progress and maintaining a balanced lifestyle.
+              </p>
+            </Link>
+
+            <Link href="/apps?search=AI" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-5 w-5 text-violet-600" />
+                <h3 className="font-bold text-gray-900">AI Apps</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                Explore modern AI apps and smart tools that help you work faster,
+                study smarter and automate everyday tasks.
+              </p>
+            </Link>
+
+            <Link href="/games" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <Gamepad2 className="h-5 w-5 text-violet-600" />
+                <h3 className="font-bold text-gray-900">Games & Entertainment</h3>
+              </div>
+              <p className="text-sm text-gray-600">
+                Find the best mobile games and entertainment apps to relax, have
+                fun and enjoy your free time.
+              </p>
+            </Link>
+          </div>
+
+          {/* Long-form content */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                Best Apps for Daily Life
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Discover the best apps for daily use that simplify your routine.
+                From managing tasks to improving focus and staying healthy, our
+                collection includes top productivity apps, fitness apps and useful
+                tools designed for everyday life.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                AI Apps & Smart Tools
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Explore the latest AI apps and smart tools that are transforming how
+                we work, study and create. From writing assistants to automation
+                tools, find AI-powered productivity apps that save time and boost
+                performance.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                New & Updated Apps
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Stay ahead with newly released and recently updated apps. We
+                regularly add new trending apps, study apps and fitness apps so you
+                always have access to the latest tools and innovations.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                Apps for Every Need
+              </h3>
+              <ul className="text-sm text-gray-600 leading-relaxed space-y-1.5">
+                <li>• Want to stay focused? Try our <Link href="/categories/productivity" className="text-primary hover:underline">productivity apps</Link></li>
+                <li>• Preparing for exams? Explore <Link href="/categories/education" className="text-primary hover:underline">study apps</Link></li>
+                <li>• Looking to stay fit? Check out <Link href="/categories/health-fitness" className="text-primary hover:underline">fitness apps</Link></li>
+                <li>• Want something new? Browse <Link href="/apps?trending=true" className="text-primary hover:underline">trending apps</Link></li>
+              </ul>
+            </div>
+
+          </div>
+
+          {/* Popular searches */}
+          <div className="mt-10 pt-8 border-t border-gray-100">
+            <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">
+              Popular Searches
+            </h3>
+            <div className="flex flex-wrap justify-center gap-2">
+              {[
+                { label: "best productivity apps", href: "/categories/productivity" },
+                { label: "trending apps right now", href: "/apps?trending=true" },
+                { label: "free study apps for students", href: "/categories/education" },
+                { label: "top fitness apps for beginners", href: "/categories/health-fitness" },
+                { label: "useful apps for android", href: "/apps?platform=android" },
+                { label: "AI apps", href: "/apps?search=AI" },
+              ].map(s => (
+                <Link
+                  key={s.label}
+                  href={s.href}
+                  className="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-medium bg-white text-gray-700 border border-gray-200 hover:border-green-400 hover:text-green-700 transition-colors"
+                >
+                  {s.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-12 text-center">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Start Your App Discovery Journey
+            </h3>
+            <p className="text-sm text-gray-600 max-w-xl mx-auto mb-5">
+              Find the perfect combination of trending apps, productivity apps,
+              study apps and fitness apps — all in one place.
+            </p>
+            <Link
+              href="/apps"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-colors"
+            >
+              Start Exploring <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+        </div>
+      </section>
     </div>
   );
 }
