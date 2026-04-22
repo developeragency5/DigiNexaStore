@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm --filter @workspace/appstore run build",
-  "installCommand": "pnpm install --frozen-lockfile=false",
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "outputDirectory": "artifacts/appstore/dist/public",
   "framework": null,
   "rewrites": [
