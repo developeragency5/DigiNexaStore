@@ -535,12 +535,12 @@ export function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { icon: Search, title: "Use specific keywords", desc: "Search by what an app does (\"habit tracker\", \"split bills\", \"meditation timer\") rather than brand names you already know — that's how you find alternatives." },
-              { icon: Filter, title: "Browse by category first", desc: "If you don't know exactly what you want, opening a category page is faster than searching. Categories are grouped by purpose, not by popularity." },
-              { icon: Flame, title: "Check Trending and Featured", desc: "Trending shows what's gaining attention this week. Featured highlights notable listings in the catalog. Both are good starting points if you're just exploring." },
-              { icon: Tag, title: "Look at the price tag", desc: "Each listing shows whether the app is free, paid, or contains in-app purchases. Always confirm pricing on the official store before you install." },
-              { icon: Apple, title: "Mind the platform", desc: "Filter by iOS or Android so you only see apps you can actually install on your device. Some apps are exclusive to one platform." },
-              { icon: Shield, title: "Verify before installing", desc: "We link straight to the official store, but it's always worth a quick look at the developer name and recent reviews on the App Store or Google Play before installing." },
+              { icon: Search, title: "Search by what you need", desc: "Use the search bar at the top to look up apps by purpose — \"habit tracker\", \"budget app\", \"language learning\" — and Digi Nexa Store will surface matching listings from across categories." },
+              { icon: Filter, title: "Open a category page", desc: "If you're not sure what to search for, pick a category from the homepage. Each of our 18 categories groups apps by what they do, so you can scan the full set quickly." },
+              { icon: Flame, title: "Follow Trending and Featured rows", desc: "The Trending row highlights apps gaining attention this week on Digi Nexa Store. The Featured row collects notable listings from the catalog — both are good places to start exploring." },
+              { icon: Sparkles, title: "Use the AI Apps section", desc: "Looking specifically for AI tools? The AI Apps & Smart Tools section gathers writing assistants, chatbots, image generators and other AI-powered apps in one place." },
+              { icon: Gamepad2, title: "Switch over to Games", desc: "Mobile games live in their own dedicated section. Visit the Games hub to browse action, puzzle, strategy and casual titles for iOS and Android side by side." },
+              { icon: Tag, title: "Check the listing details", desc: "Every app page on Digi Nexa Store shows the icon, screenshots, description, category, platform and pricing — everything you need to decide before tapping through to install." },
             ].map(t => (
               <div key={t.title} className="bg-white rounded-2xl p-5 border border-gray-100">
                 <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
