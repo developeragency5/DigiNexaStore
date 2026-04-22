@@ -1,4 +1,5 @@
-import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories, useGetAppsByCategory, useListApps } from "@workspace/api-client-react";
+import { useGetFeaturedApps, useGetTrendingApps, useGetNewApps, useGetPopularGames, useListCategories, useGetAppsByCategory, useListApps, useGetStatsSummary } from "@workspace/api-client-react";
+import { useState } from "react";
 import { AppCard } from "@/components/app-card";
 import { CategoryCard } from "@/components/category-card";
 import { SearchAutocomplete } from "@/components/search-autocomplete";
@@ -61,8 +62,41 @@ export function Home() {
   const { data: studyApps, isLoading: loadingStudy } = useGetAppsByCategory("education", { limit: 8 } as any);
   const { data: fitnessApps, isLoading: loadingFitness } = useGetAppsByCategory("health-fitness", { limit: 8 } as any);
   const { data: aiApps, isLoading: loadingAi } = useListApps({ search: "AI", appType: "app", limit: 8 } as any);
+  const { data: socialApps, isLoading: loadingSocial } = useGetAppsByCategory("social", { limit: 8 } as any);
+  const { data: financeApps, isLoading: loadingFinance } = useGetAppsByCategory("finance", { limit: 8 } as any);
+  const { data: stats } = useGetStatsSummary();
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const appCategories = categories?.filter(c => (c as any).type !== "game").slice(0, 9);
+
+  const fmt = (n?: number) => (n ?? 0).toLocaleString("en-US");
+
+  const faqs = [
+    {
+      q: "What is Digi Nexa Store?",
+      a: "Digi Nexa Store is a free app and game discovery platform. We aggregate publicly available information from the App Store and Google Play so you can browse, search and find new apps in one place — without installing anything on your device.",
+    },
+    {
+      q: "Do you host or distribute the apps?",
+      a: "No. We never host APK files or app binaries. Every download button takes you to the app's official listing on the App Store or Google Play, where you install the app safely from the original developer.",
+    },
+    {
+      q: "Are the apps free?",
+      a: "The vast majority of apps in our catalog are free to download. Some apps offer in-app purchases or subscriptions — pricing details are listed on each app page and on the official store listing.",
+    },
+    {
+      q: "How do I find the best app for my needs?",
+      a: "Use the search bar at the top, browse by category (Productivity, Education, Health & Fitness, etc.) or explore curated rows like Trending, Featured and AI Apps. Each app page links you straight to the official store to download.",
+    },
+    {
+      q: "Are Digi Nexa Store listings updated?",
+      a: "Yes. App information is regularly refreshed from the App Store and Google Play to keep titles, icons and descriptions current.",
+    },
+    {
+      q: "Is Digi Nexa Store affiliated with Apple or Google?",
+      a: "No. Digi Nexa Store is an independent discovery platform and is not affiliated with, endorsed by or sponsored by Apple Inc. or Google LLC.",
+    },
+  ];
 
   return (
     <div className="bg-white min-h-screen">
@@ -112,6 +146,30 @@ export function Home() {
             ))}
           </div>
 
+        </div>
+      </section>
+
+      {/* ── Stats Strip ── */}
+      <section className="bg-white border-b border-gray-100 py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+            <div className="px-2">
+              <div className="text-2xl sm:text-3xl font-bold text-green-700">{fmt(stats?.totalApps)}+</div>
+              <div className="text-xs sm:text-sm text-gray-500 mt-1">Apps tracked</div>
+            </div>
+            <div className="px-2">
+              <div className="text-2xl sm:text-3xl font-bold text-green-700">{fmt(stats?.totalGames)}+</div>
+              <div className="text-xs sm:text-sm text-gray-500 mt-1">Games tracked</div>
+            </div>
+            <div className="px-2">
+              <div className="text-2xl sm:text-3xl font-bold text-green-700">{fmt(stats?.totalCategories)}</div>
+              <div className="text-xs sm:text-sm text-gray-500 mt-1">Categories</div>
+            </div>
+            <div className="px-2">
+              <div className="text-2xl sm:text-3xl font-bold text-green-700">iOS &amp; Android</div>
+              <div className="text-xs sm:text-sm text-gray-500 mt-1">Both stores covered</div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -228,6 +286,42 @@ export function Home() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {aiApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── Social Apps ── */}
+        <section>
+          <SectionHeader
+            title="Social Apps"
+            subtitle="Stay connected with friends, family and communities"
+            viewAllHref="/categories/social"
+          />
+          {loadingSocial ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {socialApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </section>
+
+        {/* ── Finance Apps ── */}
+        <section>
+          <SectionHeader
+            title="Finance Apps"
+            subtitle="Banking, budgeting and money management"
+            viewAllHref="/categories/finance"
+          />
+          {loadingFinance ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {financeApps?.slice(0, 8).map(app => (
                 <AppCard key={app.id} app={app} />
               ))}
             </div>
@@ -448,8 +542,114 @@ export function Home() {
             </div>
           </div>
 
+          {/* Why Digi Nexa Store */}
+          <div className="mt-14 pt-10 border-t border-gray-100">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2">
+              Why Use Digi Nexa Store
+            </h3>
+            <p className="text-sm text-gray-600 text-center max-w-2xl mx-auto mb-8">
+              A simple, ad-light way to find your next favourite app — without the noise.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <Smartphone className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">Both stores, one place</h4>
+                <p className="text-sm text-gray-600">
+                  Browse apps from the App Store and Google Play side by side, with direct links to install.
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <Zap className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">Fast and lightweight</h4>
+                <p className="text-sm text-gray-600">
+                  No accounts, no installs, no clutter. Open the site, find an app, tap to install from the official store.
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <Star className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">Organised by category</h4>
+                <p className="text-sm text-gray-600">
+                  Productivity, education, fitness, finance, social, games and more — all neatly grouped for quick discovery.
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <TrendingUp className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">Always fresh</h4>
+                <p className="text-sm text-gray-600">
+                  We regularly refresh app data so titles, descriptions and trending lists stay current.
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <Sparkles className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">Safe by design</h4>
+                <p className="text-sm text-gray-600">
+                  We never host APK files. Every install button takes you straight to the official Apple or Google listing.
+                </p>
+              </div>
+              <div className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <Grid3x3 className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">Free to use</h4>
+                <p className="text-sm text-gray-600">
+                  Digi Nexa Store is completely free. No paywalls, no subscriptions — just browse and discover.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* FAQ */}
+          <div className="mt-14 pt-10 border-t border-gray-100">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2">
+              Frequently Asked Questions
+            </h3>
+            <p className="text-sm text-gray-600 text-center max-w-2xl mx-auto mb-8">
+              Quick answers about how Digi Nexa Store works.
+            </p>
+            <div className="max-w-3xl mx-auto space-y-3">
+              {faqs.map((item, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div
+                    key={idx}
+                    className="bg-white rounded-xl border border-gray-100 overflow-hidden"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-gray-50 transition-colors"
+                      aria-expanded={isOpen}
+                    >
+                      <span className="font-semibold text-gray-900 text-sm sm:text-base">
+                        {item.q}
+                      </span>
+                      <ArrowRight
+                        className={`h-4 w-4 text-gray-400 shrink-0 transition-transform ${isOpen ? "rotate-90" : ""}`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-4 text-sm text-gray-600 leading-relaxed">
+                        {item.a}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* CTA */}
-          <div className="mt-12 text-center">
+          <div className="mt-14 text-center">
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               Start Your App Discovery Journey
             </h3>
