@@ -8,7 +8,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowRight, TrendingUp, Gamepad2, Smartphone, Star, Zap,
   Briefcase, HeartPulse, GraduationCap, Tv, MessageCircle,
-  DollarSign, Camera, Map, Utensils, Music, Grid3x3, Sparkles, Flame
+  DollarSign, Camera, Map, Utensils, Music, Grid3x3, Sparkles, Flame,
+  Search, MousePointerClick, Download, Apple, Layers, Filter, Tag, Shield
 } from "lucide-react";
 
 const quickCategories = [
@@ -221,6 +222,34 @@ export function Home() {
         </div>
       </section>
 
+      {/* ── How It Works (3-step strip) ── */}
+      <section className="bg-gradient-to-b from-white to-green-50/30 border-b border-gray-100 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">How Digi Nexa Store Works</h2>
+            <p className="text-sm text-gray-600 mt-1.5 max-w-xl mx-auto">
+              Three simple steps from search to install — we never host downloads ourselves.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { step: "1", icon: Search, title: "Search or browse", desc: "Use the search bar or pick a category to explore apps and games organised across 18 categories." },
+              { step: "2", icon: MousePointerClick, title: "Open the app page", desc: "View the app's icon, screenshots, description, category and pricing — all sourced from the official store listing." },
+              { step: "3", icon: Download, title: "Install from the official store", desc: "Tap the Apple App Store or Google Play button to install directly from the original developer." },
+            ].map(s => (
+              <div key={s.step} className="relative bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shadow-sm">{s.step}</div>
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <s.icon className="h-5 w-5 text-green-700" />
+                </div>
+                <h3 className="font-semibold text-gray-900 mb-1">{s.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Featured Apps Horizontal Scroll ── */}
       {(loadingFeatured || (featuredApps && featuredApps.length > 0)) && (
         <section className="bg-white border-b border-gray-100 py-8">
@@ -268,6 +297,32 @@ export function Home() {
           )}
         </section>
 
+        {/* ── Daily Life content block (after Trending) ── */}
+        <section className="bg-gradient-to-br from-green-50/40 via-white to-green-50/30 border border-green-100/60 rounded-3xl p-7 sm:p-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Best Apps for Daily Life</h3>
+              <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                The everyday essentials are scattered across two app stores and dozens of categories. Digi Nexa Store
+                pulls them into one searchable directory — productivity tools, fitness trackers, finance trackers,
+                navigation and more — so you can compare options side by side before you install.
+              </p>
+              <Link href="/categories" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                Browse all categories <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-3">Apps for Every Need</h3>
+              <ul className="text-sm text-gray-700 leading-relaxed space-y-2">
+                <li>· Want to stay focused? Browse <Link href="/categories/productivity" className="text-primary hover:underline">productivity apps</Link></li>
+                <li>· Preparing for exams? Explore <Link href="/categories/education" className="text-primary hover:underline">study and learning apps</Link></li>
+                <li>· Looking to stay fit? Check out <Link href="/categories/health-fitness" className="text-primary hover:underline">health & fitness apps</Link></li>
+                <li>· Want something new? Browse <Link href="/apps?trending=true" className="text-primary hover:underline">trending apps</Link></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
         {/* ── Browse by Category (visual break) ── */}
         <section>
           <SectionHeader title="Browse by Category" viewAllHref="/categories" />
@@ -303,6 +358,34 @@ export function Home() {
           icon={GraduationCap}
           iconColor="text-indigo-500"
         />
+
+        {/* ── Why Use Digi Nexa Store (trust strip, moved up) ── */}
+        <section className="pt-4">
+          <div className="text-center mb-7">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Why Use Digi Nexa Store</h2>
+            <p className="text-sm text-gray-600 mt-1.5 max-w-xl mx-auto">
+              A simple, ad-light way to find your next app — without the noise.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: Smartphone, title: "Both stores, one place", desc: "Browse apps from the App Store and Google Play side by side, with direct links to install." },
+              { icon: Zap, title: "Fast and lightweight", desc: "No accounts, no installs, no clutter. Open the site, find an app, tap to install from the official store." },
+              { icon: Layers, title: "Organised by category", desc: "Productivity, education, fitness, finance, social, games and more — all neatly grouped for quick discovery." },
+              { icon: TrendingUp, title: "Always fresh", desc: "We regularly refresh app data so titles, descriptions and trending lists stay current." },
+              { icon: Shield, title: "Safe by design", desc: "We never host APK or installer files. Every install button takes you to the official Apple or Google listing." },
+              { icon: Tag, title: "Free to use", desc: "Digi Nexa Store is completely free. No paywalls, no subscriptions — just browse and discover." },
+            ].map(item => (
+              <div key={item.title} className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <item.icon className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">{item.title}</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
       </div>
 
@@ -408,147 +491,87 @@ export function Home() {
           )}
         </section>
 
+        {/* ── Platform Coverage (factual: iOS + Android) ── */}
+        <section className="bg-white border border-gray-100 rounded-3xl overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="p-7 sm:p-9 border-b md:border-b-0 md:border-r border-gray-100">
+              <div className="flex items-center gap-2 mb-3">
+                <Apple className="h-5 w-5 text-gray-900" />
+                <h3 className="text-lg font-bold text-gray-900">Apple App Store</h3>
+              </div>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                Browse iOS apps from the Apple App Store with their original icons, screenshots,
+                descriptions and category data. Every install button opens the app's listing on
+                the App Store, where Apple handles the actual download and any payments.
+              </p>
+              <Link href="/apps?platform=ios" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                Browse iOS apps <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+            <div className="p-7 sm:p-9">
+              <div className="flex items-center gap-2 mb-3">
+                <Smartphone className="h-5 w-5 text-green-700" />
+                <h3 className="text-lg font-bold text-gray-900">Google Play Store</h3>
+              </div>
+              <p className="text-sm text-gray-600 leading-relaxed mb-4">
+                Discover Android apps from Google Play with publisher data, category information
+                and pricing. Install buttons take you straight to the Play Store — we never host
+                APK files or distribute installer packages of any kind.
+              </p>
+              <Link href="/apps?platform=android" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+                Browse Android apps <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Discovery Tips (how to use the site well) ── */}
+        <section>
+          <div className="text-center mb-7">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Tips for Finding Better Apps</h2>
+            <p className="text-sm text-gray-600 mt-1.5 max-w-xl mx-auto">
+              Practical ways to use Digi Nexa Store to find apps worth your time.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { icon: Search, title: "Use specific keywords", desc: "Search by what an app does (\"habit tracker\", \"split bills\", \"meditation timer\") rather than brand names you already know — that's how you find alternatives." },
+              { icon: Filter, title: "Browse by category first", desc: "If you don't know exactly what you want, opening a category page is faster than searching. Categories are grouped by purpose, not by popularity." },
+              { icon: Flame, title: "Check Trending and Featured", desc: "Trending shows what's gaining attention this week. Featured highlights notable listings in the catalog. Both are good starting points if you're just exploring." },
+              { icon: Tag, title: "Look at the price tag", desc: "Each listing shows whether the app is free, paid, or contains in-app purchases. Always confirm pricing on the official store before you install." },
+              { icon: Apple, title: "Mind the platform", desc: "Filter by iOS or Android so you only see apps you can actually install on your device. Some apps are exclusive to one platform." },
+              { icon: Shield, title: "Verify before installing", desc: "We link straight to the official store, but it's always worth a quick look at the developer name and recent reviews on the App Store or Google Play before installing." },
+            ].map(t => (
+              <div key={t.title} className="bg-white rounded-2xl p-5 border border-gray-100">
+                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
+                  <t.icon className="h-5 w-5 text-green-700" />
+                </div>
+                <h4 className="font-semibold text-gray-900 mb-1">{t.title}</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">{t.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
       </div>
 
-      {/* ── SEO Content / Discovery Guide ── */}
+      {/* ── About + Popular Searches ── */}
       <section className="bg-gradient-to-b from-green-50/40 to-white border-t border-gray-100">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
-
           <div className="text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
-              Explore Apps by Category
+              About Digi Nexa Store
             </h2>
             <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
-              At Digi Nexa Store, we make it easy to explore apps across different
-              categories. Whether you're looking for trending apps, productivity apps,
-              study apps, or fitness apps, everything is organised for a smooth
-              discovery experience.
+              Digi Nexa Store is a free, independent app discovery directory that aggregates publicly
+              available information from the Apple App Store and Google Play. Use the search bar, browse
+              by category or follow our trending and featured rows to find apps and games — then install
+              them directly from the official store.
             </p>
           </div>
 
-          {/* Category cards grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-            <Link href="/apps?trending=true" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
-              <div className="flex items-center gap-2 mb-2">
-                <Flame className="h-5 w-5 text-orange-500" />
-                <h3 className="font-bold text-gray-900">Trending Apps</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Discover the most trending apps gaining popularity right now —
-                viral apps, fresh releases and what people are talking about.
-              </p>
-            </Link>
-
-            <Link href="/categories/productivity" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
-              <div className="flex items-center gap-2 mb-2">
-                <Briefcase className="h-5 w-5 text-blue-600" />
-                <h3 className="font-bold text-gray-900">Productivity Apps</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Boost your efficiency with the best productivity apps designed for
-                focus, task management and daily organisation.
-              </p>
-            </Link>
-
-            <Link href="/categories/education" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
-              <div className="flex items-center gap-2 mb-2">
-                <GraduationCap className="h-5 w-5 text-indigo-500" />
-                <h3 className="font-bold text-gray-900">Study Apps</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Explore powerful study apps and learning tools that help students
-                improve focus, manage time and achieve better results.
-              </p>
-            </Link>
-
-            <Link href="/categories/health-fitness" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
-              <div className="flex items-center gap-2 mb-2">
-                <HeartPulse className="h-5 w-5 text-rose-500" />
-                <h3 className="font-bold text-gray-900">Fitness Apps</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Stay active and healthy with top fitness apps for workouts,
-                tracking progress and maintaining a balanced lifestyle.
-              </p>
-            </Link>
-
-            <Link href="/apps?search=AI" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
-              <div className="flex items-center gap-2 mb-2">
-                <Sparkles className="h-5 w-5 text-violet-600" />
-                <h3 className="font-bold text-gray-900">AI Apps</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Explore modern AI apps and smart tools that help you work faster,
-                study smarter and automate everyday tasks.
-              </p>
-            </Link>
-
-            <Link href="/games" className="group bg-white rounded-2xl p-5 border border-gray-100 hover:border-green-300 hover:shadow-md transition-all">
-              <div className="flex items-center gap-2 mb-2">
-                <Gamepad2 className="h-5 w-5 text-violet-600" />
-                <h3 className="font-bold text-gray-900">Games & Entertainment</h3>
-              </div>
-              <p className="text-sm text-gray-600">
-                Find the best mobile games and entertainment apps to relax, have
-                fun and enjoy your free time.
-              </p>
-            </Link>
-          </div>
-
-          {/* Long-form content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
-                Best Apps for Daily Life
-              </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Discover the best apps for daily use that simplify your routine.
-                From managing tasks to improving focus and staying healthy, our
-                collection includes top productivity apps, fitness apps and useful
-                tools designed for everyday life.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
-                AI Apps & Smart Tools
-              </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Explore the latest AI apps and smart tools that are transforming how
-                we work, study and create. From writing assistants to automation
-                tools, find AI-powered productivity apps that save time and boost
-                performance.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
-                New & Updated Apps
-              </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                Stay ahead with newly released and recently updated apps. We
-                regularly add new trending apps, study apps and fitness apps so you
-                always have access to the latest tools and innovations.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-2">
-                Apps for Every Need
-              </h3>
-              <ul className="text-sm text-gray-600 leading-relaxed space-y-1.5">
-                <li>• Want to stay focused? Try our <Link href="/categories/productivity" className="text-primary hover:underline">productivity apps</Link></li>
-                <li>• Preparing for exams? Explore <Link href="/categories/education" className="text-primary hover:underline">study apps</Link></li>
-                <li>• Looking to stay fit? Check out <Link href="/categories/health-fitness" className="text-primary hover:underline">fitness apps</Link></li>
-                <li>• Want something new? Browse <Link href="/apps?trending=true" className="text-primary hover:underline">trending apps</Link></li>
-              </ul>
-            </div>
-
-          </div>
-
           {/* Popular searches */}
-          <div className="mt-10 pt-8 border-t border-gray-100">
+          <div className="pt-2">
             <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">
               Popular Searches
             </h3>
@@ -560,6 +583,9 @@ export function Home() {
                 { label: "top fitness apps for beginners", href: "/categories/health-fitness" },
                 { label: "useful apps for android", href: "/apps?platform=android" },
                 { label: "AI apps", href: "/apps?search=AI" },
+                { label: "new releases", href: "/apps?new=true" },
+                { label: "popular games", href: "/games" },
+                { label: "finance apps", href: "/categories/finance" },
               ].map(s => (
                 <Link
                   key={s.label}
@@ -569,72 +595,6 @@ export function Home() {
                   {s.label}
                 </Link>
               ))}
-            </div>
-          </div>
-
-          {/* Why Digi Nexa Store */}
-          <div className="mt-14 pt-10 border-t border-gray-100">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 text-center mb-2">
-              Why Use Digi Nexa Store
-            </h3>
-            <p className="text-sm text-gray-600 text-center max-w-2xl mx-auto mb-8">
-              A simple, ad-light way to find your next favourite app — without the noise.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="bg-white rounded-2xl p-5 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
-                  <Smartphone className="h-5 w-5 text-green-700" />
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-1">Both stores, one place</h4>
-                <p className="text-sm text-gray-600">
-                  Browse apps from the App Store and Google Play side by side, with direct links to install.
-                </p>
-              </div>
-              <div className="bg-white rounded-2xl p-5 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
-                  <Zap className="h-5 w-5 text-green-700" />
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-1">Fast and lightweight</h4>
-                <p className="text-sm text-gray-600">
-                  No accounts, no installs, no clutter. Open the site, find an app, tap to install from the official store.
-                </p>
-              </div>
-              <div className="bg-white rounded-2xl p-5 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
-                  <Star className="h-5 w-5 text-green-700" />
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-1">Organised by category</h4>
-                <p className="text-sm text-gray-600">
-                  Productivity, education, fitness, finance, social, games and more — all neatly grouped for quick discovery.
-                </p>
-              </div>
-              <div className="bg-white rounded-2xl p-5 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
-                  <TrendingUp className="h-5 w-5 text-green-700" />
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-1">Always fresh</h4>
-                <p className="text-sm text-gray-600">
-                  We regularly refresh app data so titles, descriptions and trending lists stay current.
-                </p>
-              </div>
-              <div className="bg-white rounded-2xl p-5 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
-                  <Sparkles className="h-5 w-5 text-green-700" />
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-1">Safe by design</h4>
-                <p className="text-sm text-gray-600">
-                  We never host APK files. Every install button takes you straight to the official Apple or Google listing.
-                </p>
-              </div>
-              <div className="bg-white rounded-2xl p-5 border border-gray-100">
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center mb-3">
-                  <Grid3x3 className="h-5 w-5 text-green-700" />
-                </div>
-                <h4 className="font-semibold text-gray-900 mb-1">Free to use</h4>
-                <p className="text-sm text-gray-600">
-                  Digi Nexa Store is completely free. No paywalls, no subscriptions — just browse and discover.
-                </p>
-              </div>
             </div>
           </div>
 
@@ -681,17 +641,16 @@ export function Home() {
           {/* CTA */}
           <div className="mt-14 text-center">
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Start Your App Discovery Journey
+              Start Exploring
             </h3>
             <p className="text-sm text-gray-600 max-w-xl mx-auto mb-5">
-              Find the perfect combination of trending apps, productivity apps,
-              study apps and fitness apps — all in one place.
+              Browse the full directory of apps and games organised across 18 categories — all linking to the official Apple App Store and Google Play.
             </p>
             <Link
               href="/apps"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-colors"
             >
-              Start Exploring <ArrowRight className="h-4 w-4" />
+              Browse All Apps <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
 
