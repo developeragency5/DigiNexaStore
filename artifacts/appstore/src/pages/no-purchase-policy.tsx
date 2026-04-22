@@ -27,7 +27,7 @@ const highlights = [
 const sections = [
   {
     title: "1. Digi Nexa Store Is a Discovery Platform Only",
-    body: `Digi Nexa Store is a free, curated app and game discovery platform. Our sole purpose is to help you find the best iOS and Android apps and games.
+    body: `Digi Nexa Store is a free app and game discovery directory. Our sole purpose is to help you find the best iOS and Android apps and games.
 
 We do not:
 • Sell, distribute, or provide downloads of any application or game
@@ -106,7 +106,7 @@ If you believe a charge from Digi Nexa Store has appeared on your statement, ple
 
 Email: hello@diginexa.store
 Subject: "Billing Inquiry"
-Digi Nexa Store, Inc.
+Digi Nexa Store
 
 We will respond within 2 business days.
 

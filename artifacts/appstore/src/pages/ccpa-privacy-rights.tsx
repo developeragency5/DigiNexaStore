@@ -106,7 +106,7 @@ We will verify your identity before processing your request. Because Digi Nexa S
 
 Email: hello@diginexa.store
 Subject: "CCPA Inquiry"
-Digi Nexa Store, Inc.
+Digi Nexa Store
 
 Last Updated: April 6, 2025`,
   },

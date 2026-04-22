@@ -33,7 +33,7 @@ const gameCategoryLinks = [
 
 const appsCollectionLinks = [
   { href: "/apps", icon: Grid3x3, label: "All Apps", sub: "Browse every app", color: "text-primary", bg: "bg-primary/10" },
-  { href: "/apps?featured=true", icon: Star, label: "Featured", sub: "Editor's top picks", color: "text-amber-500", bg: "bg-amber-50" },
+  { href: "/apps?featured=true", icon: Star, label: "Featured", sub: "Highlighted listings", color: "text-amber-500", bg: "bg-amber-50" },
   { href: "/apps?trending=true", icon: TrendingUp, label: "Trending", sub: "Most popular now", color: "text-orange-500", bg: "bg-orange-50" },
   { href: "/apps?new=true", icon: Zap, label: "Latest", sub: "Fresh additions", color: "text-blue-500", bg: "bg-blue-50" },
 ];

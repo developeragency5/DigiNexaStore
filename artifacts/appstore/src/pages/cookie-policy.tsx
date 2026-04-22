@@ -106,7 +106,7 @@ By continuing to use Digi Nexa Store without adjusting your cookie settings, you
 
 Email: hello@diginexa.store
 Subject: "Cookie Policy Inquiry"
-Digi Nexa Store, Inc.
+Digi Nexa Store
 
 Last Updated: April 6, 2025`,
   },

@@ -97,7 +97,7 @@ function SearchResultItem({ app, query }: { app: any; query: string }) {
 
 const collections = [
   { key: "all",      label: "All Apps", icon: Grid3x3,   sub: "Browse every app",       color: "text-primary",    bg: "bg-primary/10",  chipColor: "from-primary/5 to-primary/10",    border: "border-primary/20"  },
-  { key: "featured", label: "Featured", icon: Star,       sub: "Editor's top picks",     color: "text-amber-500",  bg: "bg-amber-50",    chipColor: "from-amber-50 to-amber-100/60",   border: "border-amber-100"   },
+  { key: "featured", label: "Featured", icon: Star,       sub: "Highlighted listings",     color: "text-amber-500",  bg: "bg-amber-50",    chipColor: "from-amber-50 to-amber-100/60",   border: "border-amber-100"   },
   { key: "trending", label: "Trending", icon: TrendingUp, sub: "Most popular right now", color: "text-orange-500", bg: "bg-orange-50",   chipColor: "from-orange-50 to-orange-100/60", border: "border-orange-100"  },
   { key: "new",      label: "Latest",   icon: Zap,        sub: "Fresh additions",        color: "text-blue-500",   bg: "bg-blue-50",     chipColor: "from-blue-50 to-blue-100/60",     border: "border-blue-100"    },
   { key: "games",    label: "Games",    icon: Gamepad2,   sub: "Browse all games",       color: "text-violet-600", bg: "bg-violet-50",   chipColor: "from-violet-50 to-violet-100/60", border: "border-violet-100"  },

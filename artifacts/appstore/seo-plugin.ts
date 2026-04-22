@@ -62,7 +62,7 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
     title: "Digi Nexa Store – Discover Apps & Games",
     h1: "Discover iOS & Android Apps and Games, Organised by Category",
     description:
-      "Digi Nexa Store is a free app discovery platform. Browse 4,000+ iOS and Android apps and games organised by category — all linking to official stores, free to explore.",
+      "Digi Nexa Store is a free app discovery platform. Browse 4,500+ iOS and Android apps and games organised across 18 categories — all linking to official stores, free to explore.",
     type: "website",
     jsonLd: [
       {
@@ -123,19 +123,19 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
     title: "App & Game Categories | Digi Nexa Store",
     h1: "Browse Apps & Games by Category",
     description:
-      "Explore apps and games by category on Digi Nexa Store. 18+ curated categories from Productivity to Action Games — find exactly what you need without the noise.",
+      "Explore apps and games by category on Digi Nexa Store. 18 categories spanning Productivity, Education, Health & Fitness, Action Games and more — find exactly what you need.",
   },
   "/about": {
     title: "About Digi Nexa Store – App Discovery Platform",
-    h1: "About Digi Nexa Store: Our Mission to Curate the Best Apps & Games",
+    h1: "About Digi Nexa Store: An Independent App Discovery Directory",
     description:
-      "Learn about Digi Nexa Store — a curated app discovery platform dedicated to hand-picking the best iOS and Android apps and games, so you don't have to search the noise.",
+      "Learn about Digi Nexa Store — an independent app discovery directory that aggregates publicly available iOS and Android app information from the Apple App Store and Google Play.",
   },
   "/blog": {
-    title: "Digi Nexa Store Blog – App Tips, Reviews & Picks",
-    h1: "The Digi Nexa Store Blog: Tips, Reviews & Editor's Picks",
+    title: "Digi Nexa Store Blog – App Discovery Articles",
+    h1: "The Digi Nexa Store Blog",
     description:
-      "Read Digi Nexa Store's blog for app reviews, expert picks, category roundups, and mobile gaming tips. Fresh recommendations every week.",
+      "Articles about app discovery, mobile categories, and how to find apps on the Apple App Store and Google Play. New content coming soon.",
   },
   "/contact": {
     title: "Contact Digi Nexa Store | Get in Touch",

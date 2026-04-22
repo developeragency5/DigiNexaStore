@@ -64,7 +64,7 @@ export function Games() {
             </div>
           </div>
           <p className="text-gray-500 max-w-lg ml-16">
-            The best action, puzzle, strategy, and casual games for iOS and Android — curated and ranked.
+            Action, puzzle, strategy, and casual games for iOS and Android — organised by category.
           </p>
         </div>
       </div>

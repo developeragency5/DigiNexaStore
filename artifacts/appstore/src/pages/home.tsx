@@ -134,7 +134,7 @@ export function Home() {
     },
     {
       q: "How do I find the best app for my needs?",
-      a: "Use the search bar at the top, browse by category (Productivity, Education, Health & Fitness, etc.) or explore curated rows like Trending, Featured and AI Apps. Each app page links you straight to the official store to download.",
+      a: "Use the search bar at the top, browse by category (Productivity, Education, Health & Fitness, etc.) or explore rows like Trending, Featured and AI Apps. Each app page links you straight to the official store to download.",
     },
     {
       q: "Are Digi Nexa Store listings updated?",
@@ -168,7 +168,7 @@ export function Home() {
 
           {/* Tagline */}
           <p className="text-green-900/75 text-lg font-semibold tracking-wide mb-8">
-            Discover curated apps and games
+            Discover apps and games
           </p>
 
           {/* Search Bar */}

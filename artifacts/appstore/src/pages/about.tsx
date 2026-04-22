@@ -7,35 +7,44 @@ const values = [
     color: "text-green-600",
     bg: "bg-green-50",
     title: "All in One Place",
-    desc: "Digi Nexa Store aggregates app information from the Apple App Store and Google Play in one organised directory, so you can browse and compare without switching between stores.",
+    desc: "Digi Nexa Store aggregates publicly available app information from the Apple App Store and Google Play in one organised directory, so you can browse and compare without switching between stores.",
   },
   {
     icon: Star,
     color: "text-amber-500",
     bg: "bg-amber-50",
-    title: "Quality Over Quantity",
-    desc: "With 4,000+ apps organised across 21 categories, you can quickly find what you're looking for — without scrolling through hundreds of irrelevant results.",
+    title: "Organised by Category",
+    desc: "Thousands of apps and games are grouped across 18 categories so you can browse Productivity, Education, Health & Fitness, Games and more without scrolling endless lists.",
   },
   {
     icon: CheckCircle2,
     color: "text-teal-500",
     bg: "bg-teal-50",
     title: "Free to Explore",
-    desc: "No account, no subscription, no hidden fees. Browse thousands of curated apps and games across 21 categories — completely free, anytime, from any device.",
+    desc: "No account, no subscription, no hidden fees. Browse the full directory completely free, anytime, from any device.",
   },
   {
     icon: Users,
     color: "text-purple-500",
     bg: "bg-purple-50",
-    title: "Built for Real People",
-    desc: "No affiliate bias, no pay-to-play placements. Digi Nexa Store is designed for users who want honest recommendations — not ads disguised as reviews.",
+    title: "Safe by Design",
+    desc: "We never host APK files or app installers. Every install button takes you straight to the official Apple App Store or Google Play listing from the original developer.",
   },
 ];
 
 const stats = [
-  { value: "4,565+", label: "Curated Apps & Games" },
-  { value: "21", label: "Categories Covered" },
-  { value: "0", label: "Paid Placements" },
+  { value: "4,565+", label: "Apps & Games Listed" },
+  { value: "18", label: "Categories Covered" },
+  { value: "iOS & Android", label: "Both Stores Aggregated" },
+];
+
+const facts = [
+  "App data aggregated from Apple App Store & Google Play",
+  "Direct links to official store listings",
+  "No APK or installer files hosted on our servers",
+  "Listings refreshed regularly to keep data current",
+  "iOS and Android coverage in one place",
+  "Free to use, no account required",
 ];
 
 export function About() {
@@ -45,15 +54,16 @@ export function About() {
       <div className="bg-gradient-to-br from-primary/5 via-primary/10 to-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <span className="inline-block text-xs font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full mb-5 uppercase tracking-widest">
-            Our Story
+            About Us
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
-            The App Store for People Who<br className="hidden sm:block" />
-            <span className="text-primary"> Care About Quality</span>
+            App Discovery Made<br className="hidden sm:block" />
+            <span className="text-primary"> Simple and Honest</span>
           </h1>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-            Digi Nexa Store was built out of frustration. The major app stores are overrun with clones, low-effort cash-grabs, and misleading ratings.
-            We set out to build the directory we always wished existed — curated, honest, and actually useful.
+            Digi Nexa Store is a free, independent app discovery directory. We aggregate publicly available
+            information from the Apple App Store and Google Play so you can browse, search and find apps and
+            games in one organised place — then install them directly from the official store.
           </p>
         </div>
       </div>
@@ -72,29 +82,24 @@ export function About() {
         </div>
       </div>
 
-      {/* Mission */}
+      {/* What we are / what we are not */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
+        <div className="grid md:grid-cols-2 gap-12 items-start mb-20">
           <div>
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-4">Our Mission</h2>
+            <h2 className="text-3xl font-extrabold text-gray-900 mb-4">What We Do</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              We believe great apps can genuinely improve your life — but finding them shouldn't require wading through thousands of mediocre
-              alternatives. Digi Nexa Store is our answer to that problem.
+              Digi Nexa Store gathers publicly available metadata — app names, icons, screenshots, descriptions,
+              developer information, category and pricing — from the Apple App Store and Google Play, and
+              presents it in a clean, searchable directory.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              Every app in our directory has been downloaded, tested, and evaluated by our editorial team.
-              We look at design, performance, usefulness, and privacy — not just download counts or star averages that can be gamed.
+              When you find an app you'd like to try, the install button takes you to the app's official
+              listing on the App Store or Google Play. We do not host the apps themselves and we never
+              distribute installer files.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              "Real editors, real reviews",
-              "Privacy-first picks",
-              "No fake reviews",
-              "Updated every week",
-              "iOS & Android coverage",
-              "Free to use, always",
-            ].map(item => (
+          <div className="grid grid-cols-1 gap-3">
+            {facts.map(item => (
               <div key={item} className="flex items-start gap-2 bg-gray-50 rounded-xl p-3">
                 <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                 <span className="text-sm text-gray-700 font-medium">{item}</span>
@@ -121,11 +126,25 @@ export function About() {
           </div>
         </div>
 
+        {/* What we are not */}
+        <div className="mb-20 bg-gray-50 border border-gray-100 rounded-3xl p-8">
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-4">What We Are Not</h2>
+          <p className="text-gray-600 leading-relaxed mb-4">
+            To set clear expectations:
+          </p>
+          <ul className="space-y-2 text-sm text-gray-700">
+            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We are not Apple, Google, or any app developer. We are an independent third-party directory and are not affiliated with, endorsed by, or sponsored by Apple Inc. or Google LLC.</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not host APK files, IPA files or any app installers. All downloads happen on the official Apple App Store or Google Play.</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not write professional editorial reviews. App descriptions shown on Digi Nexa Store come from the publishers' official store listings.</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not guarantee that app information is fully up to date. Always check the official store listing before installing or purchasing.</li>
+          </ul>
+        </div>
+
         {/* CTA */}
         <div className="bg-primary/5 border border-primary/20 rounded-3xl p-10 text-center">
-          <h2 className="text-2xl font-extrabold text-gray-900 mb-3">Start Discovering Better Apps</h2>
+          <h2 className="text-2xl font-extrabold text-gray-900 mb-3">Start Exploring</h2>
           <p className="text-gray-600 mb-6 max-w-md mx-auto">
-            Explore our directory of 4,000+ apps and games organised across 21 categories.
+            Browse our directory of 4,500+ apps and games organised across 18 categories.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/apps" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-2xl hover:bg-primary/90 transition-colors">

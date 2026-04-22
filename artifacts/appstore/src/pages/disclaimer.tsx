@@ -4,7 +4,7 @@ import { AlertTriangle } from "lucide-react";
 const sections = [
   {
     title: "1. General Disclaimer",
-    body: `Digi Nexa Store ("we", "us", "our") is an independent, third-party app discovery and review platform. We are not affiliated with, endorsed by, or officially connected to Apple Inc., Google LLC, or any app developer or publisher unless explicitly stated.
+    body: `Digi Nexa Store ("we", "us", "our") is an independent, third-party app discovery directory. We are not affiliated with, endorsed by, or officially connected to Apple Inc., Google LLC, or any app developer or publisher unless explicitly stated.
 
 The information published on Digi Nexa Store — including app descriptions, ratings, screenshots, pricing, and availability — is provided for general informational purposes only. While we strive to keep this information accurate and current, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of any information on Digi Nexa Store.`,
   },
@@ -18,7 +18,7 @@ Always verify current information directly on the relevant official app store (e
   },
   {
     title: "3. No Endorsement",
-    body: `The listing or featuring of an app on Digi Nexa Store does not constitute an endorsement, recommendation, or guarantee by Digi Nexa Store. We curate apps based on editorial judgement and publicly available quality signals, but we cannot verify every claim made by app developers, and our editorial opinions are subjective.
+    body: `The listing or featuring of an app on Digi Nexa Store does not constitute an endorsement, recommendation, or guarantee by Digi Nexa Store. We organise apps based on publicly available metadata and category data sourced from the Apple App Store and Google Play. We cannot verify every claim made by app developers.
 
 Digi Nexa Store is not responsible for any issues you experience with an app, including but not limited to bugs, data loss, security vulnerabilities, subscription charges, or unsatisfactory performance.`,
   },
@@ -32,11 +32,11 @@ The inclusion of any link does not imply our endorsement of the linked site. We 
     title: "5. Affiliate Relationships",
     body: `Digi Nexa Store may participate in affiliate and referral programmes. This means we may earn a commission or referral fee if you click certain links and subsequently make a purchase or take an action on a third-party platform. This is disclosed in more detail in our Advertising Disclosure.
 
-The existence of an affiliate relationship does not influence the editorial listing, ranking, or description of any app on Digi Nexa Store. Our editorial decisions are independent.`,
+The existence of an affiliate relationship does not influence whether an app is listed, where it appears in the directory, or how it is described. Listings are organised based on publicly available metadata from the official app stores.`,
   },
   {
     title: "6. No Professional Advice",
-    body: `Nothing on Digi Nexa Store constitutes professional, legal, financial, medical, or technical advice. App descriptions and editorial content are informational only. You should not rely solely on information from Digi Nexa Store when making decisions about app usage, particularly for applications in sensitive areas such as health, finance, or security.`,
+    body: `Nothing on Digi Nexa Store constitutes professional, legal, financial, medical, or technical advice. App descriptions and informational content on the site are for general reference only. You should not rely solely on information from Digi Nexa Store when making decisions about app usage, particularly for applications in sensitive areas such as health, finance, or security.`,
   },
   {
     title: "7. Limitation of Liability",
@@ -58,9 +58,8 @@ This limitation applies regardless of whether Digi Nexa Store has been advised o
     body: `If you have questions about this Disclaimer:
 
 Email: hello@diginexa.store
-Digi Nexa Store, Inc.
 
-Last Updated: April 6, 2025`,
+Last Updated: April 22, 2026`,
   },
 ];
 
