@@ -52,6 +52,54 @@ function AppGridSkeleton({ count = 4 }: { count?: number }) {
   );
 }
 
+function HorizontalRow({
+  title,
+  subtitle,
+  viewAllHref,
+  apps,
+  loading,
+  icon: Icon,
+  iconColor = "text-green-700",
+}: {
+  title: string;
+  subtitle?: string;
+  viewAllHref: string;
+  apps?: any[];
+  loading: boolean;
+  icon?: any;
+  iconColor?: string;
+}) {
+  return (
+    <section>
+      <div className="flex items-end justify-between mb-5">
+        <div>
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            {Icon && <Icon className={`h-5 w-5 ${iconColor}`} />}
+            {title}
+          </h2>
+          {subtitle && <p className="text-gray-500 text-sm mt-0.5">{subtitle}</p>}
+        </div>
+        <Link href={viewAllHref} className="flex items-center gap-1 text-sm font-medium text-primary hover:underline shrink-0 ml-4">
+          See all <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+      {loading ? (
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="w-[260px] h-[88px] rounded-2xl flex-shrink-0" />)}
+        </div>
+      ) : (
+        <div className="flex gap-4 overflow-x-auto pb-3 -mx-1 px-1 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+          {apps?.slice(0, 10).map(app => (
+            <div key={app.id} className="w-[260px] flex-shrink-0">
+              <AppCard app={app} />
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export function Home() {
   const { data: featuredApps, isLoading: loadingFeatured } = useGetFeaturedApps();
   const { data: trendingApps, isLoading: loadingTrending } = useGetTrendingApps();
@@ -202,7 +250,7 @@ export function Home() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
 
-        {/* ── Trending Apps ── */}
+        {/* ── Trending Apps (primary 4-col grid) ── */}
         <section>
           <SectionHeader
             title="Trending Apps"
@@ -220,115 +268,7 @@ export function Home() {
           )}
         </section>
 
-        {/* ── Productivity Apps ── */}
-        <section>
-          <SectionHeader
-            title="Productivity Apps"
-            subtitle="Boost focus, organisation and daily efficiency"
-            viewAllHref="/categories/productivity"
-          />
-          {loadingProductivity ? (
-            <AppGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {productivityApps?.slice(0, 8).map(app => (
-                <AppCard key={app.id} app={app} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── Study Apps ── */}
-        <section>
-          <SectionHeader
-            title="Study Apps"
-            subtitle="Learning tools for students and lifelong learners"
-            viewAllHref="/categories/education"
-          />
-          {loadingStudy ? (
-            <AppGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {studyApps?.slice(0, 8).map(app => (
-                <AppCard key={app.id} app={app} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── Fitness Apps ── */}
-        <section>
-          <SectionHeader
-            title="Fitness Apps"
-            subtitle="Workouts, tracking and a healthier routine"
-            viewAllHref="/categories/health-fitness"
-          />
-          {loadingFitness ? (
-            <AppGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {fitnessApps?.slice(0, 8).map(app => (
-                <AppCard key={app.id} app={app} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── AI Apps ── */}
-        <section>
-          <SectionHeader
-            title="AI Apps & Smart Tools"
-            subtitle="AI-powered assistants for work, study and creativity"
-            viewAllHref="/apps?search=AI"
-          />
-          {loadingAi ? (
-            <AppGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {aiApps?.slice(0, 8).map(app => (
-                <AppCard key={app.id} app={app} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── Social Apps ── */}
-        <section>
-          <SectionHeader
-            title="Social Apps"
-            subtitle="Stay connected with friends, family and communities"
-            viewAllHref="/categories/social"
-          />
-          {loadingSocial ? (
-            <AppGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {socialApps?.slice(0, 8).map(app => (
-                <AppCard key={app.id} app={app} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── Finance Apps ── */}
-        <section>
-          <SectionHeader
-            title="Finance Apps"
-            subtitle="Banking, budgeting and money management"
-            viewAllHref="/categories/finance"
-          />
-          {loadingFinance ? (
-            <AppGridSkeleton count={8} />
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {financeApps?.slice(0, 8).map(app => (
-                <AppCard key={app.id} app={app} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* ── Browse by Category ── */}
+        {/* ── Browse by Category (visual break) ── */}
         <section>
           <SectionHeader title="Browse by Category" viewAllHref="/categories" />
           {loadingCategories ? (
@@ -341,6 +281,96 @@ export function Home() {
             </div>
           )}
         </section>
+
+        {/* ── Productivity Apps (horizontal scroll) ── */}
+        <HorizontalRow
+          title="Productivity Apps"
+          subtitle="Boost focus, organisation and daily efficiency"
+          viewAllHref="/categories/productivity"
+          apps={productivityApps as any[]}
+          loading={loadingProductivity}
+          icon={Briefcase}
+          iconColor="text-blue-600"
+        />
+
+        {/* ── Study Apps (horizontal scroll) ── */}
+        <HorizontalRow
+          title="Study Apps"
+          subtitle="Learning tools for students and lifelong learners"
+          viewAllHref="/categories/education"
+          apps={studyApps as any[]}
+          loading={loadingStudy}
+          icon={GraduationCap}
+          iconColor="text-indigo-500"
+        />
+
+      </div>
+
+      {/* ── AI Apps Highlighted Callout ── */}
+      <section className="bg-gradient-to-br from-violet-50 via-fuchsia-50 to-violet-50 border-y border-violet-100/60 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-6 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-100 text-violet-700 text-xs font-semibold mb-3">
+                <Sparkles className="h-3 w-3" /> AI Powered
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                AI Apps &amp; Smart Tools
+              </h2>
+              <p className="text-gray-600 text-sm mt-1.5 max-w-xl">
+                AI-powered assistants for work, study and creativity — chatbots, writing tools, image generators and more.
+              </p>
+            </div>
+            <Link href="/apps?search=AI" className="hidden sm:flex items-center gap-1 text-sm font-semibold text-violet-700 hover:text-violet-900 shrink-0">
+              See all <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+          {loadingAi ? (
+            <AppGridSkeleton count={8} />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {aiApps?.slice(0, 8).map(app => (
+                <AppCard key={app.id} app={app} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+
+        {/* ── Fitness Apps (horizontal scroll) ── */}
+        <HorizontalRow
+          title="Fitness Apps"
+          subtitle="Workouts, tracking and a healthier routine"
+          viewAllHref="/categories/health-fitness"
+          apps={fitnessApps as any[]}
+          loading={loadingFitness}
+          icon={HeartPulse}
+          iconColor="text-rose-500"
+        />
+
+        {/* ── Social Apps (horizontal scroll) ── */}
+        <HorizontalRow
+          title="Social Apps"
+          subtitle="Stay connected with friends, family and communities"
+          viewAllHref="/categories/social"
+          apps={socialApps as any[]}
+          loading={loadingSocial}
+          icon={MessageCircle}
+          iconColor="text-sky-500"
+        />
+
+        {/* ── Finance Apps (horizontal scroll) ── */}
+        <HorizontalRow
+          title="Finance Apps"
+          subtitle="Banking, budgeting and money management"
+          viewAllHref="/categories/finance"
+          apps={financeApps as any[]}
+          loading={loadingFinance}
+          icon={DollarSign}
+          iconColor="text-green-600"
+        />
 
         {/* ── Latest Apps ── */}
         <section>
