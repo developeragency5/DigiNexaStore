@@ -60,11 +60,11 @@ export function Games() {
             </div>
             <div>
               <p className="text-xs font-bold text-primary uppercase tracking-widest mb-0.5">Games</p>
-              <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">Mobile Gaming Hub</h1>
+              <h1 className="text-3xl font-extrabold text-gray-900 leading-tight">Games Hub</h1>
             </div>
           </div>
           <p className="text-gray-500 max-w-lg ml-16">
-            Action, puzzle, strategy, and casual games for iOS and Android — organised by category.
+            Action, puzzle, strategy and casual games from the App Store and Google Play — organised by category.
           </p>
         </div>
       </div>

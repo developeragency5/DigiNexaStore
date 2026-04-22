@@ -9,7 +9,7 @@ These Terms apply to all visitors and users of the Service.`,
   },
   {
     title: "2. Description of Service",
-    body: `Digi Nexa Store (diginexa.store) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about mobile applications and games for iOS (Apple App Store) and Android (Google Play Store).
+    body: `Digi Nexa Store (diginexa.store) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the Apple App Store (iOS) and Google Play Store (Android).
 
 What this Service does:
 • Displays app names, descriptions, category information, and icons sourced from publicly available app store data

@@ -539,7 +539,7 @@ export function Home() {
               { icon: Filter, title: "Open a category page", desc: "If you're not sure what to search for, pick a category from the homepage. Each of our 18 categories groups apps by what they do, so you can scan the full set quickly." },
               { icon: Flame, title: "Follow Trending and Featured rows", desc: "The Trending row highlights apps gaining attention this week on Digi Nexa Store. The Featured row collects notable listings from the catalog — both are good places to start exploring." },
               { icon: Sparkles, title: "Use the AI Apps section", desc: "Looking specifically for AI tools? The AI Apps & Smart Tools section gathers writing assistants, chatbots, image generators and other AI-powered apps in one place." },
-              { icon: Gamepad2, title: "Switch over to Games", desc: "Mobile games live in their own dedicated section. Visit the Games hub to browse action, puzzle, strategy and casual titles for iOS and Android side by side." },
+              { icon: Gamepad2, title: "Switch over to Games", desc: "Games have their own dedicated section. Visit the Games hub to browse action, puzzle, strategy and casual titles from the App Store and Google Play side by side." },
               { icon: Tag, title: "Check the listing details", desc: "Every app page on Digi Nexa Store shows the icon, screenshots, description, category, platform and pricing — everything you need to decide before tapping through to install." },
             ].map(t => (
               <div key={t.title} className="bg-white rounded-2xl p-5 border border-gray-100">

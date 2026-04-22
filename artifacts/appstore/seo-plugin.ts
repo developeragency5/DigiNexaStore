@@ -107,15 +107,15 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
     },
   },
   "/games": {
-    title: "Browse Games – Mobile iOS & Android | Digi Nexa Store",
-    h1: "All Mobile Games — iOS & Android Games",
+    title: "Browse Games – App Store & Google Play | Digi Nexa Store",
+    h1: "All Games — App Store & Google Play",
     description:
-      "Browse mobile games for iOS and Android across Puzzle, Action, Arcade, Casual, and more genres — all organised by category on Digi Nexa Store.",
+      "Browse games from the Apple App Store and Google Play across Puzzle, Action, Arcade, Casual and more genres — all organised by category on Digi Nexa Store.",
     jsonLd: {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "All Games",
-      description: "Mobile games for iOS and Android organised by category on Digi Nexa Store.",
+      description: "Games from the Apple App Store and Google Play organised by category on Digi Nexa Store.",
       url: `${SITE_URL}/games`,
     },
   },
@@ -135,7 +135,7 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
     title: "Digi Nexa Store Blog – App Discovery Articles",
     h1: "The Digi Nexa Store Blog",
     description:
-      "Articles about app discovery, mobile categories, and how to find apps on the Apple App Store and Google Play. New content coming soon.",
+      "Articles about app discovery, categories, and how to find apps on the Apple App Store and Google Play. New content coming soon.",
   },
   "/contact": {
     title: "Contact Digi Nexa Store | Get in Touch",
