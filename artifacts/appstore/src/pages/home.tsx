@@ -234,7 +234,7 @@ export function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { step: "1", icon: Search, title: "Search or browse", desc: "Use the search bar or pick a category to explore apps and games organised across 18 categories." },
-              { step: "2", icon: MousePointerClick, title: "Open the app page", desc: "View the app's icon, screenshots, description, category and pricing — all sourced from the official store listing." },
+              { step: "2", icon: MousePointerClick, title: "Open the app page", desc: "View the app's icon, screenshots, description, category and pricing in one clean view before you decide." },
               { step: "3", icon: Download, title: "Install from the official store", desc: "Tap the Apple App Store or Google Play button to install directly from the original developer." },
             ].map(s => (
               <div key={s.step} className="relative bg-white rounded-2xl p-5 border border-gray-100">
