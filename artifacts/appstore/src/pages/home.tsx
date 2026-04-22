@@ -201,7 +201,7 @@ export function Home() {
       {/* ── Stats Strip ── */}
       <section className="bg-white border-b border-gray-100 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-3 gap-4 text-center">
             <div className="px-2">
               <div className="text-2xl sm:text-3xl font-bold text-green-700">{fmt(stats?.totalApps)}+</div>
               <div className="text-xs sm:text-sm text-gray-500 mt-1">Apps tracked</div>
@@ -213,10 +213,6 @@ export function Home() {
             <div className="px-2">
               <div className="text-2xl sm:text-3xl font-bold text-green-700">{fmt(stats?.totalCategories)}</div>
               <div className="text-xs sm:text-sm text-gray-500 mt-1">Categories</div>
-            </div>
-            <div className="px-2">
-              <div className="text-2xl sm:text-3xl font-bold text-green-700">iOS &amp; Android</div>
-              <div className="text-xs sm:text-sm text-gray-500 mt-1">Both stores covered</div>
             </div>
           </div>
         </div>
