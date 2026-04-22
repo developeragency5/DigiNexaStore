@@ -10,7 +10,17 @@ export function BackButton({ fallback = "/", label = "Back" }: BackButtonProps) 
   const [, navigate] = useLocation();
 
   function handleBack() {
-    if (window.history.length > 1) {
+    let cameFromSameSite = false;
+    try {
+      cameFromSameSite =
+        !!document.referrer &&
+        new URL(document.referrer).origin === window.location.origin &&
+        new URL(document.referrer).pathname !== window.location.pathname;
+    } catch {
+      cameFromSameSite = false;
+    }
+
+    if (cameFromSameSite && window.history.length > 1) {
       window.history.back();
     } else {
       navigate(fallback);
