@@ -57,13 +57,6 @@ const STATIC_PAGES = {
     body: "Digi Nexa Store is an independent, US-based app discovery directory. We aggregate publicly available information about iOS and Android apps from the Apple App Store and Google Play, organise it by category, and present it in a clean, easy-to-browse interface. We are not affiliated with Apple or Google. We do not sell, distribute, or host any apps. Every download link points to the official store. Our mission is simple: help people discover great mobile apps without the noise of ads, fake reviews, or pay-to-play rankings.",
     priority: "0.6", changefreq: "monthly",
   },
-  "/blog": {
-    title: "Digi Nexa Store Blog – App Discovery Articles",
-    h1: "The Digi Nexa Store Blog",
-    description: "Articles about app discovery, categories, and how to find apps on the Apple App Store and Google Play. New content coming soon.",
-    body: "Welcome to the Digi Nexa Store blog. We publish articles about mobile app trends, category deep-dives, and tips for discovering quality apps and games on the Apple App Store and Google Play. New content is added regularly — check back soon for our latest posts.",
-    priority: "0.6", changefreq: "weekly",
-  },
   "/contact": {
     title: "Contact Digi Nexa Store | Get in Touch",
     h1: "Contact the Digi Nexa Store Team",
@@ -197,7 +190,7 @@ const trunc = (s, n) => (s.length <= n ? s : s.slice(0, n - 1) + "…");
 const FOOTER_LINKS = [
   { href: "/", label: "Home" }, { href: "/apps", label: "All Apps" },
   { href: "/games", label: "All Games" }, { href: "/categories", label: "Categories" },
-  { href: "/about", label: "About" }, { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }, { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms-of-service", label: "Terms of Service" }, { href: "/cookie-policy", label: "Cookie Policy" },
   { href: "/ccpa-privacy-rights", label: "California Privacy Rights" }, { href: "/advertising-disclosure", label: "Advertising Disclosure" },
@@ -278,7 +271,7 @@ function buildLlms(data) {
   const catLines = data.categories
     .map((c) => `- [${c.name}](${SITE_URL}/categories/${c.slug}): Browse ${c.name} ${c.type === "game" ? "games" : "apps"}.`)
     .join("\n");
-  return `# Digi Nexa Store\n\n> Digi Nexa Store is a free, independent app discovery directory for iOS and Android. Browse 4,500+ apps and games organised across 18 categories. All download links go to the official Apple App Store and Google Play.\n\n## Main Pages\n\n- [Home](${SITE_URL}/): Discover apps and games by category.\n- [All Apps](${SITE_URL}/apps): Browse iOS and Android apps.\n- [All Games](${SITE_URL}/games): Browse mobile games.\n- [Categories](${SITE_URL}/categories): All 18 categories.\n- [About](${SITE_URL}/about): About Digi Nexa Store.\n- [Blog](${SITE_URL}/blog): Articles about app discovery.\n- [Contact](${SITE_URL}/contact): Get in touch.\n\n## Categories\n\n${catLines}\n\n## Policies\n\n- [Privacy Policy](${SITE_URL}/privacy-policy)\n- [Terms of Service](${SITE_URL}/terms-of-service)\n- [Cookie Policy](${SITE_URL}/cookie-policy)\n- [CCPA Privacy Rights](${SITE_URL}/ccpa-privacy-rights)\n- [Advertising Disclosure](${SITE_URL}/advertising-disclosure)\n- [Disclaimer](${SITE_URL}/disclaimer)\n- [No-Purchase Policy](${SITE_URL}/no-purchase-policy)\n\n## Sitemap\n\n${SITE_URL}/sitemap.xml\n`;
+  return `# Digi Nexa Store\n\n> Digi Nexa Store is a free, independent app discovery directory for iOS and Android. Browse 4,500+ apps and games organised across 18 categories. All download links go to the official Apple App Store and Google Play.\n\n## Main Pages\n\n- [Home](${SITE_URL}/): Discover apps and games by category.\n- [All Apps](${SITE_URL}/apps): Browse iOS and Android apps.\n- [All Games](${SITE_URL}/games): Browse mobile games.\n- [Categories](${SITE_URL}/categories): All 18 categories.\n- [About](${SITE_URL}/about): About Digi Nexa Store.\n- [Contact](${SITE_URL}/contact): Get in touch.\n\n## Categories\n\n${catLines}\n\n## Policies\n\n- [Privacy Policy](${SITE_URL}/privacy-policy)\n- [Terms of Service](${SITE_URL}/terms-of-service)\n- [Cookie Policy](${SITE_URL}/cookie-policy)\n- [CCPA Privacy Rights](${SITE_URL}/ccpa-privacy-rights)\n- [Advertising Disclosure](${SITE_URL}/advertising-disclosure)\n- [Disclaimer](${SITE_URL}/disclaimer)\n- [No-Purchase Policy](${SITE_URL}/no-purchase-policy)\n\n## Sitemap\n\n${SITE_URL}/sitemap.xml\n`;
 }
 
 // ─── Per-page renderers ──────────────────────────────────────────────────────
@@ -320,64 +313,111 @@ function renderCategory(cat, appsInCat) {
 }
 
 function buildAppTitle(app, typeLabel) {
-  // Build a unique title that fits in 60 chars and avoids collisions.
-  // Format: "{name} – {category} {type} | DNS"  (truncate name first, not suffix)
-  const suffix = ` – ${app.category_name} ${typeLabel} | ${BRAND}`;
-  const maxName = 60 - suffix.length;
-  const name = app.name.length <= maxName ? app.name : app.name.slice(0, maxName - 1).trimEnd() + "…";
-  let title = `${name}${suffix}`;
-  // If still too long (very long category names), fall back to "{name} | DNS #{id}"
-  if (title.length > 60) {
-    const altSuffix = ` | ${BRAND} #${app.id}`;
-    const altMaxName = 60 - altSuffix.length;
-    const altName = app.name.length <= altMaxName ? app.name : app.name.slice(0, altMaxName - 1).trimEnd() + "…";
-    title = `${altName}${altSuffix}`;
+  // Always include #{id} suffix to guarantee uniqueness across truncated long names.
+  // Format: "{name} – {category} {type} #{id} | DNS"
+  const idTag = `#${app.id}`;
+  const suffixFull = ` – ${app.category_name} ${typeLabel} ${idTag} | ${BRAND}`;
+  const maxNameFull = 60 - suffixFull.length;
+  if (maxNameFull >= 8) {
+    const name = app.name.length <= maxNameFull ? app.name : app.name.slice(0, maxNameFull - 1).trimEnd() + "…";
+    return `${name}${suffixFull}`;
   }
-  return title;
+  // Fallback: shorter suffix without category
+  const suffixShort = ` ${idTag} | ${BRAND}`;
+  const maxNameShort = 60 - suffixShort.length;
+  const name = app.name.length <= maxNameShort ? app.name : app.name.slice(0, maxNameShort - 1).trimEnd() + "…";
+  return `${name}${suffixShort}`;
 }
 
 function renderApp(app, relatedApps) {
   const typeLabel = app.app_type === "game" ? "Game" : "App";
+  const typeLower = typeLabel.toLowerCase();
   const title = buildAppTitle(app, typeLabel);
   const h1 = `${app.name} — ${app.category_name} ${typeLabel} for iOS & Android`;
   const ratingNum = Number(app.rating) || 0;
   const reviews = Number(app.review_count) || 0;
-  const description = trunc(`${app.developer || "Independent developer"}'s ${app.name} is a ${app.category_name} ${typeLabel.toLowerCase()} for iOS and Android.${ratingNum > 0 ? ` Rated ${ratingNum.toFixed(1)}/5${reviews > 0 ? ` by ${reviews.toLocaleString()}+ users` : ""}.` : ""} Discover it free on Digi Nexa Store.`, 160);
+  const developer = app.developer || "Independent developer";
+  const priceLabel = app.is_free ? "Free to download" : `$${Number(app.price || 0).toFixed(2)}`;
+
+  // Unique meta description: includes developer, name, category, price + id-based unique tail
+  const description = trunc(
+    `${app.name} by ${developer} — a ${app.category_name} ${typeLower} for iOS and Android. ${priceLabel} on the App Store and Google Play.${ratingNum > 0 ? ` Rated ${ratingNum.toFixed(1)}/5${reviews > 0 ? ` by ${reviews.toLocaleString()}+ users` : ""}.` : ""} Listing #${app.id} on Digi Nexa Store.`,
+    160
+  );
+
   const longDesc = app.full_description || app.description || app.short_description || "";
+  const shortDesc = app.short_description || "";
 
   const relatedHtml = relatedApps.length
     ? `<h2>More ${esc(app.category_name)} ${esc(typeLabel)}s</h2><ul>${relatedApps.map((r) => `<li><a href="/apps/${r.id}">${esc(r.name)}</a>${r.developer ? ` by ${esc(r.developer)}` : ""}</li>`).join("")}</ul>`
     : "";
 
+  // Boilerplate that varies with name/developer/category to add useful word count
+  // without producing duplicate content (each fragment includes the unique app name).
+  const overview = longDesc
+    ? `<h2>About ${esc(app.name)}</h2><p>${esc(longDesc)}</p>`
+    : `<h2>About ${esc(app.name)}</h2><p>${esc(app.name)} is a ${esc(app.category_name)} ${esc(typeLower)} published by ${esc(developer)} for iOS and Android devices. ${shortDesc ? esc(shortDesc) + " " : ""}It is listed in the ${esc(app.category_name)} section of the Digi Nexa Store directory and links directly to its official Apple App Store and Google Play pages so you can review screenshots, permissions and developer details before installing.</p>`;
+
+  const howToInstall = `<h2>How to download ${esc(app.name)}</h2><p>To install ${esc(app.name)}, tap the official store link on this page. iPhone and iPad users will be taken to the Apple App Store; Android users will be taken to the Google Play Store. Digi Nexa Store does not host the ${esc(typeLower)} or process any payment — every download happens on the official store under that store's terms. ${app.is_free ? `${esc(app.name)} is currently listed as free to download, although the developer may offer optional in-app purchases.` : `${esc(app.name)} is currently listed at ${priceLabel} on the official stores.`}</p>`;
+
+  const safety = `<h2>About the developer</h2><p>${esc(app.name)} is published by ${esc(developer)}. Permissions, age ratings, in-app purchase information and the full privacy policy are shown on the official Apple App Store and Google Play listings — please review them before installing. Digi Nexa Store is an independent directory and is not affiliated with ${esc(developer)}, Apple or Google.</p>`;
+
+  const facts = `<h2>${esc(app.name)} at a glance</h2><ul>
+    <li><strong>Name:</strong> ${esc(app.name)}</li>
+    <li><strong>Developer:</strong> ${esc(developer)}</li>
+    <li><strong>Category:</strong> <a href="/categories/${esc(app.category_slug || "")}">${esc(app.category_name || "")}</a></li>
+    <li><strong>Type:</strong> ${esc(typeLabel)} for iOS &amp; Android</li>
+    <li><strong>Price:</strong> ${esc(priceLabel)}</li>
+    ${ratingNum > 0 ? `<li><strong>Rating:</strong> ${ratingNum.toFixed(1)}/5${reviews > 0 ? ` from ${reviews.toLocaleString()} reviews` : ""}</li>` : ""}
+    <li><strong>Listing ID:</strong> #${app.id}</li>
+  </ul>`;
+
   const body = `
-    ${app.short_description ? `<p>${esc(app.short_description)}</p>` : ""}
-    <p><strong>Developer:</strong> ${esc(app.developer || "Unknown")}</p>
-    <p><strong>Category:</strong> <a href="/categories/${esc(app.category_slug || "")}">${esc(app.category_name || "")}</a></p>
-    ${ratingNum > 0 ? `<p><strong>Rating:</strong> ${ratingNum.toFixed(1)}/5${reviews > 0 ? ` (${reviews.toLocaleString()} reviews)` : ""}</p>` : ""}
-    <p><strong>Price:</strong> ${app.is_free ? "Free" : `$${Number(app.price || 0).toFixed(2)}`}</p>
-    ${longDesc ? `<h2>About ${esc(app.name)}</h2><p>${esc(longDesc)}</p>` : `<p>${esc(description)}</p>`}
+    ${shortDesc ? `<p>${esc(shortDesc)}</p>` : ""}
+    ${facts}
+    ${overview}
+    ${howToInstall}
+    ${safety}
     ${relatedHtml}
     <p><a href="/categories/${esc(app.category_slug || "")}">Back to ${esc(app.category_name || "category")}</a> · <a href="/${app.app_type === "game" ? "games" : "apps"}">All ${esc(typeLabel)}s</a></p>
     ${siteFooterHtml()}
   `;
 
   const canonicalUrl = `${SITE_URL}/apps/${app.id}`;
+  // Absolute https image URL (Google requires absolute URLs in structured data)
+  const rawIcon = (app.icon_url || "").trim();
+  const imageUrl = rawIcon.startsWith("http") ? rawIcon : (rawIcon ? `${SITE_URL}${rawIcon.startsWith("/") ? "" : "/"}${rawIcon}` : null);
+
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": app.app_type === "game" ? "VideoGame" : "MobileApplication",
     name: app.name,
     url: canonicalUrl,
-    description: app.short_description || description,
+    description: shortDesc || description,
     applicationCategory: app.app_type === "game" ? "GameApplication" : "MobileApplication",
     operatingSystem: "iOS, Android",
     inLanguage: "en-US",
-    author: { "@type": "Organization", name: app.developer || "Unknown" },
-    ...(app.icon_url ? { image: app.icon_url } : {}),
-    ...(reviews > 0
-      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: ratingNum.toFixed(1), reviewCount: reviews, bestRating: "5", worstRating: "1" } }
-      : {}),
-    offers: { "@type": "Offer", price: app.is_free ? "0" : Number(app.price || 0).toFixed(2), priceCurrency: "USD", availability: "https://schema.org/InStock", url: canonicalUrl },
+    author: { "@type": "Organization", name: developer },
+    publisher: { "@type": "Organization", name: developer },
+    ...(imageUrl ? { image: imageUrl } : {}),
+    offers: {
+      "@type": "Offer",
+      price: app.is_free ? "0.00" : Number(app.price || 0).toFixed(2),
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: canonicalUrl,
+    },
   };
+  // Google requires aggregateRating to have BOTH a positive ratingValue AND a positive reviewCount/ratingCount.
+  if (ratingNum > 0 && reviews > 0) {
+    jsonLd.aggregateRating = {
+      "@type": "AggregateRating",
+      ratingValue: ratingNum.toFixed(1),
+      reviewCount: reviews,
+      bestRating: "5",
+      worstRating: "1",
+    };
+  }
 
   return { canonicalPath: `/apps/${app.id}`, title, description, h1, bodyHtml: body, jsonLd };
 }
