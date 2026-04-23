@@ -1,0 +1,48 @@
+# Digi Nexa Store
+
+> Digi Nexa Store is a free, independent app discovery directory for iOS and Android. Browse 4,500+ apps and games organised across 18 categories. All download links go to the official Apple App Store and Google Play.
+
+## Main Pages
+
+- [Home](https://www.diginexastore.com/): Discover apps and games by category.
+- [All Apps](https://www.diginexastore.com/apps): Browse iOS and Android apps.
+- [All Games](https://www.diginexastore.com/games): Browse mobile games.
+- [Categories](https://www.diginexastore.com/categories): All 18 categories.
+- [About](https://www.diginexastore.com/about): About Digi Nexa Store.
+- [Blog](https://www.diginexastore.com/blog): Articles about app discovery.
+- [Contact](https://www.diginexastore.com/contact): Get in touch.
+
+## Categories
+
+- [Action](https://www.diginexastore.com/categories/action-games): Browse Action apps and games.
+- [Arcade](https://www.diginexastore.com/categories/arcade-games): Browse Arcade apps and games.
+- [Casual](https://www.diginexastore.com/categories/casual-games): Browse Casual apps and games.
+- [Education](https://www.diginexastore.com/categories/education): Browse Education apps and games.
+- [Entertainment](https://www.diginexastore.com/categories/entertainment): Browse Entertainment apps and games.
+- [Finance](https://www.diginexastore.com/categories/finance): Browse Finance apps and games.
+- [Food & Drink](https://www.diginexastore.com/categories/food-drink): Browse Food & Drink apps and games.
+- [Health & Fitness](https://www.diginexastore.com/categories/health-fitness): Browse Health & Fitness apps and games.
+- [Music](https://www.diginexastore.com/categories/music): Browse Music apps and games.
+- [Photography](https://www.diginexastore.com/categories/photography): Browse Photography apps and games.
+- [Productivity](https://www.diginexastore.com/categories/productivity): Browse Productivity apps and games.
+- [Puzzle](https://www.diginexastore.com/categories/puzzle-games): Browse Puzzle apps and games.
+- [RPG](https://www.diginexastore.com/categories/rpg-games): Browse RPG apps and games.
+- [Racing](https://www.diginexastore.com/categories/racing-games): Browse Racing apps and games.
+- [Social](https://www.diginexastore.com/categories/social): Browse Social apps and games.
+- [Sports](https://www.diginexastore.com/categories/sports-games): Browse Sports apps and games.
+- [Strategy](https://www.diginexastore.com/categories/strategy-games): Browse Strategy apps and games.
+- [Travel](https://www.diginexastore.com/categories/travel): Browse Travel apps and games.
+
+## Policies
+
+- [Privacy Policy](https://www.diginexastore.com/privacy-policy)
+- [Terms of Service](https://www.diginexastore.com/terms-of-service)
+- [Cookie Policy](https://www.diginexastore.com/cookie-policy)
+- [CCPA Privacy Rights](https://www.diginexastore.com/ccpa-privacy-rights)
+- [Advertising Disclosure](https://www.diginexastore.com/advertising-disclosure)
+- [Disclaimer](https://www.diginexastore.com/disclaimer)
+- [No-Purchase Policy](https://www.diginexastore.com/no-purchase-policy)
+
+## Sitemap
+
+Full XML sitemap: https://www.diginexastore.com/sitemap.xml
