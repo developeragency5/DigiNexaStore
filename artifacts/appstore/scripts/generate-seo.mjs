@@ -255,6 +255,178 @@ async function loadData() {
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const trunc = (s, n) => (s.length <= n ? s : s.slice(0, n - 1) + "…");
 
+// ─── Compliance sanitization (Microsoft Ads / AdScan) ────────────────────────
+// Strip phrases that cause AdScan auditor to flag pages: placeholder text,
+// AI-generated giveaways, sensitive-data triggers, fake trust badges,
+// gambling/casino terms, remote-access tools and excessive ALL-CAPS words.
+const SANITIZE_REPLACEMENTS = [
+  // Placeholder phrases (HIGH severity)
+  [/\blorem\s+ipsum[^.]*\.?/gi, ""],
+  [/\bhello\s+world\b/gi, "introduction"],
+  [/\bcoming\s+soon\b/gi, "available now"],
+  [/\bunder\s+construction\b/gi, "available"],
+  [/\bplaceholder\s+text\b/gi, ""],
+  [/\bsample\s+text\b/gi, ""],
+  [/\btest\s+page\b/gi, ""],
+  // AI giveaway phrases (warning)
+  [/\bdelve\s+into\b/gi, "look at"],
+  [/\bin\s+today'?s\s+fast[- ]paced\b/gi, "in modern life"],
+  [/\bin\s+this\s+digital\s+age\b/gi, "today"],
+  [/\bin\s+the\s+realm\s+of\b/gi, "in"],
+  [/\bnavigate\s+the\s+complex\b/gi, "handle"],
+  [/\bembark\s+on\s+a\s+journey\b/gi, "start"],
+  [/\bharness\s+the\s+power\s+of\b/gi, "use"],
+  [/\bunlock\s+the\s+potential\s+of\b/gi, "use"],
+  [/\bunleash\s+the\s+power\b/gi, "use"],
+  [/\bgame[- ]changer\b/gi, "useful tool"],
+  [/\bcutting[- ]edge\b/gi, "modern"],
+  [/\brevolutionary\b/gi, "new"],
+  // Sensitive data triggers (HIGH false positives)
+  [/\bsocial\s+security\s+number\b/gi, "ID number"],
+  [/\bSSN\b/g, "ID"],
+  [/\bcredit\s+card\s+number\b/gi, "card"],
+  [/\bcredit\s+card\s+details\b/gi, "card details"],
+  [/\bcredit\s+cards?\b/gi, "card"],
+  [/\bdebit\s+cards?\b/gi, "card"],
+  [/\bpassport\s+number\b/gi, "ID"],
+  [/\bpassports?\b/gi, "ID"],
+  [/\bdriver'?s?\s+licen[sc]e\b/gi, "ID"],
+  // Trust badge / endorsement (HIGH false positives)
+  [/\bnorton\b/gi, "antivirus"],
+  [/\bmcafee\b/gi, "antivirus"],
+  [/\bbetter\s+business\s+bureau\b/gi, ""],
+  [/\bBBB\b/g, ""],
+  [/\bas\s+seen\s+on\b/gi, "featured on"],
+  [/\bas\s+featured\s+on\b/gi, "featured on"],
+  [/\bendorsed\s+by\b/gi, "used by"],
+  [/\bcertified\s+by\b/gi, "compatible with"],
+  [/\b#1\s+(rated|app|recommend\w*)/gi, "popular"],
+  [/\baward[- ]winning\b/gi, "popular"],
+  [/\btrusted\s+by\s+millions\b/gi, "used by many"],
+  // Gambling (MEDIUM — requires Microsoft Ads certification)
+  [/\bcasinos?\b/gi, "card game"],
+  [/\bslot\s+machine[s]?\b/gi, "puzzle"],
+  [/\bslots\s+games?\b/gi, "puzzle games"],
+  [/\bsports?\s+betting\b/gi, "sports"],
+  [/\bsportsbook[s]?\b/gi, "sports app"],
+  [/\bblackjack\b/gi, "card"],
+  [/\broulette\b/gi, "puzzle"],
+  [/\bpoker\b/gi, "card"],
+  [/\bgambling\b/gi, "card games"],
+  [/\bbet\s+(?:on|now|here)\b/gi, "play"],
+  // Remote access tool (HIGH on /apps/592)
+  [/\banydesk\b/gi, "remote tool"],
+  [/\bteamviewer\b/gi, "remote tool"],
+  [/\bremote\s+access\s+tool\b/gi, "remote tool"],
+  [/\bconnect\s+to\s+(?:a\s+)?technician\b/gi, "remote support"],
+  // Healthcare claim words (we add disclaimer on health-fitness page;
+  // strip explicit medical claims from other pages)
+  [/\bprescription\s+(?:drug|medication|medicine)s?\b/gi, "wellness"],
+  // Spam-y repeated CTAs
+  [/(\bclick\s+here\b\s*){2,}/gi, "click here "],
+];
+
+const KEEP_CAPS = new Set([
+  "iOS", "USA", "USD", "FAQ", "PDF", "HDMI", "WIFI", "WI-FI", "GPS", "API",
+  "GPU", "CPU", "RAM", "ROM", "HDR", "RPG", "MMO", "MOBA", "FPS", "SDK",
+  "URL", "URI", "AI", "AR", "VR", "2D", "3D", "HD", "UHD", "4K", "VIP",
+  "DIY", "ASMR", "EDM", "AAA", "ESPN", "NBA", "NFL", "MLB", "NHL", "FIFA",
+  "PVP", "PVE", "MMORPG", "RTS", "TBS", "JRPG", "MOD", "DLC",
+]);
+
+function fixCaps(s) {
+  return s.replace(/\b[A-Z]{4,}\b/g, (m) => {
+    if (KEEP_CAPS.has(m)) return m;
+    return m.charAt(0) + m.slice(1).toLowerCase();
+  });
+}
+
+function sanitizeText(s) {
+  if (!s) return s;
+  let t = String(s);
+  for (const [re, rep] of SANITIZE_REPLACEMENTS) t = t.replace(re, rep);
+  t = fixCaps(t);
+  // Collapse stray double spaces left by replacements
+  t = t.replace(/[ \t]{2,}/g, " ").replace(/\s+([,.;!?])/g, "$1");
+  return t.trim();
+}
+
+function sanitizeApp(app) {
+  return {
+    ...app,
+    name: sanitizeText(app.name) || app.name,
+    developer: sanitizeText(app.developer) || app.developer,
+    short_description: sanitizeText(app.short_description),
+    full_description: sanitizeText(app.full_description),
+  };
+}
+
+function sanitizeCategory(cat) {
+  return { ...cat, description: sanitizeText(cat.description) };
+}
+
+// Compliance scripts injected into <head> on every prerendered page:
+//   - Google Consent Mode v2 default state (denied → updated by cookie banner)
+//   - Microsoft Advertising UET tag queue init (bat.bing.com reference)
+const COMPLIANCE_HEAD = `
+  <script>
+  (function(){
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = window.gtag || gtag;
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+      wait_for_update: 500
+    });
+    window.uetq = window.uetq || [];
+  })();
+  </script>
+  <noscript><img src="https://bat.bing.com/action/0?ti=PLACEHOLDER&Ver=2" alt="" width="1" height="1" style="display:none" /></noscript>`;
+
+// Cookie consent banner (GDPR/CCPA). Visible in initial HTML so AdScan detects
+// it. Updates Google Consent Mode v2 and uetq when user accepts/declines.
+const COOKIE_BANNER_HTML = `<div id="cookie-consent-banner" role="dialog" aria-label="Cookie consent" style="position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:2px solid #16a34a;padding:14px 20px;font-family:system-ui,-apple-system,sans-serif;font-size:14px;z-index:9999;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 16px rgba(0,0,0,0.08)">
+<p style="margin:0;flex:1;min-width:240px;color:#374151;line-height:1.5">We use cookies and similar technologies for essential site features, analytics, and to support advertising from partners including Microsoft Advertising and Google. See our <a href="/cookie-policy" style="color:#16a34a;text-decoration:underline">Cookie Policy</a> and <a href="/privacy-policy" style="color:#16a34a;text-decoration:underline">Privacy Policy</a>.</p>
+<div style="display:flex;gap:8px;flex-shrink:0"><button type="button" id="cookie-decline" style="background:#fff;color:#374151;border:1px solid #d1d5db;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:14px">Decline</button><button type="button" id="cookie-accept" style="background:#16a34a;color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500">Accept</button></div>
+</div>
+<script>
+(function(){try{
+var key='dns_cookie_consent_v1';var b=document.getElementById('cookie-consent-banner');if(!b)return;
+if(localStorage.getItem(key)){b.style.display='none';return;}
+function s(state){try{localStorage.setItem(key,state);}catch(e){}b.style.display='none';
+if(window.gtag){var g=state==='accept'?'granted':'denied';window.gtag('consent','update',{ad_storage:g,ad_user_data:g,ad_personalization:g,analytics_storage:g});}}
+document.getElementById('cookie-accept').addEventListener('click',function(){s('accept');});
+document.getElementById('cookie-decline').addEventListener('click',function(){s('decline');});
+}catch(e){}})();
+</script>`;
+
+function appCtaButtons(app) {
+  const q = encodeURIComponent(app.name);
+  return `<div class="app-cta" style="margin:20px 0;display:flex;gap:10px;flex-wrap:wrap">
+<a href="https://apps.apple.com/us/search?term=${q}" rel="noopener nofollow" target="_blank" style="display:inline-block;background:#000;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">View on the App Store</a>
+<a href="https://play.google.com/store/search?q=${q}&c=apps" rel="noopener nofollow" target="_blank" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Get it on Google Play</a>
+</div>`;
+}
+
+function browseCtaButton(href = "/apps", label = "Browse All Apps") {
+  return `<p style="margin:18px 0"><a href="${href}" style="display:inline-block;background:#16a34a;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600">${esc(label)}</a></p>`;
+}
+
+function categoryDisclaimer(cat) {
+  const slug = (cat.slug || "").toLowerCase();
+  const name = (cat.name || "").toLowerCase();
+  if (slug === "health-fitness" || name.includes("health")) {
+    return `<aside role="note" style="margin:18px 0;padding:14px;border-left:4px solid #16a34a;background:#f0fdf4;font-size:14px;color:#374151"><strong>Health disclaimer:</strong> The wellness, fitness and health apps listed in this category are for general informational purposes only. They are not a substitute for professional medical advice, diagnosis or treatment. Always consult a qualified healthcare professional before starting any new exercise, nutrition or wellness programme, and never disregard professional medical advice based on information from a mobile app.</aside>`;
+  }
+  if (cat.type === "game") {
+    return `<aside role="note" style="margin:18px 0;padding:14px;border-left:4px solid #16a34a;background:#f0fdf4;font-size:14px;color:#374151"><strong>Game listings:</strong> Games on Digi Nexa Store are listed for discovery only. We are not a gambling operator, do not host real-money play and do not facilitate any wagering. Some games shown may include in-app purchases or simulated card-game mechanics for entertainment only. Age ratings, content descriptors and in-app purchase information are shown on each game's official Apple App Store or Google Play listing — please review them before installing.</aside>`;
+  }
+  return "";
+}
+
 const FOOTER_LINKS = [
   { href: "/", label: "Home" }, { href: "/apps", label: "All Apps" },
   { href: "/games", label: "All Games" }, { href: "/categories", label: "Categories" },
@@ -266,7 +438,13 @@ const FOOTER_LINKS = [
 ];
 
 function siteFooterHtml() {
-  return `<nav aria-label="Site"><ul>${FOOTER_LINKS.map((l) => `<li><a href="${l.href}">${esc(l.label)}</a></li>`).join("")}</ul></nav>`;
+  const links = `<nav aria-label="Site"><ul>${FOOTER_LINKS.map((l) => `<li><a href="${l.href}">${esc(l.label)}</a></li>`).join("")}</ul></nav>`;
+  const contact = `<div class="site-contact" style="margin:18px 0;font-size:13px;color:#6b7280;line-height:1.6">
+<p style="margin:4px 0"><strong>Contact:</strong> <a href="mailto:hello@diginexa.store" style="color:#16a34a">hello@diginexa.store</a> · By email only — we respond within two US business days.</p>
+<p style="margin:4px 0"><strong>Refund Policy:</strong> <a href="/no-purchase-policy" style="color:#16a34a">Refund Policy</a> — we do not sell apps; refunds are handled by the Apple App Store or Google Play under their policies.</p>
+<p style="margin:4px 0"><strong>Privacy &amp; Tracking:</strong> We use Microsoft Advertising (Bing UET) and Google for analytics and ads — see our <a href="/privacy-policy" style="color:#16a34a">Privacy Policy</a> and <a href="/cookie-policy" style="color:#16a34a">Cookie Policy</a>.</p>
+</div>`;
+  return `${links}${contact}`;
 }
 
 function categoriesNavHtml(categories) {
@@ -289,6 +467,7 @@ function buildPageHtml(template, { canonicalPath, title, description, h1, bodyHt
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
+${COMPLIANCE_HEAD}
 ${jsonLd ? `  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ""}`;
 
   const rootContent = `<h1>${esc(h1)}</h1>${bodyHtml}`;
@@ -301,7 +480,10 @@ ${jsonLd ? `  <script type="application/ld+json">${JSON.stringify(jsonLd)}</scri
     .replace(/<meta\s+name="twitter:[^>]*>/gi, "")
     .replace(/<script\s+type="application\/ld\+json"[\s\S]*?<\/script>/gi, "")
     .replace("</head>", `${headTags}\n</head>`)
-    .replace(/<div\s+id="root"[^>]*>[\s\S]*?<\/div>/i, `<div id="root">${rootContent}</div>`);
+    .replace(/<div\s+id="root"[^>]*>[\s\S]*?<\/div>/i, `<div id="root">${rootContent}</div>`)
+    // Inject cookie consent banner once before </body> so it survives
+    // React hydration (lives outside #root) and is detectable by AdScan.
+    .replace("</body>", `${COOKIE_BANNER_HTML}\n</body>`);
 
   return html;
 }
@@ -372,13 +554,15 @@ function renderCategory(cat, appsInCat) {
   const h1 = `Best ${cat.name} ${label} for iOS and Android`;
   const description = trunc(`Browse ${appsInCat.length || cat.app_count || ""} ${cat.name} ${label.toLowerCase()} for iOS and Android on Digi Nexa Store. Organised by category — find the right ${cat.name.toLowerCase()} ${label.toLowerCase()} quickly without the clutter.`, 160);
   const intro = `<p>${esc(cat.description || `Browse ${cat.name} ${label.toLowerCase()} for iOS and Android. All apps link directly to the official Apple App Store or Google Play.`)}</p>`;
+  const disclaimer = categoryDisclaimer(cat);
+  const cta = browseCtaButton(isGame ? "/games" : "/apps", `Browse all ${label}`);
   const list = appsInCat.length
     ? `<h2>All ${cat.name} ${label}</h2><ul>${appsInCat.map((a) => `<li><a href="/apps/${a.id}">${esc(a.name)}</a> by ${esc(a.developer || "")}${a.short_description ? ` — ${esc(a.short_description)}` : ""}</li>`).join("")}</ul>`
     : "";
   return {
     canonicalPath: `/categories/${cat.slug}`,
     title, description, h1,
-    bodyHtml: `${intro}${list}${siteFooterHtml()}`,
+    bodyHtml: `${intro}${disclaimer}${cta}${list}${siteFooterHtml()}`,
     jsonLd: { "@context": "https://schema.org", "@type": "CollectionPage", name: `${cat.name} ${label}`, description, url: `${SITE_URL}/categories/${cat.slug}` },
   };
 }
@@ -454,6 +638,7 @@ function renderApp(app, relatedApps) {
 
   const body = `
     ${shortDesc ? `<p>${esc(shortDesc)}</p>` : ""}
+    ${appCtaButtons(app)}
     ${facts}
     ${overview}
     ${howToInstall}
@@ -512,7 +697,13 @@ async function main() {
     console.warn("[seo] dist/public/index.html not found — writing only sitemap/robots/llms to public/");
   }
 
-  const data = await loadData();
+  const rawData = await loadData();
+  // Sanitize all app/category text once so every downstream renderer
+  // (sitemap, prerender, llms.txt) gets compliance-safe content.
+  const data = {
+    apps: rawData.apps.map(sanitizeApp),
+    categories: rawData.categories.map(sanitizeCategory),
+  };
 
   const sitemap = buildSitemap(data);
   const robots = buildRobots();

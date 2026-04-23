@@ -95,9 +95,26 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Disclaimer */}
-        <div className="py-6 border-b border-green-200">
-          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl">
+        {/* Contact & compliance block (visible to AdScan + users) */}
+        <div className="py-6 border-b border-green-200 space-y-2">
+          <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">
+            <span className="font-semibold text-gray-700">Contact:</span>{" "}
+            <a href="mailto:hello@diginexa.store" className="text-green-700 hover:underline">hello@diginexa.store</a>
+            {" "}· By email only — we respond within two US business days.
+          </p>
+          <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">
+            <span className="font-semibold text-gray-700">Refund Policy:</span>{" "}
+            <Link href="/no-purchase-policy" className="text-green-700 hover:underline">Refund Policy</Link>
+            {" "}— we do not sell apps; refunds are handled by the Apple App Store or Google Play under their policies.
+          </p>
+          <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">
+            <span className="font-semibold text-gray-700">Privacy &amp; Tracking:</span>{" "}
+            We use Microsoft Advertising (Bing UET) and Google for analytics and ads — see our{" "}
+            <Link href="/privacy-policy" className="text-green-700 hover:underline">Privacy Policy</Link>
+            {" "}and{" "}
+            <Link href="/cookie-policy" className="text-green-700 hover:underline">Cookie Policy</Link>.
+          </p>
+          <p className="text-xs text-gray-400 leading-relaxed max-w-5xl pt-2">
             <span className="font-semibold text-gray-500">Disclaimer:</span> Digi Nexa Store is an independent app discovery platform, not affiliated with Apple Inc. or Google LLC. All app names, logos, and trademarks are the property of their respective owners. Store buttons direct users to official third-party stores — we do not sell, host, or process payments for any application. App information is provided for informational purposes only and may not reflect current store listings.
           </p>
         </div>
