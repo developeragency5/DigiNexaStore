@@ -284,12 +284,20 @@ function buildLlms(data) {
 // ─── Per-page renderers ──────────────────────────────────────────────────────
 
 function renderStatic(routePath, meta, data) {
+  let jsonLd;
+  if (routePath === "/") {
+    jsonLd = [
+      { "@context": "https://schema.org", "@type": "Organization", name: BRAND, url: SITE_URL, logo: `${SITE_URL}/favicon.png`, contactPoint: { "@type": "ContactPoint", email: "hello@diginexa.store", contactType: "customer support" } },
+      { "@context": "https://schema.org", "@type": "WebSite", name: BRAND, url: SITE_URL, inLanguage: "en-US", potentialAction: { "@type": "SearchAction", target: { "@type": "EntryPoint", urlTemplate: `${SITE_URL}/apps?search={search_term_string}` }, "query-input": "required name=search_term_string" } },
+    ];
+  }
   return {
     canonicalPath: routePath,
     title: meta.title,
     description: meta.description,
     h1: meta.h1,
     bodyHtml: `<p>${esc(meta.body)}</p>${categoriesNavHtml(data.categories)}${siteFooterHtml()}`,
+    jsonLd,
   };
 }
 
@@ -311,36 +319,67 @@ function renderCategory(cat, appsInCat) {
   };
 }
 
-function renderApp(app) {
+function buildAppTitle(app, typeLabel) {
+  // Build a unique title that fits in 60 chars and avoids collisions.
+  // Format: "{name} – {category} {type} | DNS"  (truncate name first, not suffix)
+  const suffix = ` – ${app.category_name} ${typeLabel} | ${BRAND}`;
+  const maxName = 60 - suffix.length;
+  const name = app.name.length <= maxName ? app.name : app.name.slice(0, maxName - 1).trimEnd() + "…";
+  let title = `${name}${suffix}`;
+  // If still too long (very long category names), fall back to "{name} | DNS #{id}"
+  if (title.length > 60) {
+    const altSuffix = ` | ${BRAND} #${app.id}`;
+    const altMaxName = 60 - altSuffix.length;
+    const altName = app.name.length <= altMaxName ? app.name : app.name.slice(0, altMaxName - 1).trimEnd() + "…";
+    title = `${altName}${altSuffix}`;
+  }
+  return title;
+}
+
+function renderApp(app, relatedApps) {
   const typeLabel = app.app_type === "game" ? "Game" : "App";
-  const title = trunc(`${app.name} – ${app.category_name} ${typeLabel} | ${BRAND}`, 60);
-  const h1 = `${app.name}: ${app.short_description || `${app.category_name} ${typeLabel}`}`;
+  const title = buildAppTitle(app, typeLabel);
+  const h1 = `${app.name} — ${app.category_name} ${typeLabel} for iOS & Android`;
   const ratingNum = Number(app.rating) || 0;
   const reviews = Number(app.review_count) || 0;
   const description = trunc(`${app.developer || "Independent developer"}'s ${app.name} is a ${app.category_name} ${typeLabel.toLowerCase()} for iOS and Android.${ratingNum > 0 ? ` Rated ${ratingNum.toFixed(1)}/5${reviews > 0 ? ` by ${reviews.toLocaleString()}+ users` : ""}.` : ""} Discover it free on Digi Nexa Store.`, 160);
   const longDesc = app.full_description || app.description || app.short_description || "";
+
+  const relatedHtml = relatedApps.length
+    ? `<h2>More ${esc(app.category_name)} ${esc(typeLabel)}s</h2><ul>${relatedApps.map((r) => `<li><a href="/apps/${r.id}">${esc(r.name)}</a>${r.developer ? ` by ${esc(r.developer)}` : ""}</li>`).join("")}</ul>`
+    : "";
+
   const body = `
+    ${app.short_description ? `<p>${esc(app.short_description)}</p>` : ""}
     <p><strong>Developer:</strong> ${esc(app.developer || "Unknown")}</p>
     <p><strong>Category:</strong> <a href="/categories/${esc(app.category_slug || "")}">${esc(app.category_name || "")}</a></p>
     ${ratingNum > 0 ? `<p><strong>Rating:</strong> ${ratingNum.toFixed(1)}/5${reviews > 0 ? ` (${reviews.toLocaleString()} reviews)` : ""}</p>` : ""}
     <p><strong>Price:</strong> ${app.is_free ? "Free" : `$${Number(app.price || 0).toFixed(2)}`}</p>
     ${longDesc ? `<h2>About ${esc(app.name)}</h2><p>${esc(longDesc)}</p>` : `<p>${esc(description)}</p>`}
-    <p><a href="/categories/${esc(app.category_slug || "")}">← Back to ${esc(app.category_name || "category")}</a></p>
+    ${relatedHtml}
+    <p><a href="/categories/${esc(app.category_slug || "")}">Back to ${esc(app.category_name || "category")}</a> · <a href="/${app.app_type === "game" ? "games" : "apps"}">All ${esc(typeLabel)}s</a></p>
     ${siteFooterHtml()}
   `;
-  return {
-    canonicalPath: `/apps/${app.id}`,
-    title, description, h1, bodyHtml: body,
-    jsonLd: {
-      "@context": "https://schema.org", "@type": "SoftwareApplication", name: app.name,
-      description: app.short_description || description,
-      applicationCategory: app.app_type === "game" ? "GameApplication" : "MobileApplication",
-      operatingSystem: "iOS, Android",
-      author: { "@type": "Organization", name: app.developer || "Unknown" },
-      ...(reviews > 0 ? { aggregateRating: { "@type": "AggregateRating", ratingValue: ratingNum.toFixed(1), reviewCount: reviews } } : {}),
-      offers: { "@type": "Offer", price: app.is_free ? "0" : Number(app.price || 0).toFixed(2), priceCurrency: "USD", availability: "https://schema.org/InStock" },
-    },
+
+  const canonicalUrl = `${SITE_URL}/apps/${app.id}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: app.name,
+    url: canonicalUrl,
+    description: app.short_description || description,
+    applicationCategory: app.app_type === "game" ? "GameApplication" : "MobileApplication",
+    operatingSystem: "iOS, Android",
+    inLanguage: "en-US",
+    author: { "@type": "Organization", name: app.developer || "Unknown" },
+    ...(app.icon_url ? { image: app.icon_url } : {}),
+    ...(reviews > 0
+      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: ratingNum.toFixed(1), reviewCount: reviews, bestRating: "5", worstRating: "1" } }
+      : {}),
+    offers: { "@type": "Offer", price: app.is_free ? "0" : Number(app.price || 0).toFixed(2), priceCurrency: "USD", availability: "https://schema.org/InStock", url: canonicalUrl },
   };
+
+  return { canonicalPath: `/apps/${app.id}`, title, description, h1, bodyHtml: body, jsonLd };
 }
 
 // ─── Main ────────────────────────────────────────────────────────────────────
@@ -412,7 +451,10 @@ async function main() {
   for (let i = 0; i < data.apps.length; i += BATCH) {
     const batch = data.apps.slice(i, i + BATCH);
     await Promise.all(batch.map(async (app) => {
-      const page = renderApp(app);
+      const sameCategory = (appsByCat.get(app.category_slug) || []).filter((a) => a.id !== app.id);
+      // Pick up to 8 related apps deterministically (by id offset for variety)
+      const related = sameCategory.slice(0, 8);
+      const page = renderApp(app, related);
       await writeRoute(`/apps/${app.id}`, buildPageHtml(template, page));
       appCount++;
     }));
