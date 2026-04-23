@@ -408,16 +408,11 @@ function renderApp(app, relatedApps) {
       url: canonicalUrl,
     },
   };
-  // Google requires aggregateRating to have BOTH a positive ratingValue AND a positive reviewCount/ratingCount.
-  if (ratingNum > 0 && reviews > 0) {
-    jsonLd.aggregateRating = {
-      "@type": "AggregateRating",
-      ratingValue: ratingNum.toFixed(1),
-      reviewCount: reviews,
-      bestRating: "5",
-      worstRating: "1",
-    };
-  }
+  // Note: aggregateRating intentionally omitted from JSON-LD.
+  // Google requires a `review` field alongside aggregateRating, and we do not
+  // have authentic individual review text to publish. Including aggregateRating
+  // without `review` causes "Invalid structured data items" errors. The visible
+  // rating is still shown in the page body for users.
 
   return { canonicalPath: `/apps/${app.id}`, title, description, h1, bodyHtml: body, jsonLd };
 }
