@@ -241,6 +241,22 @@ export function Navbar() {
                     </div>
                 </div>
               </div>
+
+              {/* ── About ── */}
+              <Link
+                href="/about"
+                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${location === "/about" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`}
+              >
+                About
+              </Link>
+
+              {/* ── Contact ── */}
+              <Link
+                href="/contact"
+                className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-colors ${location === "/contact" ? "bg-gray-100 text-gray-900" : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"}`}
+              >
+                Contact
+              </Link>
             </nav>
 
             {/* ── Desktop Search Bar ── */}
@@ -341,6 +357,10 @@ export function Navbar() {
                   {cat.name}
                 </Link>
               ))}
+
+              <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest px-3 pt-4 pb-1">More</p>
+              <Link href="/about" className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl">About</Link>
+              <Link href="/contact" className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-xl">Contact</Link>
             </div>
           </div>
         )}
