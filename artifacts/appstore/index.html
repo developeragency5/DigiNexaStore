@@ -11,32 +11,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
     <meta name="google-site-verification" content="bi9OObBqMRuF18YOhIfh7UM6NpJ7QO38hJ_8CbmbdXw">
-    <script>
-    // Deferred AdSense loader — injects the AdSense script client-side after
-    // the page has fully loaded so static-HTML auditors (Microsoft Ads
-    // pre-flight checkers) do not flag the page for ad density. Real users
-    // still get AdSense; it loads ~1.5s after window.load. AdSense supports
-    // async loading per Google's official documentation.
-    (function(){
-      function loadAdSense(){
-        if (window.__adsenseLoaded) return; window.__adsenseLoaded = true;
-        var m = document.createElement('meta');
-        m.name = 'google-adsense-account';
-        m.content = 'ca-pub-2760489839615344';
-        document.head.appendChild(m);
-        var s = document.createElement('script');
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2760489839615344';
-        document.head.appendChild(s);
-      }
-      if (document.readyState === 'complete') {
-        setTimeout(loadAdSense, 1500);
-      } else {
-        window.addEventListener('load', function(){ setTimeout(loadAdSense, 1500); });
-      }
-    })();
-    </script>
   </head>
   <body>
     <div id="root">
