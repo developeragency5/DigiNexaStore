@@ -51,6 +51,12 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 - **Routes**: `/api/apps`, `/api/categories`, `/api/stats`
 - **Database tables**: `apps`, `categories`
 
+## Deployment
+
+- **Host**: Vercel
+- **Canonical domain**: `https://www.diginexastore.com`
+- **Apex redirect**: `vercel.json` includes a 301 redirect from the apex `diginexastore.com` to `https://www.diginexastore.com` (preserves path). Both apex and `www` must be added in Vercel → Settings → Domains, with `www` set as primary.
+
 ## Database Schema
 
 ### `categories` table

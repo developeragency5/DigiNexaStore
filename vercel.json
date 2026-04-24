@@ -4,6 +4,14 @@
   "installCommand": "pnpm install --no-frozen-lockfile",
   "outputDirectory": "artifacts/appstore/dist/public",
   "framework": null,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "diginexastore.com" }],
+      "destination": "https://www.diginexastore.com/$1",
+      "statusCode": 301
+    }
+  ],
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
   ],
