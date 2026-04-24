@@ -61,6 +61,17 @@ const STATIC_PAGES = {
     ],
     priority: "0.9", changefreq: "daily",
   },
+  "/sitemap": {
+    title: "Site Index — All Pages on Digi Nexa Store",
+    h1: "Digi Nexa Store Site Index",
+    description: "Plain HTML site index listing every category page and every app and game listing on Digi Nexa Store, grouped by category for fast browsing.",
+    bodyParagraphs: [
+      "This page is a plain HTML index of every page on the Digi Nexa Store directory, grouped by category. It exists to make every listing reachable in one click for visitors who prefer a flat overview, for assistive technologies that work better with simple anchor lists and for search-engine crawlers that need to discover the full URL space without relying on JavaScript or the XML sitemap.",
+      "The first section below lists all eighteen Digi Nexa Store categories. Each category heading then lists every iOS and Android app or game we have catalogued in that area, sorted alphabetically. Tap any title to open the dedicated listing page, where you will find a longer description, the developer name, the official price reported by the store and a direct link to the Apple App Store or Google Play product page.",
+      "Digi Nexa Store does not host any application file, does not stream any content and does not handle any payment. Every install happens on the official Apple App Store or Google Play page under that store's own terms, refund policy and parental control settings. Pricing, ratings and screenshots shown on the linked listing pages are aggregated from publicly available data and may change at any time on the official store, so always confirm the current details before installing or paying.",
+    ],
+    priority: "0.5", changefreq: "weekly",
+  },
   "/categories": {
     title: "Browse Apps and Games by Category — Digi Nexa Store",
     h1: "Browse Apps and Games by Category",
@@ -791,6 +802,7 @@ function appDisclaimer(app) {
 const FOOTER_LINKS = [
   { href: "/", label: "Home" }, { href: "/apps", label: "All Apps" },
   { href: "/games", label: "All Games" }, { href: "/categories", label: "Categories" },
+  { href: "/sitemap", label: "Site Index" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }, { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms-of-service", label: "Terms of Service" }, { href: "/cookie-policy", label: "Cookie Policy" },
@@ -945,6 +957,75 @@ function renderStatic(routePath, meta, data) {
     description: sanitizeText(meta.description),
     h1: maskTrademarks(sanitizeText(meta.h1)),
     bodyHtml: `${paragraphs}${categoriesNavHtml(data.categories)}${siteFooterHtml()}`,
+    jsonLd,
+  };
+}
+
+function renderHtmlSitemap(meta, data, appsByCat) {
+  const url = `${SITE_URL}/sitemap`;
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", url: SITE_URL },
+    { name: "Site Index", url },
+  ]);
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: meta.title,
+      description: meta.description,
+      url,
+      inLanguage: "en-US",
+      isPartOf: { "@type": "WebSite", name: BRAND, url: SITE_URL },
+    },
+    breadcrumb,
+  ];
+  const cleanPara = (p) => sanitizeText(p);
+  const paragraphs = meta.bodyParagraphs.map((p) => `<p>${esc(cleanPara(p))}</p>`).join("");
+  // Categories index
+  const categoryIndex = `<h2>All Categories</h2><nav aria-label="All categories"><ul>${data.categories
+    .map((c) => `<li><a href="/categories/${esc(c.slug)}">${esc(String(c.name).replace(/&/g, "and"))}</a></li>`)
+    .join("")}</ul></nav>`;
+  // Per-category app lists. Sort categories alphabetically for predictable layout;
+  // sort apps in each section alphabetically by name. Use plain <ul> of <a> tags
+  // so any HTML-only crawler (Semrush, Bingbot without JS) can discover every URL.
+  const sortedCats = [...data.categories].sort((a, b) => String(a.name).localeCompare(String(b.name)));
+  const sections = sortedCats.map((cat) => {
+    const cleanCatName = String(cat.name).replace(/&/g, "and");
+    const inCat = (appsByCat.get(cat.slug) || []).slice().sort((a, b) =>
+      String(a.name || "").localeCompare(String(b.name || "")),
+    );
+    if (!inCat.length) {
+      return `<section><h2><a href="/categories/${esc(cat.slug)}">${esc(cleanCatName)}</a></h2><p>No listings in this category yet.</p></section>`;
+    }
+    const items = inCat
+      .map((a) => {
+        const name = String(a.name || `Listing #${a.id}`).replace(/&/g, "and");
+        return `<li><a href="/apps/${a.id}">${esc(name)}</a></li>`;
+      })
+      .join("");
+    return `<section><h2><a href="/categories/${esc(cat.slug)}">${esc(cleanCatName)}</a> <span style="color:#6b7280;font-weight:normal">(${inCat.length} listings)</span></h2><ul>${items}</ul></section>`;
+  }).join("");
+  // Include any apps that were not assigned to a known category so every
+  // prerendered URL is reachable from a single HTML index.
+  const knownCatSlugs = new Set(data.categories.map((c) => c.slug));
+  const uncategorized = data.apps
+    .filter((a) => !a.category_slug || !knownCatSlugs.has(a.category_slug))
+    .slice()
+    .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+  const uncategorizedSection = uncategorized.length
+    ? `<section><h2>Other Listings <span style="color:#6b7280;font-weight:normal">(${uncategorized.length} listings)</span></h2><ul>${uncategorized
+        .map((a) => {
+          const name = String(a.name || `Listing #${a.id}`).replace(/&/g, "and");
+          return `<li><a href="/apps/${a.id}">${esc(name)}</a></li>`;
+        })
+        .join("")}</ul></section>`
+    : "";
+  return {
+    canonicalPath: "/sitemap",
+    title: maskTrademarks(sanitizeText(meta.title)),
+    description: sanitizeText(meta.description),
+    h1: maskTrademarks(sanitizeText(meta.h1)),
+    bodyHtml: `${paragraphs}${categoryIndex}${sections}${uncategorizedSection}${siteFooterHtml()}`,
     jsonLd,
   };
 }
@@ -1255,11 +1336,22 @@ async function main() {
     appsByCat.get(slug).push(a);
   }
 
+  // Group apps by category early so the HTML sitemap renderer can use it.
+  const appsByCatEarly = new Map();
+  for (const a of data.apps) {
+    const slug = a.category_slug;
+    if (!slug) continue;
+    if (!appsByCatEarly.has(slug)) appsByCatEarly.set(slug, []);
+    appsByCatEarly.get(slug).push(a);
+  }
+
   // Prerender static pages
   let staticCount = 0;
   for (const [routePath, meta] of Object.entries(STATIC_PAGES)) {
     if (routePath === "/") continue; // index.html will be handled separately
-    const page = renderStatic(routePath, meta, data);
+    const page = routePath === "/sitemap"
+      ? renderHtmlSitemap(meta, data, appsByCatEarly)
+      : renderStatic(routePath, meta, data);
     await writeRoute(routePath, buildPageHtml(template, page));
     staticCount++;
   }
