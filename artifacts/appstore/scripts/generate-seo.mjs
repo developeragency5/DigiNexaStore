@@ -425,9 +425,21 @@ function maskTrademarks(s) {
     .replace(/\bgoogle\b/gi, "")
     .replace(/\bmicrosoft\b/gi, "")
     .replace(/\bamazon\b/gi, "")
+    .replace(/\bapple\b/gi, "")
     .replace(/[ \t]{2,}/g, " ")
     .replace(/\s+([,.;!?])/g, "$1")
     .trim();
+}
+
+// Replace ASCII apostrophe (U+0027) with smart quote (U+2019). The AdScan
+// auditor's meta-description parser treats ASCII `'` as a string terminator,
+// truncating the displayed description at the first apostrophe (e.g.
+// "McDonald's" shows as just "McDonald"). Smart quotes parse cleanly AND
+// look more typographically polished. Used on text destined for the
+// <title> and <meta description> attributes only.
+function smartQuotes(s) {
+  if (s == null) return s;
+  return String(s).replace(/'/g, "\u2019");
 }
 
 function fixCaps(s) {
@@ -955,8 +967,26 @@ function renderCategory(cat, appsInCat) {
   // Use plain ASCII (no `&` → `&amp;` inflation) so AdScan's source-char
   // length check sees the rendered length.
   const cleanName = String(cat.name).replace(/&/g, "and");
-  const baseTitle = `Best ${cleanName} ${label} for iOS and Android | ${BRAND}`;
-  const title = baseTitle.length <= 60 ? baseTitle : trunc(`Best ${cleanName} ${label} | ${BRAND}`, 60);
+  // Try several title variants to land in the 50-60 char optimal window.
+  // Ordered so the most descriptive variant that fits wins.
+  const titleVariants = [
+    `Best ${cleanName} ${label} for iOS and Android | ${BRAND}`,
+    `Best ${cleanName} ${label} for iPhone and Android | ${BRAND}`,
+    `Top ${cleanName} ${label} for iPhone and Android | ${BRAND}`,
+    `Best ${cleanName} ${label} for iPhone, iPad, Android | ${BRAND}`,
+    `Best Free ${cleanName} ${label} for iOS, Android | ${BRAND}`,
+    `Best ${cleanName} ${label} for Mobile in 2026 | ${BRAND}`,
+    `Best ${cleanName} ${label} for iPhone in 2026 | ${BRAND}`,
+    `Best ${cleanName} ${label} for Android in 2026 | ${BRAND}`,
+    `Best ${cleanName} ${label} for iPhone | ${BRAND}`,
+    `Best ${cleanName} ${label} for Android | ${BRAND}`,
+    `Best ${cleanName} ${label} for Mobile | ${BRAND}`,
+    `Top ${cleanName} ${label} for iPhone | ${BRAND}`,
+    `Best ${cleanName} ${label} | ${BRAND}`,
+  ];
+  let title = titleVariants.find((t) => t.length >= 50 && t.length <= 60)
+    || titleVariants.find((t) => t.length <= 60)
+    || trunc(titleVariants[0], 60);
   const h1 = `Best ${cleanName} ${label} for iOS and Android`;
   const countLabel = String(appsInCat.length || cat.app_count || "many");
   const baseDesc = `Browse ${countLabel} ${cleanName} ${label.toLowerCase()} for iOS and Android on Digi Nexa Store, linking to the official store pages.`;
@@ -979,8 +1009,8 @@ function renderCategory(cat, appsInCat) {
   const url = `${SITE_URL}/categories/${cat.slug}`;
   return {
     canonicalPath: `/categories/${cat.slug}`,
-    title: maskTrademarks(title),
-    description,
+    title: smartQuotes(maskTrademarks(title)),
+    description: smartQuotes(description),
     h1: maskTrademarks(h1),
     bodyHtml: `${intro}${longBody}${disclaimer}${cta}${list}${siteFooterHtml()}`,
     jsonLd: [
@@ -1157,8 +1187,8 @@ function renderApp(app, relatedApps) {
 
   return {
     canonicalPath: `/apps/${app.id}`,
-    title: maskTrademarks(title),
-    description,
+    title: smartQuotes(maskTrademarks(title)),
+    description: smartQuotes(description),
     h1: maskTrademarks(h1Raw),
     bodyHtml: body,
     jsonLd,
