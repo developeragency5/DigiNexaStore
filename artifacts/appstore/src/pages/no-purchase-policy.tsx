@@ -96,7 +96,7 @@ Digi Nexa Store is not responsible for any subscription charges incurred via thi
   },
   {
     title: "8. Chargebacks & Disputes",
-    body: `If you have initiated a chargeback or payment dispute related to an app, please direct it to the payment processor or platform through which the original purchase was made (Apple, Google, or the app's own payment processor).
+    body: `If you have initiated a chargeback or payment dispute related to an app, please direct it to the payment processor or platform through which the original purchase was made (the relevant platform operator or the app's own payment processor).
 
 If you believe a charge from Digi Nexa Store has appeared on your statement, please contact us immediately at hello@diginexa.store — we take these reports seriously and will investigate. However, please be aware that Digi Nexa Store does not charge users and a charge listed as "Digi Nexa Store" on your statement is likely a case of mistaken identity or fraud unrelated to our platform.`,
   },
