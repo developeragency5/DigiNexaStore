@@ -55,7 +55,15 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
 
 - **Host**: Vercel
 - **Canonical domain**: `https://www.diginexastore.com`
-- **Apex redirect**: `vercel.json` includes a 301 redirect from the apex `diginexastore.com` to `https://www.diginexastore.com` (preserves path). Both apex and `www` must be added in Vercel → Settings → Domains, with `www` set as primary.
+- **Apex redirect**: `vercel.json` defines a 301 from apex `diginexastore.com` → `https://www.diginexastore.com` (path preserved). Both domains are live in Vercel → Settings → Domains with `www` as primary.
+- **Verified 2026-04-24** (apex → www, path preserved, currently served as **307 Temporary** by Vercel's domain layer — vercel.json's 301 is overridden by the dashboard-level redirect):
+  - `https://diginexastore.com/` → `https://www.diginexastore.com/`
+  - `https://diginexastore.com/apps` → `https://www.diginexastore.com/apps`
+  - `https://diginexastore.com/categories` → `https://www.diginexastore.com/categories`
+  - `https://diginexastore.com/apps/1` → `https://www.diginexastore.com/apps/1`
+  - `https://diginexastore.com/robots.txt` → `https://www.diginexastore.com/robots.txt`
+  - `http://diginexastore.com/` → `https://diginexastore.com/` (308) → `https://www.diginexastore.com/`
+- `https://www.diginexastore.com/` returns 200 with `<link rel="canonical">` and `og:url` pointing at `www`. `sitemap.xml` and `robots.txt` reference only `www` URLs.
 
 ## Database Schema
 
