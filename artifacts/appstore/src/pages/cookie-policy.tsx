@@ -70,10 +70,7 @@ You can opt out of interest-based advertising via:
     body: `You can control and delete cookies as you wish.
 
 Browser Cookie Controls
-• Chrome: Settings → Privacy and security → Cookies and other site data
-• Firefox: Settings → Privacy & Security → Cookies and Site Data
-• Safari: Preferences → Privacy → Manage Website Data
-• Edge: Settings → Cookies and site permissions
+Most modern browsers allow you to view, manage and delete cookies via their privacy or security settings. Refer to your browser's help documentation for specific instructions on managing cookies and site data.
 
 Global Privacy Control (GPC)
 If your browser sends a GPC signal, Digi Nexa Store will treat it as a request to opt out of sharing for interest-based advertising.

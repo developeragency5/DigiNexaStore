@@ -9,11 +9,11 @@ These Terms apply to all visitors and users of the Service.`,
   },
   {
     title: "2. Description of Service",
-    body: `Digi Nexa Store (diginexa.store) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the Apple App Store (iOS) and Google Play Store (Android).
+    body: `Digi Nexa Store (diginexa.store) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the official iOS and Android app stores.
 
 What this Service does:
 • Displays app names, descriptions, category information, and icons sourced from publicly available app store data
-• Provides direct outbound links to apps listed on the Apple App Store and Google Play Store
+• Provides direct outbound links to apps listed on the official iOS and Android app stores
 • Organizes apps by category to help users browse and discover them more easily
 
 What this Service does NOT do:
@@ -27,18 +27,18 @@ What this Service does NOT do:
     title: "3. No Purchases or Transactions",
     body: `Digi Nexa Store does not sell anything and does not process any payments or financial transactions of any kind. No purchases can be made through this website.
 
-Any transaction you make after following a link from Digi Nexa Store takes place entirely on a third-party platform — either the Apple App Store or Google Play Store — and is governed solely by that platform's terms of service, pricing policies, and refund procedures.
+Any transaction you make after following a link from Digi Nexa Store takes place entirely on a third-party platform — either the iOS App Store or the Android Play Store — and is governed solely by that platform's terms of service, pricing policies, and refund procedures.
 
 Digi Nexa Store has no responsibility or liability for:
 • App pricing, in-app purchase costs, or subscription fees charged by developers or app stores
 • Any purchases, charges, or billing disputes that arise on third-party platforms
-• Refund requests or subscription cancellations — these must be submitted directly to Apple, Google, or the app developer`,
+• Refund requests or subscription cancellations — these must be submitted directly to the relevant platform operator or the app developer`,
   },
   {
     title: "4. Accuracy of Information",
     body: `App information displayed on Digi Nexa Store — including names, descriptions, categories, pricing, and availability — is sourced from publicly available data and is provided for general informational purposes only. Digi Nexa Store does not independently verify, test, or endorse any app listed on the Service.
 
-Information may be incomplete, out of date, or inaccurate. App availability, features, pricing, and compatibility can change at any time without notice. Always verify current information directly on the Apple App Store or Google Play Store before downloading or purchasing any application.`,
+Information may be incomplete, out of date, or inaccurate. App availability, features, pricing, and compatibility can change at any time without notice. Always verify current information directly on the official iOS or Android app store before downloading or purchasing any application.`,
   },
   {
     title: "5. Permitted Use",
@@ -76,7 +76,7 @@ We will respond to valid DMCA notices promptly and take appropriate action.`,
   },
   {
     title: "8. Third-Party Links",
-    body: `Digi Nexa Store provides outbound links to the Apple App Store and Google Play Store for user convenience. These are independent third-party platforms governed by their own terms of service, privacy policies, and practices.
+    body: `Digi Nexa Store provides outbound links to the official iOS and Android app stores for user convenience. These are independent third-party platforms governed by their own terms of service, privacy policies, and practices.
 
 Digi Nexa Store has no control over and accepts no responsibility for the content, accuracy, policies, or availability of any third-party website or platform. The presence of a link on Digi Nexa Store does not constitute an endorsement of the linked site, platform, app, or its developer.`,
   },

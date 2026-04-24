@@ -105,17 +105,17 @@ export function Footer() {
           <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">
             <span className="font-semibold text-gray-700">Refund Policy:</span>{" "}
             <Link href="/no-purchase-policy" className="text-green-700 hover:underline">Refund Policy</Link>
-            {" "}— we do not sell apps; refunds are handled by the Apple App Store or Google Play under their policies.
+            {" "}— we do not sell apps; refunds are handled by the official iOS or Android app store under their policies.
           </p>
           <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">
             <span className="font-semibold text-gray-700">Privacy &amp; Tracking:</span>{" "}
-            We use Microsoft Advertising (Bing UET) and Google for analytics and ads — see our{" "}
+            We use third-party advertising and analytics services — see our{" "}
             <Link href="/privacy-policy" className="text-green-700 hover:underline">Privacy Policy</Link>
             {" "}and{" "}
             <Link href="/cookie-policy" className="text-green-700 hover:underline">Cookie Policy</Link>.
           </p>
           <p className="text-xs text-gray-400 leading-relaxed max-w-5xl pt-2">
-            <span className="font-semibold text-gray-500">Disclaimer:</span> Digi Nexa Store is an independent app discovery platform, not affiliated with Apple Inc. or Google LLC. All app names, logos, and trademarks are the property of their respective owners. Store buttons direct users to official third-party stores — we do not sell, host, or process payments for any application. App information is provided for informational purposes only and may not reflect current store listings.
+            <span className="font-semibold text-gray-500">Disclaimer:</span> Digi Nexa Store is an independent app discovery platform, not affiliated with any platform operator or app developer. All app names, logos, and trademarks are the property of their respective owners. Store buttons direct users to official third-party stores — we do not sell, host, or process payments for any application. App information is provided for informational purposes only and may not reflect current store listings.
           </p>
         </div>
 

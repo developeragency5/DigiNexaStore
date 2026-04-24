@@ -9,7 +9,7 @@ import {
   ArrowRight, TrendingUp, Gamepad2, Smartphone, Star, Zap,
   Briefcase, HeartPulse, GraduationCap, Tv, MessageCircle,
   DollarSign, Camera, Map, Utensils, Music, Grid3x3, Sparkles, Flame,
-  Search, MousePointerClick, Download, Apple, Layers, Filter, Tag, Shield
+  Search, MousePointerClick, Download, Store, Layers, Filter, Tag, Shield
 } from "lucide-react";
 
 const quickCategories = [
@@ -123,11 +123,11 @@ export function Home() {
   const faqs = [
     {
       q: "What is Digi Nexa Store?",
-      a: "Digi Nexa Store is a free app and game discovery platform. We aggregate publicly available information from the App Store and Google Play so you can browse, search and find new apps in one place — without installing anything on your device.",
+      a: "Digi Nexa Store is a free app and game discovery platform. We aggregate publicly available information from the official iOS and Android app stores so you can browse, search and find new apps in one place — without installing anything on your device.",
     },
     {
       q: "Do you host or distribute the apps?",
-      a: "No. We never host APK files or app binaries. Every download button takes you to the app's official listing on the App Store or Google Play, where you install the app safely from the original developer.",
+      a: "No. We never host APK files or app binaries. Every download button takes you to the app's official listing on the iOS or Android app store, where you install the app safely from the original developer.",
     },
     {
       q: "Are the apps free?",
@@ -139,11 +139,11 @@ export function Home() {
     },
     {
       q: "Are Digi Nexa Store listings updated?",
-      a: "Yes. App information is regularly refreshed from the App Store and Google Play to keep titles, icons and descriptions current.",
+      a: "Yes. App information is regularly refreshed from the official iOS and Android app stores to keep titles, icons and descriptions current.",
     },
     {
-      q: "Is Digi Nexa Store affiliated with Apple or Google?",
-      a: "No. Digi Nexa Store is an independent discovery platform and is not affiliated with, endorsed by or sponsored by Apple Inc. or Google LLC.",
+      q: "Is Digi Nexa Store affiliated with any platform operator?",
+      a: "No. Digi Nexa Store is an independent discovery platform and is not affiliated with, endorsed by or sponsored by any platform operator or app developer.",
     },
   ];
 
@@ -231,7 +231,7 @@ export function Home() {
             {[
               { step: "1", icon: Search, title: "Search or browse", desc: "Use the search bar or pick a category to explore apps and games organised across 18 categories." },
               { step: "2", icon: MousePointerClick, title: "Open the app page", desc: "View the app's icon, screenshots, description, category and pricing in one clean view before you decide." },
-              { step: "3", icon: Download, title: "Install from the official store", desc: "Tap the Apple App Store or Google Play button to install directly from the original developer." },
+              { step: "3", icon: Download, title: "Install from the official store", desc: "Tap the iOS App Store or Android Play Store button to install directly from the original developer." },
             ].map(s => (
               <div key={s.step} className="relative bg-white rounded-2xl p-5 border border-gray-100">
                 <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shadow-sm">{s.step}</div>
@@ -365,11 +365,11 @@ export function Home() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { icon: Smartphone, title: "Both stores, one place", desc: "Browse apps from the App Store and Google Play side by side, with direct links to install." },
+              { icon: Smartphone, title: "Both stores, one place", desc: "Browse apps from the iOS and Android app stores side by side, with direct links to install." },
               { icon: Zap, title: "Fast and lightweight", desc: "No accounts, no installs, no clutter. Open the site, find an app, tap to install from the official store." },
               { icon: Layers, title: "Organised by category", desc: "Productivity, education, fitness, finance, social, games and more — all neatly grouped for quick discovery." },
               { icon: TrendingUp, title: "Always fresh", desc: "We regularly refresh app data so titles, descriptions and trending lists stay current." },
-              { icon: Shield, title: "Safe by design", desc: "We never host APK or installer files. Every install button takes you to the official Apple or Google listing." },
+              { icon: Shield, title: "Safe by design", desc: "We never host APK or installer files. Every install button takes you to the official iOS or Android store listing." },
               { icon: Tag, title: "Free to use", desc: "Digi Nexa Store is completely free. No paywalls, no subscriptions — just browse and discover." },
             ].map(item => (
               <div key={item.title} className="bg-white rounded-2xl p-5 border border-gray-100">
@@ -492,13 +492,13 @@ export function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="p-7 sm:p-9 border-b md:border-b-0 md:border-r border-gray-100">
               <div className="flex items-center gap-2 mb-3">
-                <Apple className="h-5 w-5 text-gray-900" />
-                <h3 className="text-lg font-bold text-gray-900">Apple App Store</h3>
+                <Store className="h-5 w-5 text-gray-900" />
+                <h3 className="text-lg font-bold text-gray-900">iOS App Store</h3>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                Browse iOS apps from the Apple App Store with their original icons, screenshots,
-                descriptions and category data. Every install button opens the app's listing on
-                the App Store, where Apple handles the actual download and any payments.
+                Browse iOS apps with their original icons, screenshots, descriptions and category
+                data. Every install button opens the app's listing on the official iOS app store,
+                where the platform handles the actual download and any payments.
               </p>
               <Link href="/apps?platform=ios" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
                 Browse iOS apps <ArrowRight className="h-3.5 w-3.5" />
@@ -507,12 +507,12 @@ export function Home() {
             <div className="p-7 sm:p-9">
               <div className="flex items-center gap-2 mb-3">
                 <Smartphone className="h-5 w-5 text-green-700" />
-                <h3 className="text-lg font-bold text-gray-900">Google Play Store</h3>
+                <h3 className="text-lg font-bold text-gray-900">Android Play Store</h3>
               </div>
               <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                Discover Android apps from Google Play with publisher data, category information
-                and pricing. Install buttons take you straight to the Play Store — we never host
-                APK files or distribute installer packages of any kind.
+                Discover Android apps with publisher data, category information and pricing.
+                Install buttons take you straight to the official Android app store — we never
+                host APK files or distribute installer packages of any kind.
               </p>
               <Link href="/apps?platform=android" className="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
                 Browse Android apps <ArrowRight className="h-3.5 w-3.5" />
@@ -535,7 +535,7 @@ export function Home() {
               { icon: Filter, title: "Open a category page", desc: "If you're not sure what to search for, pick a category from the homepage. Each of our 18 categories groups apps by what they do, so you can scan the full set quickly." },
               { icon: Flame, title: "Follow Trending and Featured rows", desc: "The Trending row highlights apps gaining attention this week on Digi Nexa Store. The Featured row collects notable listings from the catalog — both are good places to start exploring." },
               { icon: Sparkles, title: "Use the AI Apps section", desc: "Looking specifically for AI tools? The AI Apps & Smart Tools section gathers writing assistants, chatbots, image generators and other AI-powered apps in one place." },
-              { icon: Gamepad2, title: "Switch over to Games", desc: "Games have their own dedicated section. Visit the Games hub to browse action, puzzle, strategy and casual titles from the App Store and Google Play side by side." },
+              { icon: Gamepad2, title: "Switch over to Games", desc: "Games have their own dedicated section. Visit the Games hub to browse action, puzzle, strategy and casual titles from the iOS and Android stores side by side." },
               { icon: Tag, title: "Check the listing details", desc: "Every app page on Digi Nexa Store shows the icon, screenshots, description, category, platform and pricing — everything you need to decide before tapping through to install." },
             ].map(t => (
               <div key={t.title} className="bg-white rounded-2xl p-5 border border-gray-100">
@@ -560,7 +560,7 @@ export function Home() {
             </h2>
             <p className="mt-3 text-gray-600 max-w-2xl mx-auto">
               Digi Nexa Store is a free, independent app discovery directory that aggregates publicly
-              available information from the Apple App Store and Google Play. Use the search bar, browse
+              available information from the official iOS and Android app stores. Use the search bar, browse
               by category or follow our trending and featured rows to find apps and games — then install
               them directly from the official store.
             </p>
@@ -640,7 +640,7 @@ export function Home() {
               Start Exploring
             </h3>
             <p className="text-sm text-gray-600 max-w-xl mx-auto mb-5">
-              Browse the full directory of apps and games organised across 18 categories — all linking to the official Apple App Store and Google Play.
+              Browse the full directory of apps and games organised across 18 categories — all linking to the official iOS and Android app stores.
             </p>
             <Link
               href="/apps"

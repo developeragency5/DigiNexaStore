@@ -63,7 +63,7 @@ You can find opt-out tools for participating advertising networks at:
     title: "6. Affiliate Links",
     body: `Some links on Digi Nexa Store may be affiliate links. This means that if you click a link and subsequently make a purchase or take an action on a third-party platform, Digi Nexa Store may receive a referral fee or commission at no additional cost to you.
 
-The existence of an affiliate relationship does not influence whether an app is listed, where it appears in our directory, or how it is described. App listings, descriptions and metadata are sourced from publicly available data on the Apple App Store and Google Play.
+The existence of an affiliate relationship does not influence whether an app is listed, where it appears in our directory, or how it is described. App listings, descriptions and metadata are sourced from publicly available data on the official iOS and Android app stores.
 
 We disclose this practice in accordance with the Federal Trade Commission (FTC) endorsement guidelines.`,
   },

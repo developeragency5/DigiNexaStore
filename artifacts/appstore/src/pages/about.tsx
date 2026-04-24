@@ -7,7 +7,7 @@ const values = [
     color: "text-green-600",
     bg: "bg-green-50",
     title: "All in One Place",
-    desc: "Digi Nexa Store aggregates publicly available app information from the Apple App Store and Google Play in one organised directory, so you can browse and compare without switching between stores.",
+    desc: "Digi Nexa Store aggregates publicly available app information from the official iOS and Android app stores in one organised directory, so you can browse and compare without switching between stores.",
   },
   {
     icon: Star,
@@ -28,7 +28,7 @@ const values = [
     color: "text-purple-500",
     bg: "bg-purple-50",
     title: "Safe by Design",
-    desc: "We never host APK files or app installers. Every install button takes you straight to the official Apple App Store or Google Play listing from the original developer.",
+    desc: "We never host APK files or app installers. Every install button takes you straight to the official iOS or Android store listing from the original developer.",
   },
 ];
 
@@ -39,7 +39,7 @@ const stats = [
 ];
 
 const facts = [
-  "App data aggregated from Apple App Store & Google Play",
+  "App data aggregated from the official iOS & Android app stores",
   "Direct links to official store listings",
   "No APK or installer files hosted on our servers",
   "Listings refreshed regularly to keep data current",
@@ -62,7 +62,7 @@ export function About() {
           </h1>
           <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
             Digi Nexa Store is a free, independent app discovery directory. We aggregate publicly available
-            information from the Apple App Store and Google Play so you can browse, search and find apps and
+            information from the official iOS and Android app stores so you can browse, search and find apps and
             games in one organised place — then install them directly from the official store.
           </p>
         </div>
@@ -89,12 +89,12 @@ export function About() {
             <h2 className="text-3xl font-extrabold text-gray-900 mb-4">What We Do</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
               Digi Nexa Store gathers publicly available metadata — app names, icons, screenshots, descriptions,
-              developer information, category and pricing — from the Apple App Store and Google Play, and
+              developer information, category and pricing — from the official iOS and Android app stores, and
               presents it in a clean, searchable directory.
             </p>
             <p className="text-gray-600 leading-relaxed">
               When you find an app you'd like to try, the install button takes you to the app's official
-              listing on the App Store or Google Play. We do not host the apps themselves and we never
+              listing on the iOS App Store or the Android Play Store. We do not host the apps themselves and we never
               distribute installer files.
             </p>
           </div>
@@ -133,8 +133,8 @@ export function About() {
             To set clear expectations:
           </p>
           <ul className="space-y-2 text-sm text-gray-700">
-            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We are not Apple, Google, or any app developer. We are an independent third-party directory and are not affiliated with, endorsed by, or sponsored by Apple Inc. or Google LLC.</li>
-            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not host APK files, IPA files or any app installers. All downloads happen on the official Apple App Store or Google Play.</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We are not a platform operator or app developer. We are an independent third-party directory and are not affiliated with, endorsed by, or sponsored by any platform operator.</li>
+            <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not host APK files, IPA files or any app installers. All downloads happen on the official iOS or Android app store.</li>
             <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not write professional editorial reviews. App descriptions shown on Digi Nexa Store come from the publishers' official store listings.</li>
             <li className="flex gap-2"><span className="text-primary font-bold">·</span> We do not guarantee that app information is fully up to date. Always check the official store listing before installing or purchasing.</li>
           </ul>

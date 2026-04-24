@@ -4,7 +4,7 @@ import { AlertTriangle } from "lucide-react";
 const sections = [
   {
     title: "1. General Disclaimer",
-    body: `Digi Nexa Store ("we", "us", "our") is an independent, third-party app discovery directory. We are not affiliated with, endorsed by, or officially connected to Apple Inc., Google LLC, or any app developer or publisher unless explicitly stated.
+    body: `Digi Nexa Store ("we", "us", "our") is an independent, third-party app discovery directory. We are not affiliated with, endorsed by, or officially connected to any platform operator or app developer or publisher unless explicitly stated.
 
 The information published on Digi Nexa Store — including app descriptions, ratings, screenshots, pricing, and availability — is provided for general informational purposes only. While we strive to keep this information accurate and current, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, reliability, suitability, or availability of any information on Digi Nexa Store.`,
   },
@@ -14,17 +14,17 @@ The information published on Digi Nexa Store — including app descriptions, rat
 
 App pricing and availability are subject to change by the developer or platform operator at any time without notice. Digi Nexa Store does not control and is not responsible for any changes made by app developers or app store operators.
 
-Always verify current information directly on the relevant official app store (e.g., Apple App Store, Google Play Store) before downloading or purchasing any application.`,
+Always verify current information directly on the relevant official app store before downloading or purchasing any application.`,
   },
   {
     title: "3. No Endorsement",
-    body: `The listing or featuring of an app on Digi Nexa Store does not constitute an endorsement, recommendation, or guarantee by Digi Nexa Store. We organise apps based on publicly available metadata and category data sourced from the Apple App Store and Google Play. We cannot verify every claim made by app developers.
+    body: `The listing or featuring of an app on Digi Nexa Store does not constitute an endorsement, recommendation, or guarantee by Digi Nexa Store. We organise apps based on publicly available metadata and category data sourced from the official iOS and Android app stores. We cannot verify every claim made by app developers.
 
 Digi Nexa Store is not responsible for any issues you experience with an app, including but not limited to bugs, data loss, security vulnerabilities, subscription charges, or unsatisfactory performance.`,
   },
   {
     title: "4. Third-Party Links",
-    body: `Digi Nexa Store contains links to external websites and app stores, including Apple App Store and Google Play Store. These links are provided for your convenience. We have no control over the content, policies, or practices of third-party websites and accept no responsibility for them.
+    body: `Digi Nexa Store contains links to external websites and app stores, including the official iOS and Android app stores. These links are provided for your convenience. We have no control over the content, policies, or practices of third-party websites and accept no responsibility for them.
 
 The inclusion of any link does not imply our endorsement of the linked site. We are not responsible for any content, advertising, products, or other materials on or available through linked sites.`,
   },

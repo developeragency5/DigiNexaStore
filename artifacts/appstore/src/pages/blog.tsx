@@ -12,7 +12,7 @@ export function Blog() {
           </span>
           <h1 className="text-4xl font-extrabold text-gray-900 mb-3">App Discovery Articles</h1>
           <p className="text-gray-500 max-w-xl mx-auto">
-            Articles about app discovery, categories, and how to find apps on the Apple App Store and Google Play.
+            Articles about app discovery, categories, and how to find apps on the official iOS and Android app stores.
           </p>
         </div>
       </div>

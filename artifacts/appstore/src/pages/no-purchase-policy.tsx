@@ -10,12 +10,12 @@ const highlights = [
   {
     icon: "🔗",
     title: "Links Go to Official App Stores",
-    body: "When you click 'Get' or 'Download', you are redirected to Apple App Store or Google Play Store. All transactions are governed by those platforms.",
+    body: "When you click 'Get' or 'Download', you are redirected to the official iOS or Android app store. All transactions are governed by those platforms.",
   },
   {
     icon: "💰",
     title: "No Refunds via Digi Nexa Store",
-    body: "Because Digi Nexa Store does not collect payment, we cannot process refunds. Refund requests must be submitted to Apple, Google, or the app developer directly.",
+    body: "Because Digi Nexa Store does not collect payment, we cannot process refunds. Refund requests must be submitted to the relevant platform operator or the app developer directly.",
   },
   {
     icon: "🛡️",
@@ -42,9 +42,9 @@ All applications listed on Digi Nexa Store are available exclusively through the
     title: "2. Where Purchases Happen",
     body: `If an app listed on Digi Nexa Store is paid or contains in-app purchases, those transactions take place entirely on the following third-party platforms:
 
-Apple App Store — for iOS applications. Governed by Apple Inc.'s terms of service and privacy policy. Apple handles all billing, refunds, and subscription management for App Store purchases.
+iOS App Store — for iOS applications. Governed by the iOS platform operator's terms of service and privacy policy. The platform handles all billing, refunds, and subscription management for those purchases.
 
-Google Play Store — for Android applications. Governed by Google LLC's terms of service and privacy policy. Google handles all billing, refunds, and subscription management for Play Store purchases.
+Android Play Store — for Android applications. Governed by the Android platform operator's terms of service and privacy policy. The platform handles all billing, refunds, and subscription management for those purchases.
 
 Digi Nexa Store has no involvement in, control over, or responsibility for transactions that occur on these platforms.`,
   },
@@ -62,11 +62,11 @@ Always verify the current price on the relevant app store before initiating a do
 
 If you have been charged for an app or in-app purchase and wish to request a refund, please contact the appropriate platform:
 
-Apple App Store Refunds
-Visit reportaproblem.apple.com or contact Apple Support. Apple's refund policy applies to all App Store purchases.
+iOS App Store Refunds
+Visit your platform's official support page or contact platform support. The platform operator's refund policy applies to all such purchases.
 
-Google Play Store Refunds
-Visit play.google.com/store/account/orderhistory or contact Google Play Support. Google's refund policy applies to all Play Store purchases.
+Android Play Store Refunds
+Visit your platform's official support page or contact platform support. The platform operator's refund policy applies to all such purchases.
 
 App Developer
 For subscription or billing disputes with a specific app, you may also contact the developer directly using the contact information available on their app store listing.`,
@@ -89,8 +89,8 @@ When you follow a link from Digi Nexa Store to an app store and download an app,
 
 To cancel a subscription to a third-party app:
 
-iOS: Settings → Apple ID → Subscriptions
-Android: Google Play → Profile → Payments & subscriptions → Subscriptions
+iOS: Manage subscriptions in your device's account settings.
+Android: Manage subscriptions in your device's app store profile under Payments & subscriptions.
 
 Digi Nexa Store is not responsible for any subscription charges incurred via third-party apps.`,
   },
@@ -153,11 +153,11 @@ export function NoPurchasePolicy() {
           <ul className="space-y-2 text-sm text-amber-800">
             <li className="flex items-center gap-2">
               <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-              <span>Apple App Store: <strong>reportaproblem.apple.com</strong></span>
+              <span>iOS App Store: visit your platform's official support page</span>
             </li>
             <li className="flex items-center gap-2">
               <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-              <span>Google Play: <strong>play.google.com/store/account/orderhistory</strong></span>
+              <span>Android Play Store: visit your platform's official support page</span>
             </li>
           </ul>
         </div>

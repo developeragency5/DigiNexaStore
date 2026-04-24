@@ -35,27 +35,25 @@ We do not sell personal data to third parties.`,
 • Legal Obligations: Compliance with applicable laws`,
   },
   {
-    title: "4. Advertising and Google Ads",
-    body: `We use Google Ads and may participate in Google advertising programs, including remarketing. Advertisements displayed on our site are clearly separate from our content and are not influenced by advertiser relationships.
+    title: "4. Advertising and Third-Party Networks",
+    body: `We use third-party advertising networks and may participate in advertising programs, including remarketing. Advertisements displayed on our site are clearly separate from our content and are not influenced by advertiser relationships.
 
-Google and its partners may use cookies (such as the DoubleClick cookie) to:
+Our advertising partners may use cookies and similar technologies to:
 • Show ads based on your visits to this and other websites
 • Measure ad performance and click-through rates
 • Personalize advertising content based on your interests
 
-You may opt out of personalized advertising at any time by visiting:
-https://adssettings.google.com
-
-You can also opt out of some third-party vendor cookies by visiting:
-https://www.aboutads.info/choices/`,
+You can opt out of interest-based advertising from many participating networks by visiting:
+https://www.aboutads.info/choices/
+https://optout.networkadvertising.org`,
   },
   {
     title: "5. Third-Party Links & Services",
-    body: `Digi Nexa Store redirects users to third-party websites, including the Apple App Store and Google Play Store. These websites operate under their own privacy policies, which we do not control. We strongly advise you to review their privacy policies before downloading apps or using their services.
+    body: `Digi Nexa Store redirects users to third-party websites, including the official iOS and Android app stores. These websites operate under their own privacy policies, which we do not control. We strongly advise you to review their privacy policies before downloading apps or using their services.
 
 We also use third-party services for:
-• Analytics: Google Analytics (to track website usage)
-• Advertising: Partner networks (e.g., Google AdSense) that may use cookies for ad personalization`,
+• Analytics: a third-party analytics service (to track website usage)
+• Advertising: third-party advertising networks that may use cookies for ad personalization`,
   },
   {
     title: "6. Third-Party Data Sharing",
