@@ -41,7 +41,7 @@ function HighlightMatch({ text, query }: { text: string; query: string }) {
 function SearchResultItem({ app, query }: { app: any; query: string }) {
   const [, navigate] = useLocation();
   const slug = app.id;
-  const displayUrl = `diginexastore.com/apps/${slug}`;
+  const displayUrl = `www.diginexastore.com/apps/${slug}`;
   const isGame = app.appType === "game";
   return (
     <div className="py-5 border-b border-gray-100 last:border-0 group">

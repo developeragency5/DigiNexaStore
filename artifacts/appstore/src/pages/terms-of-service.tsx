@@ -1,7 +1,7 @@
 const sections = [
   {
     title: "1. Acceptance of Terms",
-    body: `By accessing or using the Digi Nexa Store website at diginexastore.com ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all of these Terms, you must not use the Service.
+    body: `By accessing or using the Digi Nexa Store website at www.diginexastore.com ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all of these Terms, you must not use the Service.
 
 These Terms constitute a legally binding agreement between you and Digi Nexa Store. We reserve the right to modify these Terms at any time. When we do, we will update the "Last Updated" date at the top of this page. Material changes will be communicated via a notice on the website. Your continued use of the Service after any changes are posted constitutes your acceptance of the revised Terms.
 
@@ -9,7 +9,7 @@ These Terms apply to all visitors and users of the Service.`,
   },
   {
     title: "2. Description of Service",
-    body: `Digi Nexa Store (diginexastore.com) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the official iOS and Android app stores.
+    body: `Digi Nexa Store (www.diginexastore.com) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the official iOS and Android app stores.
 
 What this Service does:
 • Displays app names, descriptions, category information, and icons sourced from publicly available app store data
@@ -148,7 +148,7 @@ These Terms, together with our Privacy Policy and any other legal notices publis
     body: `If you have any questions or concerns about these Terms of Service, please contact us:
 
 Email: hello@diginexastore.com
-Website: diginexastore.com
+Website: www.diginexastore.com
 
 Last Updated: April 14, 2026`,
   },
