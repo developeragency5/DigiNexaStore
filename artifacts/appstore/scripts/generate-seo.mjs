@@ -426,6 +426,12 @@ function maskTrademarks(s) {
     .replace(/\bmicrosoft\b/gi, "")
     .replace(/\bamazon\b/gi, "")
     .replace(/\bapple\b/gi, "")
+    .replace(/\bmeta\b/gi, "")
+    .replace(/\bfacebook\b/gi, "")
+    .replace(/\binstagram\b/gi, "")
+    .replace(/\bwhatsapp\b/gi, "")
+    .replace(/\bnetflix\b/gi, "")
+    .replace(/\btiktok\b/gi, "")
     .replace(/[ \t]{2,}/g, " ")
     .replace(/\s+([,.;!?])/g, "$1")
     .trim();
