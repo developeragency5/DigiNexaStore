@@ -4,7 +4,7 @@ import pg from "pg";
 
 const { Pool } = pg;
 
-const SITE_URL = "https://diginexa.store";
+const SITE_URL = "https://www.diginexastore.com";
 const BRAND = "Digi Nexa Store";
 const TODAY = new Date().toISOString().split("T")[0];
 
@@ -73,7 +73,7 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
         logo: `${SITE_URL}/favicon.svg`,
         contactPoint: {
           "@type": "ContactPoint",
-          email: "hello@diginexa.store",
+          email: "hello@diginexastore.com",
           contactType: "customer support",
         },
       },

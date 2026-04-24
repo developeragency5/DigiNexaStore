@@ -89,7 +89,7 @@ If you use multiple browsers or devices, you will need to opt out on each one se
     title: "8. How to Submit a CCPA Request",
     body: `To exercise your Right to Know, Delete, or Correct, please contact us by:
 
-Email: hello@diginexa.store
+Email: hello@diginexastore.com
 Subject line: "California Privacy Rights Request"
 
 Please include your full name, the email address associated with your account (if any), and a description of the right you wish to exercise. We will acknowledge your request within 10 business days and respond within 45 calendar days. If we need more time, we will notify you of the reason and extension period (up to 90 days total).
@@ -104,7 +104,7 @@ We will verify your identity before processing your request. Because Digi Nexa S
     title: "10. Contact for California Privacy Inquiries",
     body: `If you have questions about this Notice or your California privacy rights:
 
-Email: hello@diginexa.store
+Email: hello@diginexastore.com
 Subject: "CCPA Inquiry"
 Digi Nexa Store
 

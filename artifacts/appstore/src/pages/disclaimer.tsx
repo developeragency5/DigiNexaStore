@@ -57,7 +57,7 @@ This limitation applies regardless of whether Digi Nexa Store has been advised o
     title: "9. Contact",
     body: `If you have questions about this Disclaimer:
 
-Email: hello@diginexa.store
+Email: hello@diginexastore.com
 
 Last Updated: April 22, 2026`,
   },

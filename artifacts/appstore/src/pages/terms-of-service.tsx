@@ -1,7 +1,7 @@
 const sections = [
   {
     title: "1. Acceptance of Terms",
-    body: `By accessing or using the Digi Nexa Store website at diginexa.store ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all of these Terms, you must not use the Service.
+    body: `By accessing or using the Digi Nexa Store website at diginexastore.com ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to all of these Terms, you must not use the Service.
 
 These Terms constitute a legally binding agreement between you and Digi Nexa Store. We reserve the right to modify these Terms at any time. When we do, we will update the "Last Updated" date at the top of this page. Material changes will be communicated via a notice on the website. Your continued use of the Service after any changes are posted constitutes your acceptance of the revised Terms.
 
@@ -9,7 +9,7 @@ These Terms apply to all visitors and users of the Service.`,
   },
   {
     title: "2. Description of Service",
-    body: `Digi Nexa Store (diginexa.store) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the official iOS and Android app stores.
+    body: `Digi Nexa Store (diginexastore.com) is a free, read-only app discovery website intended for users in the United States. It provides publicly available information about applications and games available on the official iOS and Android app stores.
 
 What this Service does:
 • Displays app names, descriptions, category information, and icons sourced from publicly available app store data
@@ -63,7 +63,7 @@ Nothing on this website grants you any license or right to use the intellectual 
   },
   {
     title: "7. Digital Millennium Copyright Act (DMCA)",
-    body: `Digi Nexa Store respects intellectual property rights and complies with the Digital Millennium Copyright Act (17 U.S.C. § 512). If you believe that content on the Service infringes your copyright, please send a written notice to hello@diginexa.store with the following information:
+    body: `Digi Nexa Store respects intellectual property rights and complies with the Digital Millennium Copyright Act (17 U.S.C. § 512). If you believe that content on the Service infringes your copyright, please send a written notice to hello@diginexastore.com with the following information:
 
 • Your name, address, telephone number, and email address
 • Identification of the copyrighted work you claim has been infringed
@@ -123,7 +123,7 @@ You agree that any legal action or proceeding arising from these Terms or your u
   },
   {
     title: "14. Dispute Resolution & Arbitration",
-    body: `Informal Resolution. Before filing any formal legal claim, you agree to first contact us at hello@diginexa.store and attempt to resolve the dispute informally. We will try to resolve any dispute within 30 days of receiving notice.
+    body: `Informal Resolution. Before filing any formal legal claim, you agree to first contact us at hello@diginexastore.com and attempt to resolve the dispute informally. We will try to resolve any dispute within 30 days of receiving notice.
 
 Binding Arbitration. If informal resolution is unsuccessful, any dispute, claim, or controversy arising out of or relating to these Terms or your use of the Service shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules, rather than in court. The arbitration will be conducted in English. You may request a telephonic or written arbitration proceeding.
 
@@ -147,8 +147,8 @@ These Terms, together with our Privacy Policy and any other legal notices publis
     title: "17. Contact",
     body: `If you have any questions or concerns about these Terms of Service, please contact us:
 
-Email: hello@diginexa.store
-Website: diginexa.store
+Email: hello@diginexastore.com
+Website: diginexastore.com
 
 Last Updated: April 14, 2026`,
   },

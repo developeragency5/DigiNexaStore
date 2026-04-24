@@ -99,7 +99,7 @@ export function Footer() {
         <div className="py-6 border-b border-green-200 space-y-2">
           <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">
             <span className="font-semibold text-gray-700">Contact:</span>{" "}
-            <a href="mailto:hello@diginexa.store" className="text-green-700 hover:underline">hello@diginexa.store</a>
+            <a href="mailto:hello@diginexastore.com" className="text-green-700 hover:underline">hello@diginexastore.com</a>
             {" "}· By email only — we respond within two US business days.
           </p>
           <p className="text-xs text-gray-500 leading-relaxed max-w-5xl">

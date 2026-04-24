@@ -1,0 +1,145 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "Inter",
+      "role": "body"
+    }
+  ],
+  "colors": {
+    "primary": "#157F3C",
+    "secondary": "#0D542B",
+    "accent": "#157F3C",
+    "background": "#FFFFFF",
+    "textPrimary": "#364153",
+    "link": "#364153"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Inter",
+      "heading": "Inter"
+    },
+    "fontStacks": {
+      "heading": [
+        "Inter",
+        "system-ui",
+        "-apple-system",
+        "sans-serif"
+      ],
+      "body": [
+        "Inter",
+        "system-ui",
+        "-apple-system",
+        "sans-serif"
+      ],
+      "paragraph": [
+        "Inter",
+        "system-ui",
+        "-apple-system",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "16px",
+      "h2": "24px",
+      "body": "10px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 8,
+    "borderRadius": "33554400px"
+  },
+  "components": {
+    "input": {
+      "background": "#F9FAFB",
+      "textColor": "#1E2939",
+      "borderColor": "#E5E7EB",
+      "borderRadius": "16px",
+      "borderRadiusCorners": {
+        "topLeft": "16px",
+        "topRight": "16px",
+        "bottomRight": "16px",
+        "bottomLeft": "16px"
+      },
+      "shadow": "none"
+    },
+    "buttonPrimary": {
+      "background": "#157F3C",
+      "textColor": "#FFFFFF",
+      "borderRadius": "33554400px",
+      "borderRadiusCorners": {
+        "topLeft": "33554400px",
+        "topRight": "33554400px",
+        "bottomRight": "33554400px",
+        "bottomLeft": "33554400px"
+      },
+      "shadow": "none"
+    },
+    "buttonSecondary": {
+      "background": "#F3F4F6",
+      "textColor": "#364153",
+      "borderRadius": "33554400px",
+      "borderRadiusCorners": {
+        "topLeft": "33554400px",
+        "topRight": "33554400px",
+        "bottomRight": "33554400px",
+        "bottomLeft": "33554400px"
+      },
+      "shadow": "none"
+    }
+  },
+  "images": {
+    "favicon": "File saved at: attached_assets/favicon.png",
+    "ogImage": "File saved at: attached_assets/ogImage.jpg"
+  },
+  "__llm_logo_reasoning": {
+    "selectedIndex": -1,
+    "reasoning": "No valid brand logo was found among the candidates. All options were tiny icons without clear branding.",
+    "confidence": 0.2,
+    "rejected": true,
+    "source": "llm"
+  },
+  "__llm_button_reasoning": {
+    "primary": {
+      "index": 1,
+      "text": "Browse All Apps",
+      "reasoning": "Button #0 'Browse All Apps' uses the vibrant brand color #157F3C, making it the most prominent CTA on the page."
+    },
+    "secondary": {
+      "index": 0,
+      "text": "Get",
+      "reasoning": "Button #3 'Get' has a different background color (#F3F4F6) and serves as a secondary action with a less prominent color."
+    },
+    "confidence": 0.95
+  },
+  "personality": {
+    "tone": "modern",
+    "energy": "medium",
+    "targetAudience": "tech-savvy individuals looking for apps and games"
+  },
+  "designSystem": {
+    "framework": "tailwind",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.95,
+    "colors": 0.9,
+    "overall": 0.925
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": -1,
+        "selectedLogoReasoning": "No valid brand logo was found among the candidates. All options were tiny icons without clear branding.",
+        "confidence": 0.2
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": true,
+      "llmSucceeded": true
+    }
+  }
+}
