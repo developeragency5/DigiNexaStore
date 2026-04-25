@@ -919,12 +919,8 @@ const FOOTER_LINKS = [
 
 function siteFooterHtml() {
   const links = `<nav aria-label="Site"><ul>${FOOTER_LINKS.map((l) => `<li><a href="${l.href}">${esc(l.label)}</a></li>`).join("")}</ul></nav>`;
-  // NOTE: AdScan's "Phone number visible on page" check looks for a US-format
-  // phone number anywhere in the rendered HTML. The number below is the Digi
-  // Nexa Store editorial intake line — leave the format intact (regex-friendly)
-  // so the check passes on every page.
   const contact = `<div class="site-contact" style="margin:18px 0;font-size:13px;color:#6b7280;line-height:1.6">
-<p style="margin:4px 0"><strong>Contact:</strong> <a href="mailto:support@diginexastore.com" style="color:#16a34a">support@diginexastore.com</a> · <a href="tel:+13025977600" style="color:#16a34a">+1 (302) 597-7600</a> · We respond within two US business days.</p>
+<p style="margin:4px 0"><strong>Contact:</strong> <a href="mailto:support@diginexastore.com" style="color:#16a34a">support@diginexastore.com</a> · By email only — we respond within two US business days.</p>
 <p style="margin:4px 0"><strong>Refund Policy:</strong> <a href="/no-purchase-policy" style="color:#16a34a">Refund Policy</a> — we do not sell apps; refunds are handled by the Apple App Store or Google Play under their policies.</p>
 <p style="margin:4px 0"><strong>Privacy &amp; Tracking:</strong> We use Microsoft Advertising (Bing UET) and Google for analytics and ads — see our <a href="/privacy-policy" style="color:#16a34a">Privacy Policy</a> and <a href="/cookie-policy" style="color:#16a34a">Cookie Policy</a>.</p>
 </div>`;
