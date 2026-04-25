@@ -964,7 +964,8 @@ function appDisclaimer(app) {
 const FOOTER_LINKS = [
   { href: "/", label: "Home" }, { href: "/apps", label: "All Apps" },
   { href: "/games", label: "All Games" }, { href: "/categories", label: "Categories" },
-  { href: "/sitemap", label: "Site Index" },
+  { href: "/sitemap", label: "Sitemap" },
+  { href: "/sitemap.xml", label: "XML Sitemap" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" }, { href: "/privacy-policy", label: "Privacy Policy" },
   { href: "/terms-of-service", label: "Terms of Service" }, { href: "/cookie-policy", label: "Cookie Policy" },

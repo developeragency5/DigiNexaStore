@@ -71,6 +71,12 @@ export function Footer() {
                   <Link href={link.href} className="text-sm hover:text-gray-900 transition-colors">{link.label}</Link>
                 </li>
               ))}
+              <li>
+                <a href="/sitemap" className="text-sm hover:text-gray-900 transition-colors">Sitemap</a>
+              </li>
+              <li>
+                <a href="/sitemap.xml" className="text-sm hover:text-gray-900 transition-colors">XML Sitemap</a>
+              </li>
             </ul>
           </div>
 
