@@ -742,7 +742,7 @@ function appCtaButtons(app) {
   const q = encodeURIComponent(app.name);
   return `<div class="app-cta" style="margin:20px 0;display:flex;gap:10px;flex-wrap:wrap">
 <a href="https://apps.apple.com/us/search?term=${q}" rel="noopener nofollow" target="_blank" style="display:inline-block;background:#000;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">View on the App Store</a>
-<a href="https://play.google.com/store/search?q=${q}&c=apps" rel="noopener nofollow" target="_blank" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Get it on Google Play</a>
+<a href="https://play.google.com/store/search?q=${q}&amp;c=apps" rel="noopener nofollow" target="_blank" style="display:inline-block;background:#16a34a;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600">Get it on Google Play</a>
 </div>`;
 }
 
@@ -1187,9 +1187,10 @@ function renderApp(app, relatedApps) {
   const longDesc = dedupeSentences(capWordDensity(capRepeats(trunc(String(rawLong).replace(/\s+/g, " ").trim(), 650))));
   const shortDesc = capWordDensity(capRepeats(app.short_description || ""));
 
-  // Limit related apps to 5; drop developer name (caused duplicate sentences
-  // when many apps in the same category shared a developer).
-  const related = relatedApps.slice(0, 5);
+  // Show 10 related apps from a rotating window of same-category siblings so
+  // every app in a category receives multiple incoming internal links from
+  // its peers (fixes Semrush "pages with only one internal link" issue).
+  const related = relatedApps.slice(0, 10);
   const relatedHtml = related.length
     ? `<h2>More from this category</h2><ul>${related.map((r) => `<li><a href="/apps/${r.id}">${esc(String(r.name).replace(/&/g, "and"))}</a></li>`).join("")}</ul>`
     : "";
@@ -1241,27 +1242,63 @@ function renderApp(app, relatedApps) {
   const rawIcon = (app.icon_url || "").trim();
   const imageUrl = rawIcon.startsWith("http") ? rawIcon : (rawIcon ? `${SITE_URL}${rawIcon.startsWith("/") ? "" : "/"}${rawIcon}` : null);
 
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": app.app_type === "game" ? "VideoGame" : "MobileApplication",
-      name: app.name,
-      url: canonicalUrl,
-      description: shortDesc || description,
-      applicationCategory: app.app_type === "game" ? "GameApplication" : "MobileApplication",
-      operatingSystem: "iOS, Android",
-      inLanguage: "en-US",
-      author: { "@type": "Organization", name: developer },
-      publisher: { "@type": "Organization", name: developer },
-      ...(imageUrl ? { image: imageUrl } : {}),
-      offers: {
-        "@type": "Offer",
-        price: app.is_free ? "0.00" : Number(app.price || 0).toFixed(2),
-        priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
+  // Google's SoftwareApplication / VideoGame schema requires aggregateRating
+  // (or review) to validate as rich-result eligible. We have full rating data
+  // for ~1,854 apps, partial for many more, and none for the rest. Strategy:
+  //   - Full data (rating > 0 AND reviewCount > 0): emit SoftwareApplication
+  //     schema WITH aggregateRating → rich-result eligible, no warning.
+  //   - Partial / no rating data: emit a WebPage schema instead, which has no
+  //     rating requirement → no Semrush "invalid structured data" warning.
+  const hasFullRating = ratingNum > 0 && reviews > 0;
+  const primarySchema = hasFullRating
+    ? {
+        "@context": "https://schema.org",
+        "@type": app.app_type === "game" ? "VideoGame" : "MobileApplication",
+        name: app.name,
         url: canonicalUrl,
-      },
-    },
+        description: shortDesc || description,
+        applicationCategory: app.app_type === "game" ? "GameApplication" : "MobileApplication",
+        operatingSystem: "iOS, Android",
+        inLanguage: "en-US",
+        author: { "@type": "Organization", name: developer },
+        publisher: { "@type": "Organization", name: developer },
+        ...(imageUrl ? { image: imageUrl } : {}),
+        offers: {
+          "@type": "Offer",
+          price: app.is_free ? "0.00" : Number(app.price || 0).toFixed(2),
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          url: canonicalUrl,
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: ratingNum.toFixed(1),
+          reviewCount: String(reviews),
+          bestRating: "5",
+          worstRating: "1",
+        },
+      }
+    : {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: title,
+        url: canonicalUrl,
+        description: description,
+        inLanguage: "en-US",
+        ...(imageUrl ? { image: imageUrl } : {}),
+        publisher: {
+          "@type": "Organization",
+          name: BRAND,
+          url: SITE_URL,
+        },
+        about: {
+          "@type": "Thing",
+          name: app.name,
+          description: shortDesc || description,
+        },
+      };
+  const jsonLd = [
+    primarySchema,
     breadcrumbJsonLd([
       { name: "Home", url: SITE_URL },
       { name: app.app_type === "game" ? "Games" : "Apps", url: `${SITE_URL}/${app.app_type === "game" ? "games" : "apps"}` },
@@ -1375,8 +1412,17 @@ async function main() {
     const batch = data.apps.slice(i, i + BATCH);
     await Promise.all(batch.map(async (app) => {
       const sameCategory = (appsByCat.get(app.category_slug) || []).filter((a) => a.id !== app.id);
-      // Pick up to 8 related apps deterministically (by id offset for variety)
-      const related = sameCategory.slice(0, 8);
+      // Rotating window of 10 same-category siblings starting at the current
+      // app's position, wrapping around. This guarantees every app in a
+      // category receives ~10 incoming links from peers (not just the first 8).
+      let related = [];
+      if (sameCategory.length > 0) {
+        const idx = sameCategory.findIndex((a) => a.id > app.id);
+        const start = idx === -1 ? 0 : idx;
+        for (let k = 0; k < Math.min(10, sameCategory.length); k++) {
+          related.push(sameCategory[(start + k) % sameCategory.length]);
+        }
+      }
       const page = renderApp(app, related);
       await writeRoute(`/apps/${app.id}`, buildPageHtml(template, page));
       appCount++;
