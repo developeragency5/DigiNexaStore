@@ -63,7 +63,7 @@ Nothing on this website grants you any license or right to use the intellectual 
   },
   {
     title: "7. Digital Millennium Copyright Act (DMCA)",
-    body: `Digi Nexa Store respects intellectual property rights and complies with the Digital Millennium Copyright Act (17 U.S.C. § 512). If you believe that content on the Service infringes your copyright, please send a written notice to hello@diginexastore.com with the following information:
+    body: `Digi Nexa Store respects intellectual property rights and complies with the Digital Millennium Copyright Act (17 U.S.C. § 512). If you believe that content on the Service infringes your copyright, please send a written notice to support@diginexastore.com with the following information:
 
 • Your name, address, telephone number, and email address
 • Identification of the copyrighted work you claim has been infringed
@@ -123,7 +123,7 @@ You agree that any legal action or proceeding arising from these Terms or your u
   },
   {
     title: "14. Dispute Resolution & Arbitration",
-    body: `Informal Resolution. Before filing any formal legal claim, you agree to first contact us at hello@diginexastore.com and attempt to resolve the dispute informally. We will try to resolve any dispute within 30 days of receiving notice.
+    body: `Informal Resolution. Before filing any formal legal claim, you agree to first contact us at support@diginexastore.com and attempt to resolve the dispute informally. We will try to resolve any dispute within 30 days of receiving notice.
 
 Binding Arbitration. If informal resolution is unsuccessful, any dispute, claim, or controversy arising out of or relating to these Terms or your use of the Service shall be resolved by binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules, rather than in court. The arbitration will be conducted in English. You may request a telephonic or written arbitration proceeding.
 
@@ -147,7 +147,7 @@ These Terms, together with our Privacy Policy and any other legal notices publis
     title: "17. Contact",
     body: `If you have any questions or concerns about these Terms of Service, please contact us:
 
-Email: hello@diginexastore.com
+Email: support@diginexastore.com
 Website: www.diginexastore.com
 
 Last Updated: April 14, 2026`,

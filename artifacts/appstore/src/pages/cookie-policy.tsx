@@ -101,7 +101,7 @@ By continuing to use Digi Nexa Store without adjusting your cookie settings, you
     title: "Contact Us",
     body: `If you have questions about our use of cookies or tracking technologies:
 
-Email: hello@diginexastore.com
+Email: support@diginexastore.com
 Subject: "Cookie Policy Inquiry"
 Digi Nexa Store
 

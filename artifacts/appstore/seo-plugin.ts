@@ -73,7 +73,7 @@ const STATIC_META: Record<string, Omit<PageMeta, "canonical">> = {
         logo: `${SITE_URL}/favicon.svg`,
         contactPoint: {
           "@type": "ContactPoint",
-          email: "hello@diginexastore.com",
+          email: "support@diginexastore.com",
           contactType: "customer support",
         },
       },

@@ -72,7 +72,7 @@ export function Contact() {
                 color: "text-primary",
                 bg: "bg-primary/10",
                 title: "Email Us",
-                body: "hello@diginexastore.com",
+                body: "support@diginexastore.com",
                 sub: "We reply within 1 business day",
               },
               {

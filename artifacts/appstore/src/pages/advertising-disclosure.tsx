@@ -92,7 +92,7 @@ Note: Opting out does not mean you will see fewer advertisements — it means th
     title: "10. Contact Us",
     body: `If you have questions about advertising on Digi Nexa Store or this Advertising Disclosure:
 
-Email: hello@diginexastore.com
+Email: support@diginexastore.com
 Subject: "Advertising Disclosure Inquiry"
 Digi Nexa Store
 

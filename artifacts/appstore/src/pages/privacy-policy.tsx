@@ -90,7 +90,7 @@ After this period, data is deleted or anonymized.`,
 • Opt out of cookies and advertising
 • Withdraw consent
 
-To exercise your rights, contact us at: hello@diginexastore.com`,
+To exercise your rights, contact us at: support@diginexastore.com`,
   },
   {
     title: "11. Global Privacy Control (GPC)",
@@ -108,7 +108,7 @@ To exercise your rights, contact us at: hello@diginexastore.com`,
     title: "14. Contact Us",
     body: `If you have any questions about this Privacy Policy:
 
-Email: hello@diginexastore.com
+Email: support@diginexastore.com
 Digi Nexa Store`,
   },
 ];
