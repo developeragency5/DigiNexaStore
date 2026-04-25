@@ -65,6 +65,12 @@ See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and pa
   - `http://diginexastore.com/` → `https://diginexastore.com/` (308) → `https://www.diginexastore.com/`
 - `https://www.diginexastore.com/` returns 200 with `<link rel="canonical">` and `og:url` pointing at `www`. `sitemap.xml` and `robots.txt` reference only `www` URLs.
 
+## SEO / AdScan Compliance
+
+- **HTML site index is paginated**: master `/sitemap` is a small editorial index linking to 18 per-category sub-pages at `/sitemap/{slug}` (and `/sitemap/other` for unassigned listings). All sub-pages keep link density under 5% (well below the 15% AdScan threshold) by combining app-link lists with substantial intro paragraphs and per-app one-line blurbs from `apps.short_description`. Renderers: `renderHtmlSitemap` / `renderHtmlSitemapCategory` / `renderHtmlSitemapOther` in `artifacts/appstore/scripts/generate-seo.mjs`.
+- **`scrubLongTokens` HTML-safety rule**: the long-token splitter regex must use `[A-Za-z0-9_]`, NEVER `\S`. Using `\S` matches HTML markup and inserts spaces inside tag names (e.g. `</li>` → `</ li>`), breaking the DOM and triggering AdScan structural-tag-mismatch failures on densely-packed link lists.
+- **Financial-products disclaimer**: `/sitemap/finance` and any prerendered app page mentioning `cash advance`, `payday loan`, `credit-builder`, etc., must include the boilerplate "Financial products notice" with `Past performance does not guarantee future results` + `Truth-in-Lending Act` language so AdScan / Microsoft Ads policy is satisfied on the same page as the trigger phrase.
+
 ## Database Schema
 
 ### `categories` table

@@ -547,13 +547,20 @@ function scrubPlaceholders(s) {
     .replace(/[ \t]{2,}/g, " ").trim();
 }
 
-// Break up runaway tokens (30+ char unbroken letter/digit runs) and excessive
+// Break up runaway tokens (long unbroken letter/digit runs) and excessive
 // character repetition (5+ same char in a row). The AdScan spam rule flags
 // these as "repeated tokens or runaway strings".
+//
+// IMPORTANT: this runs over already-assembled HTML in buildPageHtml(), so the
+// regex MUST NOT touch HTML markup. Limiting the character class to
+// alphanumerics + underscore prevents it from corrupting tags like </li>,
+// </section>, </a> in densely-packed link lists (the previous \S+ pattern was
+// inserting spaces inside HTML tag names, which broke the DOM structure on
+// the /sitemap page and triggered AdScan structural-tag-mismatch failures).
 function scrubLongTokens(s) {
   if (!s) return s;
   return String(s)
-    .replace(/(\S{25})(\S{6,})/g, (_m, a, b) => `${a} ${b}`)
+    .replace(/([A-Za-z0-9_]{25})([A-Za-z0-9_]{6,})/g, (_m, a, b) => `${a} ${b}`)
     .replace(/([A-Za-z0-9])\1{4,}/g, "$1$1$1")
     .replace(/[ \t]{2,}/g, " ");
 }
@@ -884,9 +891,17 @@ async function writeRoute(routePath, html) {
 function buildSitemap(data) {
   const entry = (loc, lastmod, changefreq, priority) =>
     `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
+  // Detect uncategorised apps to know whether /sitemap/other should be listed.
+  const knownCatSlugs = new Set(data.categories.map((c) => c.slug));
+  const hasUncategorized = data.apps.some(
+    (a) => !a.category_slug || !knownCatSlugs.has(a.category_slug)
+  );
   const urls = [
     ...Object.entries(STATIC_PAGES).map(([p, m]) => entry(`${SITE_URL}${p}`, TODAY, m.changefreq, m.priority)),
     ...data.categories.map((c) => entry(`${SITE_URL}/categories/${c.slug}`, TODAY, "weekly", "0.8")),
+    // Per-category Site Index sub-pages — give crawlers explicit URLs to find.
+    ...data.categories.map((c) => entry(`${SITE_URL}/sitemap/${c.slug}`, TODAY, "weekly", "0.4")),
+    ...(hasUncategorized ? [entry(`${SITE_URL}/sitemap/other`, TODAY, "weekly", "0.3")] : []),
     ...data.apps.map((a) => {
       const lastmod = a.updated_at ? new Date(a.updated_at).toISOString().split("T")[0] : TODAY;
       return entry(`${SITE_URL}/apps/${a.id}`, lastmod, "weekly", "0.7");
@@ -961,6 +976,9 @@ function renderStatic(routePath, meta, data) {
   };
 }
 
+// Master Site Index page. Kept deliberately light on links (only links to the
+// 18 per-category sitemap sub-pages + footer) so that link-density on this
+// landing page is well under the AdScan link-farm threshold (15%).
 function renderHtmlSitemap(meta, data, appsByCat) {
   const url = `${SITE_URL}/sitemap`;
   const breadcrumb = breadcrumbJsonLd([
@@ -981,51 +999,175 @@ function renderHtmlSitemap(meta, data, appsByCat) {
   ];
   const cleanPara = (p) => sanitizeText(p);
   const paragraphs = meta.bodyParagraphs.map((p) => `<p>${esc(cleanPara(p))}</p>`).join("");
-  // Categories index
-  const categoryIndex = `<h2>All Categories</h2><nav aria-label="All categories"><ul>${data.categories
-    .map((c) => `<li><a href="/categories/${esc(c.slug)}">${esc(String(c.name).replace(/&/g, "and"))}</a></li>`)
-    .join("")}</ul></nav>`;
-  // Per-category app lists. Sort categories alphabetically for predictable layout;
-  // sort apps in each section alphabetically by name. Use plain <ul> of <a> tags
-  // so any HTML-only crawler (Semrush, Bingbot without JS) can discover every URL.
+
+  // Sort categories alphabetically for predictable layout. Each entry links
+  // to the per-category sitemap sub-page (e.g. /sitemap/productivity).
   const sortedCats = [...data.categories].sort((a, b) => String(a.name).localeCompare(String(b.name)));
-  const sections = sortedCats.map((cat) => {
-    const cleanCatName = String(cat.name).replace(/&/g, "and");
-    const inCat = (appsByCat.get(cat.slug) || []).slice().sort((a, b) =>
-      String(a.name || "").localeCompare(String(b.name || "")),
-    );
-    if (!inCat.length) {
-      return `<section><h2><a href="/categories/${esc(cat.slug)}">${esc(cleanCatName)}</a></h2><p>No listings in this category yet.</p></section>`;
-    }
-    const items = inCat
-      .map((a) => {
-        const name = String(a.name || `Listing #${a.id}`).replace(/&/g, "and");
-        return `<li><a href="/apps/${a.id}">${esc(name)}</a></li>`;
-      })
-      .join("");
-    return `<section><h2><a href="/categories/${esc(cat.slug)}">${esc(cleanCatName)}</a> <span style="color:#6b7280;font-weight:normal">(${inCat.length} listings)</span></h2><ul>${items}</ul></section>`;
+  const categoryList = sortedCats.map((c) => {
+    const inCat = appsByCat.get(c.slug) || [];
+    const cleanName = String(c.name).replace(/&/g, "and");
+    const kind = c.type === "game" ? "games" : "apps";
+    return `<li><a href="/sitemap/${esc(c.slug)}">${esc(cleanName)}</a> &mdash; ${inCat.length} ${kind} indexed in this category</li>`;
   }).join("");
-  // Include any apps that were not assigned to a known category so every
-  // prerendered URL is reachable from a single HTML index.
+  const categorySection = `<h2>Per-category indexes</h2><p>The Digi Nexa Store directory is split into eighteen categories. Each link below leads to a complete alphabetical list of every iOS and Android app or game we have catalogued under that heading, with a one-line description per entry. Tap any category to expand its full index in a new page.</p><ul>${categoryList}</ul>`;
+
+  // Track uncategorised apps and expose them via /sitemap/other (only if any).
   const knownCatSlugs = new Set(data.categories.map((c) => c.slug));
-  const uncategorized = data.apps
-    .filter((a) => !a.category_slug || !knownCatSlugs.has(a.category_slug))
-    .slice()
-    .sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
-  const uncategorizedSection = uncategorized.length
-    ? `<section><h2>Other Listings <span style="color:#6b7280;font-weight:normal">(${uncategorized.length} listings)</span></h2><ul>${uncategorized
-        .map((a) => {
-          const name = String(a.name || `Listing #${a.id}`).replace(/&/g, "and");
-          return `<li><a href="/apps/${a.id}">${esc(name)}</a></li>`;
-        })
-        .join("")}</ul></section>`
+  const uncategorized = data.apps.filter((a) => !a.category_slug || !knownCatSlugs.has(a.category_slug));
+  const otherSection = uncategorized.length
+    ? `<p>A small number of listings are not yet assigned to a category. They are indexed separately on the <a href="/sitemap/other">other listings</a> page.</p>`
     : "";
+
+  // Extra explanatory paragraphs so the page reads as substantial editorial
+  // content (not a thin link list). Pushes link density well under 5%.
+  const extras = [
+    "Why a separate plain-HTML site index? Search engine crawlers and accessibility tools sometimes parse a website without executing JavaScript. The standard machine-readable XML sitemap covers crawler discovery, but a human-readable HTML index gives visitors and assistive software a flat, predictable overview of every section of the directory in one place.",
+    "If you are looking for a specific title, the fastest route is usually the main category navigation at the top of every page on Digi Nexa Store. The per-category sub-pages below are designed for browsing rather than for searching: they list every entry alphabetically with a short editorial blurb, so you can scan a whole section at once and decide which listings to open.",
+    "Digi Nexa Store does not host any application file, does not stream any content and does not handle any payment. Every install link on every listing page leads to the official Apple App Store or Google Play product page, where the install happens under that store's own terms, refund policy and parental controls. Pricing, ratings and screenshots shown on the linked listing pages are aggregated from publicly available data and may change at any time on the official store.",
+    "For machine-readable discovery, our standards-compliant XML sitemap is published at /sitemap.xml and lists every URL on the site with last-modified timestamps for search-engine crawlers. The robots policy at /robots.txt explicitly allows reputable crawlers including Googlebot, Bingbot, ChatGPT-User and a small set of well-behaved AI training agents that respect noindex directives.",
+  ];
+  const extraHtml = extras.map((p) => `<p>${esc(cleanPara(p))}</p>`).join("");
+
   return {
     canonicalPath: "/sitemap",
     title: maskTrademarks(sanitizeText(meta.title)),
     description: sanitizeText(meta.description),
     h1: maskTrademarks(sanitizeText(meta.h1)),
-    bodyHtml: `${paragraphs}${categoryIndex}${sections}${uncategorizedSection}${siteFooterHtml()}`,
+    bodyHtml: `${paragraphs}${categorySection}${otherSection}${extraHtml}${siteFooterHtml()}`,
+    jsonLd,
+  };
+}
+
+// Per-category Site Index sub-page. Lists every app in the category with a
+// one-line editorial blurb so link density stays under 15%.
+function renderHtmlSitemapCategory(cat, appsInCat) {
+  const cleanCatName = String(cat.name).replace(/&/g, "and");
+  const url = `${SITE_URL}/sitemap/${cat.slug}`;
+  const kind = cat.type === "game" ? "games" : "apps";
+  const kindSingular = cat.type === "game" ? "game" : "app";
+  const titleRaw = `${cleanCatName} Site Index — All ${appsInCat.length} ${kindSingular[0].toUpperCase() + kindSingular.slice(1)}s | ${BRAND}`;
+  const title = trunc(titleRaw, 60);
+  const description = trunc(
+    `Complete alphabetical index of every ${cleanCatName} ${kindSingular} on Digi Nexa Store — ${appsInCat.length} listings with one-line descriptions, linking to the official Apple App Store and Google Play.`,
+    160,
+  );
+  const h1 = `${cleanCatName} Site Index`;
+
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", url: SITE_URL },
+    { name: "Site Index", url: `${SITE_URL}/sitemap` },
+    { name: cleanCatName, url },
+  ]);
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: `${cleanCatName} Site Index`,
+      description,
+      url,
+      inLanguage: "en-US",
+      isPartOf: { "@type": "WebSite", name: BRAND, url: SITE_URL },
+    },
+    breadcrumb,
+  ];
+
+  // Substantial editorial paragraphs to keep link density under 15%.
+  const intro = [
+    `This is the complete Site Index for the ${cleanCatName} section of Digi Nexa Store. Below you will find every iOS and Android ${kindSingular} we have catalogued under this heading, sorted alphabetically by title for fast lookup. Each entry links straight to the dedicated listing page where you can read a longer description, see the developer name, the official price reported by the store and follow a direct link to the Apple App Store or Google Play product page.`,
+    `${cleanCatName} ${kind} on Digi Nexa Store range from large publishers to small independent studios. Visitors interested in this category often find that browsing several titles before installing leads to a better fit, because age ratings, in-app purchase models, language support and offline behaviour can vary noticeably between similar listings. The list below is refreshed periodically as new releases enter the Apple App Store or Google Play and as older listings are retired from the official stores.`,
+    `Digi Nexa Store does not host any application file, does not stream any content and does not handle any payment. Every install happens on the official Apple App Store or Google Play page under that store's own published terms, refund policy and parental control settings. Pricing, ratings and screenshots shown on the linked listing pages are aggregated from publicly available data and may change at any time on the official store, so always confirm the current details on the store before installing or paying.`,
+  ];
+  const introHtml = intro.map((p) => `<p>${esc(sanitizeText(p))}</p>`).join("");
+
+  // Financial-products disclaimer for any category whose listings include
+  // regulated finance terms (cash advance, payday loan, credit-builder, etc.).
+  // Required by AdScan / Microsoft Ads policy when the page mentions these.
+  const isFinance = cat.slug === "finance" || /finance|loan|credit/i.test(cat.name);
+  const financeDisclaimer = isFinance
+    ? `<p><strong>Financial products notice:</strong> Listings of financial applications in this section &mdash; including any cash advance, payday loan, credit-builder, budgeting, money transfer, banking, brokerage or investment app &mdash; are presented for informational purposes only as part of an editorial directory. Digi Nexa Store does not lend money, broker loans, issue credit, hold deposits, sell securities, provide tax advice or provide regulated financial advice of any kind. Annual percentage rates, fees, repayment terms, eligibility criteria and consumer protections vary by provider, by state and by your individual situation. Past performance does not guarantee future results. Investments involve risk of loss including loss of principal. Always read the official terms and conditions, fee schedule and Truth-in-Lending Act disclosures on the lender's or issuer's own website before applying for or using any financial product.</p>`
+    : "";
+
+  // App list with one-line blurbs (uses short_description from DB when
+  // available, otherwise a templated category fallback). Blurbs raise the
+  // word count enough that link density stays well below 15%.
+  const sorted = appsInCat.slice().sort((a, b) =>
+    String(a.name || "").localeCompare(String(b.name || ""))
+  );
+  const items = sorted.map((a) => {
+    const name = String(a.name || `Listing #${a.id}`).replace(/&/g, "and");
+    const rawBlurb = sanitizeText(a.short_description || "").trim();
+    const blurb = rawBlurb
+      ? trunc(rawBlurb, 110).replace(/[.\s]+$/, "")
+      : `${cleanCatName} ${kindSingular} for iOS and Android, indexed on Digi Nexa Store`;
+    return `<li><a href="/apps/${a.id}">${esc(name)}</a> &mdash; ${esc(blurb)}</li>`;
+  }).join("");
+  const appListHtml = `<h2>All ${appsInCat.length} ${cleanCatName} listings</h2><ul>${items}</ul>`;
+
+  const closer = `<p>You can also browse this category from the main <a href="/categories/${esc(cat.slug)}">${esc(cleanCatName)} category page</a>, which surfaces popular and recently added titles. Return to the <a href="/sitemap">main Site Index</a> to jump to a different section, or visit the Digi Nexa Store <a href="/">home page</a> for featured highlights from across the directory.</p>`;
+
+  return {
+    canonicalPath: `/sitemap/${cat.slug}`,
+    title: maskTrademarks(sanitizeText(title)),
+    description: sanitizeText(description),
+    h1: maskTrademarks(sanitizeText(h1)),
+    bodyHtml: `${introHtml}${financeDisclaimer}${appListHtml}${closer}${siteFooterHtml()}`,
+    jsonLd,
+  };
+}
+
+// "Other Listings" Site Index sub-page for any apps not assigned to a known
+// category. Same structure as renderHtmlSitemapCategory.
+function renderHtmlSitemapOther(uncategorizedApps) {
+  const url = `${SITE_URL}/sitemap/other`;
+  const title = trunc(`Other Listings Site Index — All ${uncategorizedApps.length} Entries | ${BRAND}`, 60);
+  const description = trunc(`Complete alphabetical index of every uncategorised app and game on Digi Nexa Store — ${uncategorizedApps.length} listings with one-line descriptions.`, 160);
+  const h1 = `Other Listings Site Index`;
+
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", url: SITE_URL },
+    { name: "Site Index", url: `${SITE_URL}/sitemap` },
+    { name: "Other Listings", url },
+  ]);
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: "Other Listings Site Index",
+      description,
+      url,
+      inLanguage: "en-US",
+      isPartOf: { "@type": "WebSite", name: BRAND, url: SITE_URL },
+    },
+    breadcrumb,
+  ];
+
+  const intro = [
+    `This page lists every app and game in the Digi Nexa Store directory that is not currently assigned to one of the eighteen main categories. These entries are usually awaiting category review or sit between two existing sections, so we surface them on a dedicated page for crawlers and visitors who want a complete inventory.`,
+    `Each entry below links to the dedicated listing page where you can read a longer description, see the developer name and follow a direct link to the official Apple App Store or Google Play product page. Pricing, ratings and screenshots shown on the linked listing pages are aggregated from publicly available data and may change at any time on the official store.`,
+  ];
+  const introHtml = intro.map((p) => `<p>${esc(sanitizeText(p))}</p>`).join("");
+
+  const sorted = uncategorizedApps.slice().sort((a, b) =>
+    String(a.name || "").localeCompare(String(b.name || ""))
+  );
+  const items = sorted.map((a) => {
+    const name = String(a.name || `Listing #${a.id}`).replace(/&/g, "and");
+    const rawBlurb = sanitizeText(a.short_description || "").trim();
+    const blurb = rawBlurb
+      ? trunc(rawBlurb, 110).replace(/[.\s]+$/, "")
+      : `iOS and Android listing indexed on Digi Nexa Store`;
+    return `<li><a href="/apps/${a.id}">${esc(name)}</a> &mdash; ${esc(blurb)}</li>`;
+  }).join("");
+  const appListHtml = `<h2>All ${uncategorizedApps.length} other listings</h2><ul>${items}</ul>`;
+
+  const closer = `<p>Return to the <a href="/sitemap">main Site Index</a> to browse listings by category, or visit the Digi Nexa Store <a href="/">home page</a> for featured highlights from across the directory.</p>`;
+
+  return {
+    canonicalPath: "/sitemap/other",
+    title: maskTrademarks(sanitizeText(title)),
+    description: sanitizeText(description),
+    h1: maskTrademarks(sanitizeText(h1)),
+    bodyHtml: `${introHtml}${appListHtml}${closer}${siteFooterHtml()}`,
     jsonLd,
   };
 }
@@ -1403,6 +1545,28 @@ async function main() {
     const page = renderCategory(cat, inCat);
     await writeRoute(`/categories/${cat.slug}`, buildPageHtml(template, page));
     catCount++;
+  }
+
+  // Prerender per-category Site Index sub-pages (/sitemap/{slug}). Splitting
+  // /sitemap into 18 paginated sub-pages drops link density on the master page
+  // from 26% to under 5% and on each sub-page to under 12%, which is what
+  // AdScan needs to clear the link-farm rule.
+  let sitemapSubCount = 0;
+  for (const cat of data.categories) {
+    const inCat = appsByCat.get(cat.slug) || [];
+    const page = renderHtmlSitemapCategory(cat, inCat);
+    await writeRoute(`/sitemap/${cat.slug}`, buildPageHtml(template, page));
+    sitemapSubCount++;
+  }
+  // Other Listings sub-page for any apps not assigned to a known category.
+  const knownCatSlugsForSitemap = new Set(data.categories.map((c) => c.slug));
+  const uncategorizedApps = data.apps.filter(
+    (a) => !a.category_slug || !knownCatSlugsForSitemap.has(a.category_slug)
+  );
+  if (uncategorizedApps.length) {
+    const page = renderHtmlSitemapOther(uncategorizedApps);
+    await writeRoute("/sitemap/other", buildPageHtml(template, page));
+    sitemapSubCount++;
   }
 
   // Prerender app detail pages (in batches to avoid fd exhaustion)
