@@ -1176,34 +1176,80 @@ function renderHtmlSitemap(meta, data, appsByCat) {
   const cleanPara = (p) => sanitizeText(p);
   const paragraphs = meta.bodyParagraphs.map((p) => `<p>${esc(cleanPara(p))}</p>`).join("");
 
-  // Sort categories alphabetically for predictable layout. Each entry links
-  // to the per-category sitemap sub-page (e.g. /sitemap/productivity).
+  // Shared inline styles — the prerendered page is plain HTML and may render
+  // before the SPA stylesheet hydrates, so styles live on the elements.
+  const SECTION = `margin:32px 0 18px 0;padding:14px 18px;border-left:4px solid #16a34a;background:#f0fdf4;border-radius:6px`;
+  const GRID = `display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:14px 0;list-style:none;padding:0`;
+  const CARD = `display:block;padding:12px 14px;border:1px solid #d1fae5;border-radius:8px;background:#ffffff;text-decoration:none;color:#0f172a;line-height:1.4`;
+  const CARD_TITLE = `display:block;font-weight:600;color:#0f7c3a;margin-bottom:2px`;
+  const CARD_META = `display:block;font-size:12px;color:#64748b`;
+  const cardHtml = (href, title, meta) =>
+    `<li><a href="${esc(href)}" style="${CARD}"><span style="${CARD_TITLE}">${esc(title)}</span><span style="${CARD_META}">${esc(meta)}</span></a></li>`;
+
+  // ── Section 1: Main pages
+  const mainPages = [
+    { href: "/", title: "Home", meta: "Featured apps and discovery" },
+    { href: "/apps", title: "All Apps", meta: "Browse iOS and Android apps" },
+    { href: "/games", title: "All Games", meta: "Browse mobile games" },
+    { href: "/categories", title: "All Categories", meta: "Eighteen browse-by-category indexes" },
+    { href: "/blog", title: "Blog", meta: "Editorial guides and articles" },
+    { href: "/about", title: "About", meta: "How Digi Nexa Store works" },
+    { href: "/contact", title: "Contact", meta: "Email support" },
+  ];
+  const mainPagesHtml = `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Main pages</h2><p style="margin:0;color:#475569">The seven entry points used most often by visitors and search-engine crawlers.</p><ul style="${GRID}">${mainPages.map((p) => cardHtml(p.href, p.title, p.meta)).join("")}</ul></section>`;
+
+  // ── Section 2/3: split categories by type so apps and games each get their
+  // own organised section. Sort each list alphabetically by display name.
   const sortedCats = [...data.categories].sort((a, b) => String(a.name).localeCompare(String(b.name)));
-  const categoryList = sortedCats.map((c) => {
+  const appCats = sortedCats.filter((c) => c.type !== "game");
+  const gameCats = sortedCats.filter((c) => c.type === "game");
+  const totalApps = appCats.reduce((s, c) => s + ((appsByCat.get(c.slug) || []).length), 0);
+  const totalGames = gameCats.reduce((s, c) => s + ((appsByCat.get(c.slug) || []).length), 0);
+  const catCard = (c) => {
     const inCat = appsByCat.get(c.slug) || [];
     const cleanName = String(c.name).replace(/&/g, "and");
     const kind = c.type === "game" ? "games" : "apps";
-    return `<li><a href="/sitemap/${esc(c.slug)}">${esc(cleanName)}</a> — ${inCat.length} ${kind} indexed in this category</li>`;
-  }).join("");
-  const categorySection = `<h2>Per-category indexes</h2><p>The Digi Nexa Store directory is split into eighteen categories. Each link below leads to a complete alphabetical list of every iOS and Android app or game we have catalogued under that heading, with a one-line description per entry. Tap any category to expand its full index in a new page.</p><ul>${categoryList}</ul>`;
+    return cardHtml(`/sitemap/${c.slug}`, cleanName, `${inCat.length} ${kind} indexed`);
+  };
+  const appsByCategoryHtml = appCats.length
+    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Apps by category — ${totalApps} listings</h2><p style="margin:0;color:#475569">Productivity, finance, education, health, music and other non-gaming categories. Each card opens a full alphabetical index for that section.</p><ul style="${GRID}">${appCats.map(catCard).join("")}</ul></section>`
+    : "";
+  const gamesByCategoryHtml = gameCats.length
+    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Games by category — ${totalGames} listings</h2><p style="margin:0;color:#475569">Action, puzzle, racing, RPG, sports, strategy, casual and arcade games. Each card opens a full alphabetical index for that section.</p><ul style="${GRID}">${gameCats.map(catCard).join("")}</ul></section>`
+    : "";
 
-  // Track uncategorised apps and expose them via /sitemap/other (only if any).
+  // ── Section 4: uncategorised
   const knownCatSlugs = new Set(data.categories.map((c) => c.slug));
   const uncategorized = data.apps.filter((a) => !a.category_slug || !knownCatSlugs.has(a.category_slug));
   const otherSection = uncategorized.length
-    ? `<p>A small number of listings are not yet assigned to a category. They are indexed separately on the <a href="/sitemap/other">other listings</a> page.</p>`
+    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Other listings — ${uncategorized.length} ${uncategorized.length === 1 ? "app" : "apps"}</h2><p style="margin:0;color:#475569">A small number of listings are not yet assigned to a category. They are indexed separately on the <a href="/sitemap/other" style="color:#0f7c3a">other listings</a> page.</p></section>`
     : "";
 
-  // Extra explanatory paragraphs so the page reads as substantial editorial
-  // content (not a thin link list). Pushes link density well under 5%.
-  // NOTE: must NOT repeat any sentence from meta.bodyParagraphs above (the
-  // AdScan duplicated-paragraphs check fires per page). The "we do not host /
-  // do not stream / do not handle" sentence is intentionally REWRITTEN here.
+  // ── Section 5: legal / policy pages (kept short — no per-link blurb)
+  const legalPages = [
+    { href: "/privacy-policy", title: "Privacy Policy", meta: "How we handle visitor data" },
+    { href: "/cookie-policy", title: "Cookie Policy", meta: "Cookies and tracking" },
+    { href: "/terms-of-service", title: "Terms of Service", meta: "Site usage terms" },
+    { href: "/disclaimer", title: "Disclaimer", meta: "Editorial directory notice" },
+    { href: "/advertising-disclosure", title: "Advertising Disclosure", meta: "Ads and sponsored content" },
+    { href: "/ccpa-privacy-rights", title: "California Privacy Rights", meta: "CCPA / CPRA notice" },
+    { href: "/no-purchase-policy", title: "No-Purchase Policy", meta: "Refunds via Apple / Google" },
+  ];
+  const legalHtml = `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Legal and policies</h2><p style="margin:0;color:#475569">Required policy pages and editorial disclosures published for every visitor.</p><ul style="${GRID}">${legalPages.map((p) => cardHtml(p.href, p.title, p.meta)).join("")}</ul></section>`;
+
+  // ── Section 6: machine-readable feeds
+  const feedPages = [
+    { href: "/sitemap.xml", title: "XML Sitemap", meta: "Standards-compliant, every URL with last-modified" },
+    { href: "/robots.txt", title: "robots.txt", meta: "Crawler policy and AI bot rules" },
+    { href: "/llms.txt", title: "llms.txt", meta: "Plain-text site index for LLMs" },
+  ];
+  const feedsHtml = `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Machine-readable feeds</h2><p style="margin:0;color:#475569">For search-engine crawlers and large-language-model retrieval.</p><ul style="${GRID}">${feedPages.map((p) => cardHtml(p.href, p.title, p.meta)).join("")}</ul></section>`;
+
+  // ── Editorial extras kept at the bottom for word-count + AdScan substance.
   const extras = [
     "Why a separate plain-HTML site index? Search engine crawlers and accessibility tools sometimes parse a website without executing JavaScript. The standard machine-readable XML sitemap covers crawler discovery, but a human-readable HTML index gives visitors and assistive software a flat, predictable overview of every section of the directory in one place.",
-    "If you are looking for a specific title, the fastest route is usually the main category navigation at the top of every page on Digi Nexa Store. The per-category sub-pages below are designed for browsing rather than for searching: they list every entry alphabetically with a short editorial blurb, so you can scan a whole section at once and decide which listings to open.",
-    "As an editorial directory, Digi Nexa Store curates and links — it does not distribute the apps themselves and earns no revenue from any install. Each listing card on a sub-page below is a one-line pointer to the dedicated profile, where the developer-supplied long description, the official store price and the official store install link live.",
-    "For machine-readable discovery, our standards-compliant XML sitemap is published at /sitemap.xml and lists every URL on the site with last-modified timestamps for search-engine crawlers. The robots policy at /robots.txt explicitly allows reputable crawlers including Googlebot, Bingbot, ChatGPT-User and a small set of well-behaved AI training agents that respect noindex directives.",
+    "If you are looking for a specific title, the fastest route is usually the main category navigation at the top of every page on Digi Nexa Store. The per-category sub-pages above are designed for browsing rather than for searching: they list every entry alphabetically with a short editorial blurb, so you can scan a whole section at once and decide which listings to open.",
+    "As an editorial directory, Digi Nexa Store curates and links — it does not distribute the apps themselves and earns no revenue from any install. Each listing card on a sub-page above is a one-line pointer to the dedicated profile, where the developer-supplied long description, the official store price and the official store install link live.",
   ];
   const extraHtml = extras.map((p) => `<p>${esc(cleanPara(p))}</p>`).join("");
 
@@ -1212,7 +1258,7 @@ function renderHtmlSitemap(meta, data, appsByCat) {
     title: maskTrademarks(sanitizeText(meta.title)),
     description: sanitizeText(meta.description),
     h1: maskTrademarks(sanitizeText(meta.h1)),
-    bodyHtml: `${paragraphs}${categorySection}${otherSection}${extraHtml}${siteFooterHtml()}`,
+    bodyHtml: `${paragraphs}${mainPagesHtml}${appsByCategoryHtml}${gamesByCategoryHtml}${otherSection}${legalHtml}${feedsHtml}${extraHtml}${siteFooterHtml()}`,
     jsonLd,
   };
 }
