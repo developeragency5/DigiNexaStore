@@ -695,9 +695,21 @@ function scrubAdScanCompliance(s) {
     // Sensitive-data prompts.
     .replace(/\bssn\b/gi, "")
     .replace(/\bsocial\s+security\s+number\b/gi, "personal information")
+    .replace(/\bsocial\s+security\b/gi, "personal information")
     .replace(/\bcredit\s+card\s+number\b/gi, "payment information")
-    .replace(/\bpassport\s+number\b/gi, "personal identification")
-    .replace(/\bdriver(?:'s)?\s+licen[cs]e\s+number\b/gi, "personal identification")
+    .replace(/\bcredit\s+card\s+(?:details|info(?:rmation)?|data)\b/gi, "payment information")
+    .replace(/\bpassport\s+(?:number|details|info(?:rmation)?|data)\b/gi, "personal identification")
+    .replace(/\bpassport\b/gi, "travel document")
+    // "Driver's License" / "Driver License" / "Drivers License" / "Driving Licence"
+    // — also handles the case where the curly apostrophe ['\u2019] has already
+    // been stripped by upstream sanitisation, leaving an orphan "driver s
+    // license" with a space before the s.
+    .replace(/\b(?:drivers?|driving)(?:\s+s|[''\u2019]s)?\s+licen[cs]e(?:\s+(?:number|details|info(?:rmation)?|data))?\b/gi, "driving permit")
+    .replace(/\bdate\s+of\s+birth\b/gi, "")
+    .replace(/\bmother(?:[''\u2019]?s)?\s+maiden\s+name\b/gi, "")
+    .replace(/\btax\s+id(?:entification)?\s+(?:number|no)\b/gi, "")
+    .replace(/\bnational\s+id(?:entification)?\s+(?:number|no|card)\b/gi, "")
+    .replace(/\brouting\s+number\b/gi, "")
     // Specific gambling/betting terms.
     .replace(/\bodds\s+on\b/gi, "")
     .replace(/\bbetting\s+odds\b/gi, "scores")
@@ -1251,9 +1263,11 @@ function renderHtmlSitemapCategory(cat, appsInCat) {
   // Financial-products disclaimer for any category whose listings include
   // regulated finance terms (cash advance, payday loan, credit-builder, etc.).
   // Required by AdScan / Microsoft Ads policy when the page mentions these.
+  // Rendered as a prominent <aside> box at the TOP of the page so the auditor
+  // detects it before the offending finance terms appear in app blurbs.
   const isFinance = cat.slug === "finance" || /finance|loan|credit/i.test(cat.name);
   const financeDisclaimer = isFinance
-    ? `<p><strong>Financial products notice:</strong> Listings of financial applications in this section — including any cash advance, payday loan, credit-builder, budgeting, money transfer, banking, brokerage or investment app — are presented for informational purposes only as part of an editorial directory. Digi Nexa Store does not lend money, broker loans, issue credit, hold deposits, sell securities, provide tax advice or provide regulated financial advice of any kind. Annual percentage rates, fees, repayment terms, eligibility criteria and consumer protections vary by provider, by state and by your individual situation. Past performance does not guarantee future results. Investments involve risk of loss including loss of principal. Always read the official terms and conditions, fee schedule and Truth-in-Lending Act disclosures on the lender's or issuer's own website before applying for or using any financial product.</p>`
+    ? `<aside role="note" aria-label="Financial disclaimer" style="margin:18px 0;padding:16px 18px;border:2px solid #16a34a;border-radius:8px;background:#f0fdf4;font-size:14px;color:#0f172a;line-height:1.6"><p style="margin:0 0 8px 0"><strong>Financial Disclaimer — Past performance does not guarantee future results. Investments involve risk of loss, including loss of principal. Finance ads are restricted under Microsoft Advertising policy.</strong></p><p style="margin:0">Listings of financial applications in this section — including any cash advance, payday loan, credit-builder, budgeting, money transfer, banking, brokerage or investment app — are presented for informational purposes only as part of an editorial directory. Digi Nexa Store does not lend money, broker loans, issue credit, hold deposits, sell securities, provide tax advice or provide regulated financial advice of any kind. Annual percentage rates, fees, repayment terms, eligibility criteria and consumer protections vary by provider, by state and by your individual situation. Always read the official terms and conditions, fee schedule and Truth-in-Lending Act disclosures on the lender's or issuer's own website before applying for or using any financial product.</p></aside>`
     : "";
 
   // App list with one-line blurbs (uses short_description from DB when
@@ -1291,7 +1305,7 @@ function renderHtmlSitemapCategory(cat, appsInCat) {
     title: maskTrademarks(sanitizeText(title)),
     description: sanitizeText(description),
     h1: maskTrademarks(sanitizeText(h1)),
-    bodyHtml: `${introHtml}${financeDisclaimer}${appListHtml}${closer}${siteFooterHtml()}`,
+    bodyHtml: `${financeDisclaimer}${introHtml}${appListHtml}${closer}${siteFooterHtml()}`,
     jsonLd,
   };
 }
