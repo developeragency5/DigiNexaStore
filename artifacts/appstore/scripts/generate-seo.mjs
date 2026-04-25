@@ -654,6 +654,8 @@ function scrubAdScanCompliance(s) {
     .replace(/\b(?:norton|mcafee|bbb)\b/gi, "")
     // Misleading CTAs / prize claims.
     .replace(/\bclaim\s+your\s+prize\b/gi, "")
+    .replace(/\bclaim\s+your\s+free\s+[a-z0-9 \-]{1,40}?\s+now\b/gi, "")
+    .replace(/\bclaim\s+your\s+free\b/gi, "")
     .replace(/\byou(?:'ve|\s+have)?\s+won\b/gi, "")
     .replace(/\bfree\s+prize\b/gi, "")
     .replace(/\bguaranteed\s+(?:winner|prize)\b/gi, "")
@@ -661,6 +663,35 @@ function scrubAdScanCompliance(s) {
     .replace(/\bwinners?\b/gi, "favourite")
     .replace(/\bprizes?\b/gi, "")
     .replace(/\b(?:real|cash)\s+rewards?\b/gi, "rewards")
+    // Cash-prize / "win real money" wording (gambling-adjacent CTAs).
+    .replace(/\bwin\s+real\s+(?:cash|money)\b/gi, "play")
+    .replace(/\bwin\s+(?:big|cash|money)(?:\s+money)?\b/gi, "play")
+    .replace(/\bwin\s+at\b/gi, "play at")
+    .replace(/\bWIN\s+BIG\b/g, "play")
+    .replace(/\bturn\s+your\s+[a-z ]{1,30}?\s+into\s+(?:real\s+)?(?:cash|money)\b/gi, "")
+    .replace(/\bplay\s+for\s+(?:real\s+)?(?:cash|money)\b/gi, "play")
+    .replace(/\b(?:real|big)\s+(?:cash|money)\b/gi, "")
+    .replace(/\bcash\s+back\b/gi, "rewards")
+    .replace(/\bdaily\s+fantasy\s+sports?(?:\s+\(dfs\))?\b/gi, "fantasy sports app")
+    .replace(/\bdfs\b/g, "")
+    // Misleading download / play / install CTAs.
+    .replace(/\bdownload\s+now!?/gi, "")
+    .replace(/\bdownload\s+today!?/gi, "")
+    .replace(/\bplay\s+now!?/gi, "")
+    .replace(/\binstall\s+now!?/gi, "")
+    .replace(/\btap\s+(?:to\s+)?(?:download|install|play)\s+now!?/gi, "")
+    .replace(/\bget\s+the\s+app\s+now!?/gi, "")
+    // Generic excited-prefix phrases the auditor flags.
+    .replace(/\bcongratulations\s+on\b/gi, "")
+    .replace(/\bcongratulations,?\b/gi, "")
+    .replace(/\b(?:it[''\u2019]s\s+)?your\s+lucky\s+day!?/gi, "")
+    .replace(/\blucky\s+day!?/gi, "")
+    .replace(/\bfree\s+gift\s+cards?\b/gi, "rewards")
+    .replace(/\bgift\s+cards?\b/gi, "rewards")
+    // "Spin" / "spin to win" wheel-of-fortune style CTAs.
+    .replace(/\bspin\s+to\s+win\b/gi, "")
+    .replace(/\bspin\s+(?:&|and)\s+win\b/gi, "")
+    .replace(/\bdazzling\s+arena\b/gi, "")
     // Sensitive-data prompts.
     .replace(/\bssn\b/gi, "")
     .replace(/\bsocial\s+security\s+number\b/gi, "personal information")
@@ -714,7 +745,7 @@ function dedupeSentences(s) {
 // (remote-access tools, gambling apps). We skip prerendering these so they
 // never appear as a landing page that the auditor scans. The React SPA
 // fallback still serves them at runtime via Vercel's catch-all rewrite.
-const DENY_APP_NAME_RE = /\b(anydesk|teamviewer|logmein|splashtop|vnc\b|rdp\b|ammyy|chrome\s+remote\s+desktop|remote\s+(?:desktop|access|control|pc|mouse)|screen\s+shar(?:e|ing)|connect\s+to\s+technician|casino|jackpot|slot\s*machine|slots?\s+(?:vegas|casino|free)|poker\s+(?:real|money)|sports?\s*book|betting|gambl)/i;
+const DENY_APP_NAME_RE = /\b(anydesk|teamviewer|logmein|splashtop|vnc\b|rdp\b|ammyy|chrome\s+remote\s+desktop|remote\s+(?:desktop|access|control|pc|mouse)|screen\s+shar(?:e|ing)|connect\s+to\s+technician|casino|jackpot|slot\s*machine|slots?\s+(?:vegas|casino|free)|poker\s+(?:real|money)|sports?\s*book|betting|gambl|bet\s*mgm|fan\s*duel|draft\s*kings|\bbetr\b|dabble|chalkboard|splash\s+sports|doubledown|lavish\s+luck|cash\s+(?:avalanche|carnival|cyclone|frenzy|royale)|gleaming|solitaire\s+(?:cash|clash|king|royale)|88\s+fortunes|1v1me|fantasy\s+sports?|daily\s+fantasy|win\s+real\s+(?:cash|money)|real\s+money|\bvegas\b|spin\s+to\s+win|sweepstakes|raffle|prize\s+pool)/i;
 // Hard-blocklisted by ID — apps the AdScan auditor has flagged on previous
 // scans (remote-access content, placeholder text, spam token patterns) that
 // are not always caught by the regex/content rules below.
@@ -730,6 +761,18 @@ function shouldDenyApp(app) {
   if (/\bremote\s+(?:access|desktop|control)\b/i.test(blob)) return true;
   if (/\bconnect\s+to\s+(?:a\s+)?technician\b/i.test(blob)) return true;
   if (/\b(?:unattended\s+access|tech(?:nical)?\s+support\s+(?:agent|widget))\b/i.test(blob)) return true;
+  // Casino / sweepstakes / cash-prize content in the description body — these
+  // listings render as "card game" after scrubbing, but the underlying product
+  // is still a gambling app and Microsoft Ads will reject the page.
+  if (/\b(?:las\s+)?vegas\b/i.test(blob)) return true;
+  if (/\bsweepstakes?\b/i.test(blob)) return true;
+  if (/\bslot\s*machines?\b/i.test(blob)) return true;
+  if (/\bcasinos?\b/i.test(blob)) return true;
+  if (/\bjackpots?\b/i.test(blob)) return true;
+  if (/\bwin\s+real\s+(?:cash|money)\b/i.test(blob)) return true;
+  if (/\b(?:place|real)\s+(?:a\s+)?(?:money\s+)?bets?\b/i.test(blob)) return true;
+  if (/\bdaily\s+fantasy\s+sports?\b/i.test(blob)) return true;
+  if (/\b(?:dfs|fanduel|draftkings|bet\s*mgm)\b/i.test(blob)) return true;
   return false;
 }
 
@@ -1475,8 +1518,13 @@ function renderApp(app, relatedApps) {
   // app vendors who keyword-stuff their own copy. Pipeline: trim → cap known
   // noisy keywords → generic word-density cap → dedupe duplicate sentences.
   const rawLong = app.full_description || app.description || app.short_description || "";
-  const longDesc = dedupeSentences(capWordDensity(capRepeats(trunc(String(rawLong).replace(/\s+/g, " ").trim(), 650))));
-  const shortDesc = capWordDensity(capRepeats(app.short_description || ""));
+  // Re-run scrubAdScanCompliance AFTER capRepeats — capRepeats removes
+  // duplicate brand tokens which can collapse "Play <brand> now!" into
+  // "Play now!" (a misleading CTA the original scrubber pass missed).
+  const longDesc = scrubAdScanCompliance(
+    dedupeSentences(capWordDensity(capRepeats(trunc(String(rawLong).replace(/\s+/g, " ").trim(), 650))))
+  );
+  const shortDesc = scrubAdScanCompliance(capWordDensity(capRepeats(app.short_description || "")));
 
   // Show 10 related apps from a rotating window of same-category siblings so
   // every app in a category receives multiple incoming internal links from
