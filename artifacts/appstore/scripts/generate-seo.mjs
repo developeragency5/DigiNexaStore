@@ -1212,10 +1212,10 @@ function renderHtmlSitemap(meta, data, appsByCat) {
     return cardHtml(`/sitemap/${c.slug}`, cleanName, `${inCat.length} ${kind} indexed`);
   };
   const appsByCategoryHtml = appCats.length
-    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Apps by category — ${totalApps} listings</h2><p style="margin:0;color:#475569">Productivity, finance, education, health, music and other non-gaming categories. Each card opens a full alphabetical index for that section.</p><ul style="${GRID}">${appCats.map(catCard).join("")}</ul></section>`
+    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Apps by category — ${totalApps} listings</h2><p style="margin:0;color:#475569">Productivity, finance, education, health, music and other non-gaming categories. Tap any tile to open its complete alphabetical app index.</p><ul style="${GRID}">${appCats.map(catCard).join("")}</ul></section>`
     : "";
   const gamesByCategoryHtml = gameCats.length
-    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Games by category — ${totalGames} listings</h2><p style="margin:0;color:#475569">Action, puzzle, racing, RPG, sports, strategy, casual and arcade games. Each card opens a full alphabetical index for that section.</p><ul style="${GRID}">${gameCats.map(catCard).join("")}</ul></section>`
+    ? `<section style="${SECTION}"><h2 style="margin:0 0 6px 0">Games by category — ${totalGames} listings</h2><p style="margin:0;color:#475569">Action, puzzle, racing, role-playing, sports, strategy, casual and arcade titles. Select a genre tile to view every game we have indexed there.</p><ul style="${GRID}">${gameCats.map(catCard).join("")}</ul></section>`
     : "";
 
   // ── Section 4: uncategorised
