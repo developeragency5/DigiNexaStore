@@ -1161,12 +1161,22 @@ function renderStatic(routePath, meta, data) {
   const paragraphs = (meta.bodyParagraphs && meta.bodyParagraphs.length)
     ? meta.bodyParagraphs.map((p) => `<p>${esc(cleanPara(p))}</p>`).join("")
     : `<p>${esc(cleanPara(meta.body || ""))}</p>`;
+  // Prominent visible Financial Disclaimer aside on the homepage. AdScan
+  // flagged "Financial (disclaimer required) — PAGE TO FIX: <homepage>" even
+  // after the disclaimer was added to the footer because the footer copy is
+  // small/grey and the auditor wants a primary-content disclosure on any
+  // page that references finance categories. This aside uses the same
+  // green-bordered structure as the working /sitemap/finance disclaimer so
+  // the auditor's pattern matcher accepts it identically.
+  const homeFinanceDisclaimer = routePath === "/"
+    ? `<aside role="note" aria-label="Financial disclaimer" style="margin:18px 0;padding:16px 18px;border:2px solid #16a34a;border-radius:8px;background:#f0fdf4;font-size:14px;color:#0f172a;line-height:1.6"><p style="margin:0 0 8px 0"><strong>Financial Disclaimer:</strong> Past performance does not guarantee future results. Investments involve risk of loss. Finance ads are restricted.</p><p style="margin:0">Digi Nexa Store is an editorial directory and does not lend money, broker loans, issue credit, hold deposits, sell securities or provide regulated financial advice of any kind. Listings of any banking, brokerage, budgeting, money-transfer or investment app are presented for informational purposes only. Always read the official terms and fee schedule on the provider's own website before applying for or using any financial product.</p></aside>`
+    : "";
   return {
     canonicalPath: routePath,
     title: maskTrademarks(sanitizeText(meta.title)),
     description: sanitizeText(meta.description),
     h1: maskTrademarks(sanitizeText(meta.h1)),
-    bodyHtml: `${paragraphs}${categoriesNavHtml(data.categories)}${siteFooterHtml()}`,
+    bodyHtml: `${paragraphs}${homeFinanceDisclaimer}${categoriesNavHtml(data.categories)}${siteFooterHtml()}`,
     jsonLd,
   };
 }
