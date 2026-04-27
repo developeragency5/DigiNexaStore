@@ -10,7 +10,14 @@
       "has": [{ "type": "host", "value": "diginexastore.com" }],
       "destination": "https://www.diginexastore.com/$1",
       "statusCode": 301
-    }
+    },
+    { "source": "/home", "destination": "/", "statusCode": 301 },
+    { "source": "/index", "destination": "/", "statusCode": 301 },
+    { "source": "/index.html", "destination": "/", "statusCode": 301 },
+    { "source": "/sitemap.html", "destination": "/sitemap", "statusCode": 301 },
+    { "source": "/sitemap/", "destination": "/sitemap", "statusCode": 301 },
+    { "source": "/contact-us", "destination": "/contact", "statusCode": 301 },
+    { "source": "/about-us", "destination": "/about", "statusCode": 301 }
   ],
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }

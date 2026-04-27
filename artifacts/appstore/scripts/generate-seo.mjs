@@ -997,6 +997,7 @@ function siteFooterHtml() {
 <p style="margin:4px 0"><strong>Contact:</strong> <a href="mailto:support@diginexastore.com" style="color:#16a34a">support@diginexastore.com</a> · By email only — we respond within two US business days.</p>
 <p style="margin:4px 0"><strong>Refund Policy:</strong> <a href="/no-purchase-policy" style="color:#16a34a">Refund Policy</a> — we do not sell apps; refunds are handled by the Apple App Store or Google Play under their policies.</p>
 <p style="margin:4px 0"><strong>Privacy &amp; Tracking:</strong> We use Microsoft Advertising (Bing UET) and Google for analytics and ads — see our <a href="/privacy-policy" style="color:#16a34a">Privacy Policy</a> and <a href="/cookie-policy" style="color:#16a34a">Cookie Policy</a>.</p>
+<p style="margin:4px 0;font-size:12px;color:#94a3b8"><strong>Financial Disclaimer:</strong> Past performance does not guarantee future results. Investments involve risk of loss. Finance ads are restricted. Listings of financial applications are presented for informational purposes only as part of an editorial directory.</p>
 </div>`;
   return `${links}${contact}`;
 }
